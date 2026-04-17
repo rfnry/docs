@@ -1,0 +1,13 @@
+---
+import { docsConfig, getCurrentVersion } from "../../config/docs.config";
+import { isLocale } from "../../lib/routing";
+
+export function getStaticPaths() {
+  return docsConfig.i18n.locales.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+if (!locale || !isLocale(locale)) return Astro.redirect("/");
+const current = getCurrentVersion();
+return Astro.redirect(`/${locale}/${current.id}/`);
+---
