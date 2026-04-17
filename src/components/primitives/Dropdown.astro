@@ -1,25 +1,24 @@
 ---
+import Button from "./Button.astro";
+
 interface Props {
   id: string;
   align?: "left" | "right";
-  variant?: "filled" | "text";
-  triggerClass?: string;
+  variant?: "filled" | "icon" | "select";
   label?: string;
 }
-const { id, align = "left", variant = "filled", triggerClass = "", label } = Astro.props;
+const { id, align = "left", variant = "filled", label } = Astro.props;
 ---
 <div class="dropdown" data-dropdown={id} data-align={align}>
-  <button
-    type="button"
-    class:list={["dropdown-trigger", triggerClass]}
-    data-variant={variant}
+  <Button
+    variant={variant}
     data-dropdown-trigger
     aria-haspopup="menu"
     aria-expanded="false"
     aria-label={label}
   >
     <slot name="trigger" />
-  </button>
+  </Button>
   <div class="dropdown-menu" data-dropdown-menu role="menu" hidden>
     <slot name="menu" />
   </div>
@@ -35,49 +34,6 @@ const { id, align = "left", variant = "filled", triggerClass = "", label } = Ast
     position: relative;
     display: inline-block;
   }
-  .dropdown-trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.375em;
-    height: var(--btn-h);
-    padding: 0 0.75em;
-    font-size: var(--fs-sm);
-    color: var(--color-muted);
-    background: var(--color-bg-hover);
-    border: none;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition:
-      color 0.1s,
-      background-color 0.1s;
-  }
-  .dropdown-trigger:hover,
-  .dropdown-trigger[aria-expanded="true"] {
-    color: var(--color-fg);
-  }
-  .dropdown-trigger[data-variant="text"] {
-    background: transparent;
-    padding: 0 0.5em;
-  }
-  .dropdown-trigger[data-variant="text"]:hover,
-  .dropdown-trigger[data-variant="text"][aria-expanded="true"] {
-    background: transparent;
-    color: var(--color-fg);
-  }
-  .dropdown-trigger.icon-trigger {
-    width: var(--btn-h);
-    padding: 0;
-    flex-shrink: 0;
-  }
-  .dropdown-trigger :global(.dropdown-chev) {
-    display: inline-flex;
-    transition: transform 0.15s;
-  }
-  .dropdown-trigger[aria-expanded="true"] :global(.dropdown-chev) {
-    transform: rotate(180deg);
-  }
-
   .dropdown-menu {
     position: absolute;
     top: calc(100% + 6px);

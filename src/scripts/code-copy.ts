@@ -15,7 +15,7 @@ export function initCodeCopy() {
 
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "code-copy";
+    btn.className = "btn btn-icon code-copy";
     btn.setAttribute("aria-label", "Copy code");
     btn.innerHTML = COPY_ICON;
 

@@ -10,7 +10,7 @@ interface Props {
 }
 const { currentLocale, currentVersion, currentSlug } = Astro.props;
 ---
-<Dropdown id="locale" align="right" triggerClass="icon-trigger" label="Change language">
+<Dropdown id="locale" align="right" variant="icon" label="Change language">
   <Fragment slot="trigger">
     <Icon name="languages" size={16} />
   </Fragment>

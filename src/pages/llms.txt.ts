@@ -1,0 +1,60 @@
+import { getCollection } from "astro:content";
+import type { APIRoute } from "astro";
+import { docsConfig } from "../docs.config";
+import { getCurrentVersion } from "../lib/config";
+import { loadGroups } from "../lib/groups";
+import { buildDocHref, parseEntryId } from "../lib/routing";
+import { buildSidebarTree, flattenSidebarHrefs } from "../lib/sidebar";
+
+export const GET: APIRoute = async () => {
+  const locale = docsConfig.i18n.defaultLocale;
+  const version = getCurrentVersion().id;
+  const entries = await getCollection("docs");
+
+  const simpleEntries = entries.map((e) => ({
+    id: e.id,
+    title: e.data.sidebar.label ?? e.data.title,
+    order: e.data.sidebar.order,
+    hidden: e.data.sidebar.hidden,
+  }));
+  const tree = buildSidebarTree({
+    version,
+    locale,
+    entries: simpleEntries,
+    groups: loadGroups(version, locale),
+  });
+  const orderedHrefs = flattenSidebarHrefs(tree);
+  const hrefIndex = new Map(orderedHrefs.map((h, i) => [h, i]));
+
+  const scoped = entries
+    .map((e) => ({ e, p: parseEntryId(e.id) }))
+    .filter((x) => x.p.version === version && x.p.locale === locale && !x.e.data.sidebar.hidden)
+    .sort((a, b) => {
+      const ai = hrefIndex.get(buildDocHref(a.p)) ?? Number.MAX_SAFE_INTEGER;
+      const bi = hrefIndex.get(buildDocHref(b.p)) ?? Number.MAX_SAFE_INTEGER;
+      return ai - bi;
+    });
+
+  const site = docsConfig.site;
+  const lines: string[] = [];
+  lines.push(`# ${site.title}`);
+  lines.push("");
+  lines.push(`> ${site.description}`);
+  lines.push("");
+  lines.push(`Version: ${version} · Locale: ${locale}`);
+  lines.push("");
+  lines.push("## Pages");
+  lines.push("");
+  for (const { e, p } of scoped) {
+    const url = site.url + buildDocHref(p);
+    lines.push(`- [${e.data.title}](${url}): ${e.data.description}`);
+  }
+  lines.push("");
+
+  return new Response(lines.join("\n"), {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
+};

@@ -89,7 +89,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
     const anchor = h2.getAttribute("data-section-heading");
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "copy-ai section";
+    btn.className = "btn copy-ai section";
     btn.setAttribute("data-copy-ai", "");
     btn.setAttribute("data-copy-ai-url", mdUrl);
     btn.setAttribute("data-copy-ai-anchor", anchor);

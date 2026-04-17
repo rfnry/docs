@@ -90,32 +90,19 @@ html[data-theme="dark"] .astro-code span {
   position: absolute;
   top: 8px;
   right: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--btn-h);
-  height: var(--btn-h);
-  padding: 0;
-  color: var(--color-muted);
-  background: var(--color-bg-inner);
-  border: 1px solid var(--color-lines);
-  border-radius: var(--radius);
   opacity: 0;
-  cursor: pointer;
   transition:
     opacity 0.15s,
-    color 0.1s;
+    color 0.1s,
+    border-color 0.1s;
 }
 .prose .code-wrap:hover .code-copy,
 .prose .code-copy:focus-visible {
   opacity: 1;
 }
-.prose .code-copy:hover {
-  color: var(--color-fg);
-}
 .prose .code-copy.copied {
-  color: var(--color-fg);
   opacity: 1;
+  color: var(--color-fg);
 }
 
 .prose blockquote {
@@ -145,23 +132,15 @@ html[data-theme="dark"] .astro-code span {
   background: var(--color-bg-inner);
   font-weight: 600;
 }
-.prose h2 .copy-ai {
+.prose h2 .copy-ai.section {
   margin-left: auto;
-  font-size: var(--fs-xs);
-  padding: 2px 6px;
-  border: 1px solid var(--color-lines);
-  border-radius: var(--radius);
-  color: var(--color-subtle);
-  background: transparent;
   opacity: 0;
-  transition: opacity 0.15s;
-  cursor: pointer;
+  transition:
+    opacity 0.15s,
+    color 0.1s,
+    border-color 0.1s;
 }
-.prose h2:hover .copy-ai,
-.prose h2 .copy-ai:focus-visible {
+.prose h2:hover .copy-ai.section,
+.prose h2 .copy-ai.section:focus-visible {
   opacity: 1;
-}
-.prose h2 .copy-ai:hover {
-  color: var(--color-fg);
-  border-color: var(--color-muted);
 }

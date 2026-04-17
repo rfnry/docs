@@ -43,7 +43,8 @@ const initiallyOpen = !node.collapsed || hasActive;
     display: block;
     transition: background-color .1s, color .1s;
   }
-  a:hover {
+  a:hover,
+  a.active:hover {
     color: var(--color-fg);
     text-decoration: none;
     background: var(--color-bg-hover);
@@ -52,6 +53,11 @@ const initiallyOpen = !node.collapsed || hasActive;
     color: var(--color-fg);
     background: var(--color-bg-inner);
     font-weight: 500;
+  }
+  @media (max-width: 768px) {
+    a.active {
+      background: var(--color-bg);
+    }
   }
 
   details { padding: 0; }

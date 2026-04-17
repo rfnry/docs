@@ -2,7 +2,7 @@
 import Dropdown from "./primitives/Dropdown.astro";
 import Icon from "./primitives/Icon.astro";
 ---
-<Dropdown id="theme" align="right" triggerClass="icon-trigger" label="Change theme">
+<Dropdown id="theme" align="right" variant="icon" label="Change theme">
   <Fragment slot="trigger">
     <span class="icon-slot" data-theme-icon="dark"><Icon name="moon" size={16} /></span>
     <span class="icon-slot" data-theme-icon="light"><Icon name="sun" size={16} /></span>
@@ -30,7 +30,11 @@ import Icon from "./primitives/Icon.astro";
 </script>
 
 <style>
-  .icon-slot { display: none; align-items: center; justify-content: center; }
+  .icon-slot {
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
   :global(html[data-theme-pref="dark"]) .icon-slot[data-theme-icon="dark"],
   :global(html[data-theme-pref="light"]) .icon-slot[data-theme-icon="light"],
   :global(html[data-theme-pref="system"]) .icon-slot[data-theme-icon="system"] {

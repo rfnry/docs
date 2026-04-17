@@ -4,6 +4,7 @@ import LocalePicker from "../LocalePicker.astro";
 import VersionPicker from "../VersionPicker.astro";
 import ThemeToggle from "../ThemeToggle.astro";
 import Search from "../Search.astro";
+import Button from "../primitives/Button.astro";
 import Icon from "../primitives/Icon.astro";
 
 interface Props {
@@ -17,10 +18,16 @@ const showLogo = docsConfig.site.logo.enabled;
 <header class="header">
   <div class="inner">
     <div class="left">
-      <button type="button" class="hamburger" data-mobile-nav-toggle aria-label="Toggle navigation" aria-expanded="false">
+      <Button
+        variant="icon"
+        class="hamburger"
+        data-mobile-nav-toggle
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+      >
         <span class="hamburger-icon hamburger-icon-menu"><Icon name="menu" size={18} /></span>
         <span class="hamburger-icon hamburger-icon-close"><Icon name="x" size={18} /></span>
-      </button>
+      </Button>
       <a href={`/${currentLocale}/${currentVersion}/`} class="brand">
         {showLogo && (
           <img src={docsConfig.site.logo.src} alt={docsConfig.site.logo.alt} class="logo" />
@@ -110,21 +117,9 @@ const showLogo = docsConfig.site.logo.enabled;
     align-items: center;
     gap: 12px;
   }
-  .hamburger {
+  :global(.hamburger) {
     display: none;
-    align-items: center;
-    justify-content: center;
-    width: var(--btn-h);
-    height: var(--btn-h);
-    padding: 0;
-    color: var(--color-muted);
-    background: var(--color-bg-hover);
-    border-radius: var(--radius);
-    flex-shrink: 0;
     position: relative;
-  }
-  .hamburger:hover {
-    color: var(--color-fg);
   }
   .hamburger-icon {
     display: inline-flex;
@@ -145,7 +140,7 @@ const showLogo = docsConfig.site.logo.enabled;
     .desktop-only {
       display: none !important;
     }
-    .hamburger {
+    :global(.hamburger) {
       display: inline-flex;
     }
   }
