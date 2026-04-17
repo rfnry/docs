@@ -1,4 +1,4 @@
-import { docsConfig } from "../config/docs.config";
+import { docsConfig } from "../docs.config";
 
 export interface ParsedEntryId {
   version: string;

@@ -1,3 +1,5 @@
+import { docsConfig } from "../docs.config";
+
 export type LocaleCode = string;
 
 export interface LocaleEntry {
@@ -34,28 +36,6 @@ export interface DocsConfig {
   headerLinks: HeaderLink[];
 }
 
-export const docsConfig = {
-  site: {
-    title: "Docs",
-    description: "Project documentation.",
-    url: "https://example.com",
-    logo: { enabled: false, src: "/logo.svg", alt: "Docs" },
-    github: undefined,
-  },
-  i18n: {
-    defaultLocale: "en",
-    locales: [
-      { code: "en", label: "English" },
-      { code: "pt-br", label: "Português (Brasil)" },
-    ],
-  },
-  versions: [
-    { id: "v1", label: "v1.0", current: true },
-  ],
-  theme: { default: "system" },
-  headerLinks: [],
-} satisfies DocsConfig;
-
 if (docsConfig.versions.length === 0) {
   throw new Error("docsConfig.versions must contain at least one entry.");
 }
@@ -77,3 +57,5 @@ export function getLocaleLabel(code: LocaleCode): string {
   const entry = docsConfig.i18n.locales.find((l) => l.code === code);
   return entry?.label ?? code;
 }
+
+export { docsConfig };

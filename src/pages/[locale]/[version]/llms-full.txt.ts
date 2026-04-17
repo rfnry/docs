@@ -4,7 +4,7 @@ import { parseEntryId, buildDocHref } from "../../../lib/routing";
 import { buildSidebarTree, flattenSidebarHrefs } from "../../../lib/sidebar";
 import { loadGroups } from "../../../lib/groups";
 import { stripFrontmatter } from "../../../lib/ai-content";
-import { docsConfig } from "../../../config/docs.config";
+import { docsConfig } from "../../../docs.config";
 
 export async function getStaticPaths() {
   return docsConfig.versions.flatMap((v) =>

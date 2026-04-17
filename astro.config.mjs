@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 import rehypeSlug from "rehype-slug";
 import rehypeSectionAnchors from "./src/lib/remark/section-anchors.mjs";
-import { docsConfig } from "./src/config/docs.config.ts";
+import { docsConfig } from "./src/docs.config.ts";
 
 export default defineConfig({
   site: docsConfig.site.url,

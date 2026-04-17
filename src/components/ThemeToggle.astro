@@ -1,7 +1,7 @@
 ---
-import { docsConfig } from "../config/docs.config";
-import Dropdown from "./Dropdown.astro";
-import Icon from "./Icon.astro";
+import { docsConfig } from "../docs.config";
+import Dropdown from "./primitives/Dropdown.astro";
+import Icon from "./primitives/Icon.astro";
 const defaultTheme = docsConfig.theme.default;
 ---
 <Dropdown id="theme" align="right" triggerClass="icon-trigger" label="Change theme">

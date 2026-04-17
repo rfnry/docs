@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
 import { stripFrontmatter, buildContextHeader } from "../../../lib/ai-content";
-import { docsConfig } from "../../../config/docs.config";
+import { docsConfig } from "../../../docs.config";
 
 export async function getStaticPaths() {
   const entries = await getCollection("docs");

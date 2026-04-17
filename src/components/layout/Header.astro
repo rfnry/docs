@@ -1,10 +1,10 @@
 ---
-import { docsConfig } from "../config/docs.config";
-import LocalePicker from "./LocalePicker.astro";
-import VersionPicker from "./VersionPicker.astro";
-import ThemeToggle from "./ThemeToggle.astro";
-import Search from "./Search.astro";
-import Icon from "./Icon.astro";
+import { docsConfig } from "../../docs.config";
+import LocalePicker from "../LocalePicker.astro";
+import VersionPicker from "../VersionPicker.astro";
+import ThemeToggle from "../ThemeToggle.astro";
+import Search from "../Search.astro";
+import Icon from "../primitives/Icon.astro";
 
 interface Props {
   currentLocale: string;
@@ -94,6 +94,6 @@ const showLogo = docsConfig.site.logo.enabled;
 </style>
 
 <script>
-  import { initMobileSidebar } from "../scripts/mobile-sidebar.ts";
+  import { initMobileSidebar } from "../../scripts/mobile-sidebar.ts";
   initMobileSidebar();
 </script>

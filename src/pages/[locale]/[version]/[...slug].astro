@@ -1,13 +1,13 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
-import Sidebar from "../../../components/Sidebar.astro";
-import TOC from "../../../components/TOC.astro";
+import Sidebar from "../../../components/layout/Sidebar.astro";
+import TOC from "../../../components/layout/TOC.astro";
 import CopyForAI from "../../../components/CopyForAI.astro";
-import PrevNext from "../../../components/PrevNext.astro";
+import PrevNext from "../../../components/layout/PrevNext.astro";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
 import { sliceSections, buildContextHeader } from "../../../lib/ai-content";
-import { docsConfig } from "../../../config/docs.config";
+import { docsConfig } from "../../../docs.config";
 
 export async function getStaticPaths() {
   const entries = await getCollection("docs");

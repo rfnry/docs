@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { docsConfig, getCurrentVersion } from "../config/docs.config";
+import { docsConfig } from "../docs.config";
+import { getCurrentVersion } from "../lib/config";
 const current = getCurrentVersion();
 const homeHref = `/${docsConfig.i18n.defaultLocale}/${current.id}/`;
 ---

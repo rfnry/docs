@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
 import { buildSidebarTree, flattenSidebarHrefs } from "../../../lib/sidebar";
 import { loadGroups } from "../../../lib/groups";
-import { docsConfig } from "../../../config/docs.config";
+import { docsConfig } from "../../../docs.config";
 
 export async function getStaticPaths() {
   return docsConfig.versions.flatMap((v) =>
