@@ -79,6 +79,45 @@ html[data-theme="dark"] .astro-code span {
   text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
+.prose .code-wrap {
+  position: relative;
+  margin: 0 0 1em;
+}
+.prose .code-wrap pre {
+  margin: 0;
+}
+.prose .code-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: var(--color-muted);
+  background: var(--color-bg-inner);
+  border: 1px solid var(--color-lines);
+  border-radius: var(--radius);
+  opacity: 0;
+  cursor: pointer;
+  transition:
+    opacity 0.15s,
+    color 0.1s;
+}
+.prose .code-wrap:hover .code-copy,
+.prose .code-copy:focus-visible {
+  opacity: 1;
+}
+.prose .code-copy:hover {
+  color: var(--color-fg);
+}
+.prose .code-copy.copied {
+  color: var(--color-fg);
+  opacity: 1;
+}
+
 .prose blockquote {
   border-left: 2px solid var(--color-lines);
   padding-left: 1em;

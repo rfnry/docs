@@ -92,7 +92,9 @@ const sections = sliceSections(entry.body as string).map((s) => ({
 
 <script>
   import { initCopyForAI } from "../../../scripts/copy-ai.ts";
+  import { initCodeCopy } from "../../../scripts/code-copy.ts";
   initCopyForAI();
+  initCodeCopy();
 </script>
 
 <style>
