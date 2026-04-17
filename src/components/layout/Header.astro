@@ -18,7 +18,8 @@ const showLogo = docsConfig.site.logo.enabled;
   <div class="inner">
     <div class="left">
       <button type="button" class="hamburger" data-mobile-nav-toggle aria-label="Toggle navigation" aria-expanded="false">
-        <Icon name="menu" size={18} />
+        <span class="hamburger-icon hamburger-icon-menu"><Icon name="menu" size={18} /></span>
+        <span class="hamburger-icon hamburger-icon-close"><Icon name="x" size={18} /></span>
       </button>
       <a href={`/${currentLocale}/${currentVersion}/`} class="brand">
         {showLogo && (
@@ -26,23 +27,25 @@ const showLogo = docsConfig.site.logo.enabled;
         )}
         <span class="brand-text">{docsConfig.site.title}</span>
       </a>
-      <VersionPicker currentLocale={currentLocale} currentVersion={currentVersion} />
+      <span class="desktop-only"><VersionPicker currentLocale={currentLocale} currentVersion={currentVersion} /></span>
     </div>
     <div class="spacer" aria-hidden="true"></div>
     <div class="right">
       <Search />
-      {docsConfig.headerLinks.map((l) => (
-        <a href={l.href} class="link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener" : undefined}>
-          {l.label}
-        </a>
-      ))}
-      {docsConfig.site.github && (
-        <a href={docsConfig.site.github} class="link icon-link" target="_blank" rel="noopener" aria-label="GitHub">
-          <Icon name="github" size={16} />
-        </a>
-      )}
-      <LocalePicker currentLocale={currentLocale} currentVersion={currentVersion} currentSlug={currentSlug} />
-      <ThemeToggle />
+      <div class="desktop-only header-desktop-items">
+        {docsConfig.headerLinks.map((l) => (
+          <a href={l.href} class="link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener" : undefined}>
+            {l.label}
+          </a>
+        ))}
+        {docsConfig.site.github && (
+          <a href={docsConfig.site.github} class="link icon-link" target="_blank" rel="noopener" aria-label="GitHub">
+            <Icon name="github" size={16} />
+          </a>
+        )}
+        <LocalePicker currentLocale={currentLocale} currentVersion={currentVersion} currentSlug={currentSlug} />
+        <ThemeToggle />
+      </div>
     </div>
   </div>
 </header>
@@ -63,26 +66,50 @@ const showLogo = docsConfig.site.logo.enabled;
     padding: 0 var(--gutter);
     display: grid;
     grid-template-columns: auto 1fr auto;
-    gap: var(--gutter);
+    gap: 12px;
     align-items: center;
   }
-  .left, .right {
+  .left,
+  .right {
     display: flex;
     align-items: center;
     gap: 12px;
     min-width: 0;
   }
-  .brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; flex-shrink: 0; }
-  .brand:hover { text-decoration: none; }
-  .logo { width: 20px; height: 20px; flex-shrink: 0; }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .brand:hover {
+    text-decoration: none;
+  }
+  .logo {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
   .link {
     font-size: var(--fs-sm);
     color: var(--color-muted);
-    padding: .375em .5em;
+    padding: 0.375em 0.5em;
     flex-shrink: 0;
   }
-  .link:hover { color: var(--color-fg); text-decoration: none; }
-  .icon-link { display: inline-flex; align-items: center; }
+  .link:hover {
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+  .icon-link {
+    display: inline-flex;
+    align-items: center;
+  }
+  .header-desktop-items {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
   .hamburger {
     display: none;
     align-items: center;
@@ -93,11 +120,34 @@ const showLogo = docsConfig.site.logo.enabled;
     color: var(--color-muted);
     border-radius: var(--radius);
     flex-shrink: 0;
+    position: relative;
   }
-  .hamburger:hover { color: var(--color-fg); background: var(--color-bg-hover); }
+  .hamburger:hover {
+    color: var(--color-fg);
+    background: var(--color-bg-hover);
+  }
+  .hamburger-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hamburger-icon-close {
+    display: none;
+  }
+  :global(body[data-sidebar-open="true"]) .hamburger-icon-menu {
+    display: none;
+  }
+  :global(body[data-sidebar-open="true"]) .hamburger-icon-close {
+    display: inline-flex;
+  }
+
   @media (max-width: 768px) {
-    .brand-text { display: none; }
-    .hamburger { display: inline-flex; }
+    .desktop-only {
+      display: none !important;
+    }
+    .hamburger {
+      display: inline-flex;
+    }
   }
 </style>
 

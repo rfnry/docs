@@ -5,6 +5,9 @@ import Sidebar from "../../../components/layout/Sidebar.astro";
 import TOC from "../../../components/layout/TOC.astro";
 import CopyForAI from "../../../components/CopyForAI.astro";
 import PrevNext from "../../../components/layout/PrevNext.astro";
+import VersionPicker from "../../../components/VersionPicker.astro";
+import LocalePicker from "../../../components/LocalePicker.astro";
+import ThemeToggle from "../../../components/ThemeToggle.astro";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
 import { sliceSections, buildContextHeader } from "../../../lib/ai-content";
 import { docsConfig } from "../../../docs.config";
@@ -50,7 +53,16 @@ const sections = sliceSections(entry.body as string).map((s) => ({
 >
   <div class="shell">
     <aside class="col-sidebar" aria-label="Documentation navigation">
-      <Sidebar locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
+      <div class="sidebar-main">
+        <Sidebar locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
+      </div>
+      <div class="mobile-footer">
+        <VersionPicker currentLocale={parsed.locale} currentVersion={parsed.version} />
+        <div class="mobile-footer-right">
+          <LocalePicker currentLocale={parsed.locale} currentVersion={parsed.version} currentSlug={parsed.slug} />
+          <ThemeToggle />
+        </div>
+      </div>
     </aside>
     <main class="col-content" data-pagefind-body data-pagefind-filter={`version:${parsed.version}`} lang={parsed.locale}>
       <article class="prose">
@@ -112,36 +124,73 @@ const sections = sliceSections(entry.body as string).map((s) => ({
     max-height: calc(100vh - var(--header-h));
     overflow-y: auto;
   }
+  .sidebar-main {
+    display: block;
+  }
+  .mobile-footer {
+    display: none;
+  }
   .col-content {
     padding: var(--gutter) calc(var(--gutter) * 2);
     min-width: 0;
   }
-  .col-toc {}
+  .col-toc {
+  }
   .page-header {
     display: flex;
     align-items: center;
     gap: var(--gutter);
     margin-bottom: 1.5em;
   }
-  .page-header h1 { margin: 0; flex: 1; }
+  .page-header h1 {
+    margin: 0;
+    flex: 1;
+  }
   @media (max-width: 1024px) {
-    .shell { grid-template-columns: var(--sidebar-w) 1fr; }
-    .col-toc { display: none; }
+    .shell {
+      grid-template-columns: var(--sidebar-w) 1fr;
+    }
+    .col-toc {
+      display: none;
+    }
   }
   @media (max-width: 768px) {
-    .shell { grid-template-columns: 1fr; }
-    .col-content { padding: var(--gutter); }
+    .shell {
+      grid-template-columns: 1fr;
+    }
+    .col-content {
+      padding: var(--gutter);
+    }
     .col-sidebar {
       display: none;
       position: fixed;
       inset: var(--header-h) 0 0 0;
-      background: var(--color-bg);
+      background: var(--color-bg-inner);
       z-index: calc(var(--z-header) - 1);
       max-height: none;
-      overflow-y: auto;
+      overflow: hidden;
+      flex-direction: column;
     }
     :global(body[data-sidebar-open="true"]) .col-sidebar {
-      display: block;
+      display: flex;
+    }
+    .sidebar-main {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .mobile-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px var(--gutter);
+      border-top: 1px solid var(--color-lines);
+      background: var(--color-bg-inner);
+      flex-shrink: 0;
+    }
+    .mobile-footer-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   }
 </style>
