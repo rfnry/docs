@@ -5,8 +5,6 @@ sidebar:
   order: 1
 ---
 
-# Installation
-
 Install the package from npm.
 
 ## Prerequisites
@@ -16,11 +14,11 @@ Node.js 22.12 or later.
 ## Install
 
 ```bash
-npm install rfnry
+npm install your-package
 ```
 
 ## Verify
 
 ```bash
-rfnry --version
+your-package --version
 ```

@@ -5,6 +5,20 @@ sidebar:
   order: 1
 ---
 
-# Instalação
-
 Instale o pacote a partir do npm.
+
+## Pré-requisitos
+
+Node.js 22.12 ou posterior.
+
+## Instalar
+
+```bash
+npm install your-package
+```
+
+## Verificar
+
+```bash
+your-package --version
+```

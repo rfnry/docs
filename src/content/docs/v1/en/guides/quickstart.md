@@ -1,11 +1,9 @@
 ---
 title: Quickstart
-description: Your first Rfnry build in five minutes.
+description: Your first build in five minutes.
 sidebar:
   order: 2
 ---
-
-# Quickstart
 
 A five-minute walkthrough.
 
