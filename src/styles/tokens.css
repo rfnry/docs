@@ -1,0 +1,50 @@
+:root {
+  --color-bg: #000000;
+  --color-fg: #fafafa;
+  --color-muted: #a1a1aa;
+  --color-subtle: #71717a;
+  --color-border: #27272a;
+  --color-surface: #09090b;
+  --color-surface-hover: #18181b;
+  --color-accent: #fafafa;
+  --color-accent-fg: #000000;
+  --color-link: #fafafa;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 0.9375rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+
+  --radius: 6px;
+  --radius-sm: 4px;
+  --header-h: 56px;
+  --content-max: 720px;
+  --sidebar-w: 260px;
+  --toc-w: 220px;
+  --gutter: 24px;
+
+  --z-header: 50;
+  --z-dialog: 100;
+
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --color-bg: #ffffff;
+  --color-fg: #0a0a0a;
+  --color-muted: #52525b;
+  --color-subtle: #71717a;
+  --color-border: #e4e4e7;
+  --color-surface: #fafafa;
+  --color-surface-hover: #f4f4f5;
+  --color-accent: #0a0a0a;
+  --color-accent-fg: #ffffff;
+  --color-link: #0a0a0a;
+
+  color-scheme: light;
+}
