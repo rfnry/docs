@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
+import { buildSidebarTree, flattenSidebarHrefs } from "../../../lib/sidebar";
+import { loadGroups } from "../../../lib/groups";
 import { stripFrontmatter } from "../../../lib/ai-content";
 import { docsConfig } from "../../../config/docs.config";
 
@@ -15,10 +17,30 @@ export async function getStaticPaths() {
 export const GET: APIRoute = async ({ params }) => {
   const { locale, version } = params as { locale: string; version: string };
   const entries = await getCollection("docs");
+
+  const simpleEntries = entries.map((e) => ({
+    id: e.id,
+    title: e.data.sidebar.label ?? e.data.title,
+    order: e.data.sidebar.order,
+    hidden: e.data.sidebar.hidden,
+  }));
+  const tree = buildSidebarTree({
+    version,
+    locale,
+    entries: simpleEntries,
+    groups: loadGroups(version, locale),
+  });
+  const orderedHrefs = flattenSidebarHrefs(tree);
+  const hrefIndex = new Map(orderedHrefs.map((h, i) => [h, i]));
+
   const scoped = entries
     .map((e) => ({ e, p: parseEntryId(e.id) }))
     .filter((x) => x.p.version === version && x.p.locale === locale && !x.e.data.sidebar.hidden)
-    .sort((a, b) => a.e.data.sidebar.order - b.e.data.sidebar.order);
+    .sort((a, b) => {
+      const ai = hrefIndex.get(buildDocHref(a.p)) ?? Number.MAX_SAFE_INTEGER;
+      const bi = hrefIndex.get(buildDocHref(b.p)) ?? Number.MAX_SAFE_INTEGER;
+      return ai - bi;
+    });
 
   const site = docsConfig.site;
   const chunks: string[] = [];
@@ -32,6 +54,9 @@ export const GET: APIRoute = async ({ params }) => {
   }
 
   return new Response(chunks.join(""), {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "X-Content-Type-Options": "nosniff",
+    },
   });
 };

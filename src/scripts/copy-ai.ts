@@ -44,6 +44,12 @@ async function fetchMarkdown(url: string): Promise<string> {
 }
 
 function readSectionMarkdown(anchor: string): string | null {
-  const scriptTag = document.getElementById(`section-md-${anchor}`);
-  return scriptTag?.textContent ?? null;
+  const el = document.getElementById(`section-md-${anchor}`);
+  const raw = el?.getAttribute("data-payload");
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as string;
+  } catch {
+    return null;
+  }
 }

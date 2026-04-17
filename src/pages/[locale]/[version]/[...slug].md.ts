@@ -27,6 +27,9 @@ export const GET: APIRoute = async ({ props }) => {
   const title = `# ${entry.data.title}\n\n`;
   const content = header + title + stripFrontmatter(body);
   return new Response(content, {
-    headers: { "Content-Type": "text/markdown; charset=utf-8" },
+    headers: {
+      "Content-Type": "text/markdown; charset=utf-8",
+      "X-Content-Type-Options": "nosniff",
+    },
   });
 };

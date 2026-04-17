@@ -62,7 +62,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
       </article>
       <PrevNext locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
       {sections.map((s) => (
-        <script type="application/json" id={`section-md-${s.anchor}`} set:html={s.payload} is:inline />
+        <template id={`section-md-${s.anchor}`} data-payload={JSON.stringify(s.payload)}></template>
       ))}
     </main>
     <aside class="col-toc">

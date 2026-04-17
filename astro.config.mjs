@@ -7,6 +7,8 @@ import { docsConfig } from "./src/config/docs.config.ts";
 
 export default defineConfig({
   site: docsConfig.site.url,
+  trailingSlash: "always",
+  build: { format: "directory" },
   i18n: {
     defaultLocale: docsConfig.i18n.defaultLocale,
     locales: docsConfig.i18n.locales.map((l) => l.code),

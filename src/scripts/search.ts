@@ -69,16 +69,32 @@ export function initSearch() {
       return;
     }
     const pf = await loadPagefind();
-    const r = await pf.search(q, {
-      filters: { version, language: locale },
-    });
+    const r = await pf.search(q, { filters: { version } });
     const top = await Promise.all(r.results.slice(0, 8).map((x: any) => x.data()));
-    results!.innerHTML = top
-      .map((d: any) => {
-        const title = d.meta?.title ?? d.url;
-        const excerpt = (d.excerpt as string) ?? "";
-        return `<li><a href="${d.url}"><div class="hit-title">${title}</div><div class="hit-excerpt">${excerpt}</div></a></li>`;
-      })
-      .join("");
+    results!.replaceChildren(...top.map((d: any) => renderHit(d)));
   }
+}
+
+function isSafeUrl(url: string): boolean {
+  return url.startsWith("/") || url.startsWith("https://") || url.startsWith("http://");
+}
+
+function renderHit(d: any): HTMLElement {
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  const href = typeof d.url === "string" && isSafeUrl(d.url) ? d.url : "#";
+  a.href = href;
+
+  const titleEl = document.createElement("div");
+  titleEl.className = "hit-title";
+  titleEl.textContent = (d.meta?.title as string) ?? href;
+
+  const excerptEl = document.createElement("div");
+  excerptEl.className = "hit-excerpt";
+  // Pagefind escapes excerpt text and emits <mark> tags for highlights.
+  excerptEl.innerHTML = typeof d.excerpt === "string" ? d.excerpt : "";
+
+  a.append(titleEl, excerptEl);
+  li.append(a);
+  return li;
 }

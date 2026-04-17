@@ -99,3 +99,15 @@ export function buildSidebarTree(args: BuildArgs): SidebarNode[] {
     .map(([k, b]) => toNode(b, k))
     .sort((a, b) => a.order - b.order || a.label.localeCompare(b.label));
 }
+
+export function flattenSidebarHrefs(tree: SidebarNode[]): string[] {
+  const out: string[] = [];
+  const walk = (nodes: SidebarNode[]) => {
+    for (const n of nodes) {
+      if (n.href) out.push(n.href);
+      if (n.children) walk(n.children);
+    }
+  };
+  walk(tree);
+  return out;
+}

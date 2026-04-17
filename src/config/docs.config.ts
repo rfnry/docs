@@ -24,7 +24,7 @@ export interface DocsConfig {
     title: string;
     description: string;
     url: string;
-    logo: { src: string; alt: string };
+    logo: { enabled: boolean; src: string; alt: string };
     github?: string;
   };
   i18n: {
@@ -38,10 +38,12 @@ export interface DocsConfig {
 
 export const docsConfig = {
   site: {
-    title: "Rfnry Docs",
-    description: "Documentation for the Rfnry project.",
-    url: "https://docs.rfnry.dev",
-    logo: { src: "/logo.svg", alt: "Rfnry" },
+    title: "Docs",
+    description: "Project documentation.",
+    // REQUIRED: change to your own domain before deploying.
+    // Emitted verbatim into every .md endpoint, llms.txt, llms-full.txt, and canonical link.
+    url: "https://example.com",
+    logo: { enabled: false, src: "/logo.svg", alt: "Docs" },
     github: undefined,
   },
   i18n: {
@@ -57,6 +59,13 @@ export const docsConfig = {
   theme: { default: "system" },
   headerLinks: [],
 } satisfies DocsConfig;
+
+if (docsConfig.versions.length === 0) {
+  throw new Error("docsConfig.versions must contain at least one entry.");
+}
+if (docsConfig.i18n.locales.length === 0) {
+  throw new Error("docsConfig.i18n.locales must contain at least one entry.");
+}
 
 export function getCurrentVersion(): VersionEntry {
   const currents = docsConfig.versions.filter((v) => v.current);
