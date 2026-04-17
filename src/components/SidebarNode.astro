@@ -22,8 +22,10 @@ const initiallyOpen = !node.collapsed || hasActive;
   <li class="group-wrap">
     <details open={initiallyOpen}>
       <summary class="group">
-        <span class="chev" aria-hidden="true"><Icon name="chevron-right" size={12} /></span>
-        <span class="group-label">{node.label}</span>
+        <span class="group-row">
+          <Icon name="chevron-right" size={12} class="chev" />
+          <span class="group-label">{node.label}</span>
+        </span>
       </summary>
       <ul class="children">
         {node.children?.map((child) => <Self node={child} currentHref={currentHref} />)}
@@ -53,37 +55,42 @@ const initiallyOpen = !node.collapsed || hasActive;
   }
 
   details { padding: 0; }
-  summary {
+  summary.group {
     list-style: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: .375em;
     padding: .375em .625em;
     margin: 0 0 .25em;
     border-radius: var(--radius);
+    user-select: none;
+  }
+  summary.group::-webkit-details-marker { display: none; }
+  summary.group::marker { content: ""; }
+  summary.group:hover { background: var(--color-surface-hover); }
+
+  .group-row {
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
     font-size: var(--fs-xs);
     text-transform: uppercase;
     letter-spacing: .05em;
     color: var(--color-subtle);
     font-weight: 600;
-    user-select: none;
   }
-  summary::-webkit-details-marker { display: none; }
-  summary::marker { content: ""; }
-  summary:hover { color: var(--color-fg); background: var(--color-surface-hover); }
-  .chev { display: inline-flex; transition: transform .15s; }
-  details[open] > summary .chev { transform: rotate(90deg); }
+  summary.group:hover .group-row { color: var(--color-fg); }
+  .chev {
+    flex-shrink: 0;
+    transition: transform .15s;
+  }
+  details[open] > summary.group .chev { transform: rotate(90deg); }
 
   .children {
     list-style: none;
-    margin: 0;
+    margin: 0 0 0 .75em;
     padding: 0 0 0 .875em;
-    border-left: 1px solid var(--color-border);
-    margin-left: .75em;
+    border-left: 1px solid var(--color-tree-line, var(--color-border));
   }
 
-  /* Top-level group separator. */
   .group-wrap {
     padding-top: 1em;
     margin-top: 1em;
@@ -94,7 +101,6 @@ const initiallyOpen = !node.collapsed || hasActive;
     margin-top: 0;
     border-top: none;
   }
-  /* Nested groups (inside .children) have no separator. */
   .children .group-wrap {
     padding-top: 0;
     margin-top: .25em;
