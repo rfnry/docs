@@ -1,0 +1,68 @@
+---
+import { docsConfig } from "../config/docs.config";
+
+interface Props {
+  currentLocale: string;
+  currentVersion: string;
+  currentSlug: string;
+}
+const { currentLocale, currentVersion, currentSlug } = Astro.props;
+const currentLabel = docsConfig.i18n.locales.find((l) => l.code === currentLocale)?.label ?? currentLocale;
+---
+<details class="picker">
+  <summary>
+    <span class="label">{currentLabel}</span>
+    <span class="chev" aria-hidden="true">▾</span>
+  </summary>
+  <ul class="menu">
+    {docsConfig.i18n.locales.map((l) => {
+      const href = `/${l.code}/${currentVersion}/${currentSlug}${currentSlug ? "/" : ""}`;
+      return (
+        <li>
+          <a href={href} class={l.code === currentLocale ? "active" : ""}>{l.label}</a>
+        </li>
+      );
+    })}
+  </ul>
+</details>
+
+<style>
+  .picker { position: relative; }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    padding: .375em .75em;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--color-fg); border-color: var(--color-muted); }
+  .chev { font-size: 10px; }
+  .menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
+    list-style: none;
+    margin: 0;
+    padding: 4px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    min-width: 180px;
+    z-index: var(--z-header);
+  }
+  .menu a {
+    display: block;
+    padding: .375em .75em;
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+  }
+  .menu a:hover { background: var(--color-surface-hover); color: var(--color-fg); text-decoration: none; }
+  .menu a.active { color: var(--color-fg); }
+</style>

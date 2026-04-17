@@ -1,0 +1,66 @@
+---
+import { docsConfig } from "../config/docs.config";
+
+interface Props {
+  currentLocale: string;
+  currentVersion: string;
+}
+const { currentLocale, currentVersion } = Astro.props;
+const currentLabel = docsConfig.versions.find((v) => v.id === currentVersion)?.label ?? currentVersion;
+---
+<details class="picker">
+  <summary>
+    <span class="label">{currentLabel}</span>
+    <span class="chev" aria-hidden="true">▾</span>
+  </summary>
+  <ul class="menu">
+    {docsConfig.versions.map((v) => (
+      <li>
+        <a href={`/${currentLocale}/${v.id}/`} class={v.id === currentVersion ? "active" : ""}>
+          {v.label}{v.current ? " (current)" : ""}
+        </a>
+      </li>
+    ))}
+  </ul>
+</details>
+
+<style>
+  .picker { position: relative; }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    padding: .375em .75em;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--color-fg); border-color: var(--color-muted); }
+  .chev { font-size: 10px; }
+  .menu {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 4px);
+    list-style: none;
+    margin: 0;
+    padding: 4px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    min-width: 140px;
+    z-index: var(--z-header);
+  }
+  .menu a {
+    display: block;
+    padding: .375em .75em;
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+  }
+  .menu a:hover { background: var(--color-surface-hover); color: var(--color-fg); text-decoration: none; }
+  .menu a.active { color: var(--color-fg); }
+</style>
