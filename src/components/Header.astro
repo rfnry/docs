@@ -4,6 +4,7 @@ import LocalePicker from "./LocalePicker.astro";
 import VersionPicker from "./VersionPicker.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import Search from "./Search.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
   currentLocale: string;
@@ -11,19 +12,18 @@ interface Props {
   currentSlug: string;
 }
 const { currentLocale, currentVersion, currentSlug } = Astro.props;
+const showLogo = docsConfig.site.logo.enabled;
 ---
 <header class="header">
   <div class="inner">
     <div class="left">
       <button type="button" class="hamburger" data-mobile-nav-toggle aria-label="Toggle navigation" aria-expanded="false">
-        <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="21" y2="12"/>
-          <line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
+        <Icon name="menu" size={18} />
       </button>
       <a href={`/${currentLocale}/${currentVersion}/`} class="brand">
-        <img src={docsConfig.site.logo.src} alt={docsConfig.site.logo.alt} class="logo" />
+        {showLogo && (
+          <img src={docsConfig.site.logo.src} alt={docsConfig.site.logo.alt} class="logo" />
+        )}
         <span class="brand-text">{docsConfig.site.title}</span>
       </a>
       <VersionPicker currentLocale={currentLocale} currentVersion={currentVersion} />
@@ -38,7 +38,9 @@ const { currentLocale, currentVersion, currentSlug } = Astro.props;
         </a>
       ))}
       {docsConfig.site.github && (
-        <a href={docsConfig.site.github} class="link" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+        <a href={docsConfig.site.github} class="link icon-link" target="_blank" rel="noopener" aria-label="GitHub">
+          <Icon name="github" size={16} />
+        </a>
       )}
       <LocalePicker currentLocale={currentLocale} currentVersion={currentVersion} currentSlug={currentSlug} />
       <ThemeToggle />
@@ -56,7 +58,7 @@ const { currentLocale, currentVersion, currentSlug } = Astro.props;
     border-bottom: 1px solid var(--color-border);
   }
   .inner {
-    max-width: 1280px;
+    max-width: var(--shell-max, 1280px);
     margin: 0 auto;
     height: 100%;
     padding: 0 var(--gutter);
@@ -76,8 +78,14 @@ const { currentLocale, currentVersion, currentSlug } = Astro.props;
     padding: .375em .5em;
   }
   .link:hover { color: var(--color-fg); text-decoration: none; }
-  .hamburger { display: none; padding: 6px; color: var(--color-muted); }
-  .hamburger:hover { color: var(--color-fg); }
+  .icon-link { display: inline-flex; align-items: center; }
+  .hamburger {
+    display: none;
+    padding: 6px;
+    color: var(--color-muted);
+    border-radius: var(--radius);
+  }
+  .hamburger:hover { color: var(--color-fg); background: var(--color-surface-hover); }
   @media (max-width: 768px) {
     .brand-text { display: none; }
     .middle { display: none; }

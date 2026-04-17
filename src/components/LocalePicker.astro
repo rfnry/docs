@@ -1,5 +1,6 @@
 ---
 import { docsConfig } from "../config/docs.config";
+import Icon from "./Icon.astro";
 
 interface Props {
   currentLocale: string;
@@ -12,7 +13,7 @@ const currentLabel = docsConfig.i18n.locales.find((l) => l.code === currentLocal
 <details class="picker">
   <summary>
     <span class="label">{currentLabel}</span>
-    <span class="chev" aria-hidden="true">▾</span>
+    <Icon name="chevron-down" size={12} />
   </summary>
   <ul class="menu">
     {docsConfig.i18n.locales.map((l) => {
@@ -33,7 +34,7 @@ const currentLabel = docsConfig.i18n.locales.find((l) => l.code === currentLocal
     cursor: pointer;
     padding: .375em .75em;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
     display: inline-flex;
     align-items: center;
     gap: .5em;
@@ -42,7 +43,6 @@ const currentLabel = docsConfig.i18n.locales.find((l) => l.code === currentLocal
   }
   summary::-webkit-details-marker { display: none; }
   summary:hover { color: var(--color-fg); border-color: var(--color-muted); }
-  .chev { font-size: 10px; }
   .menu {
     position: absolute;
     right: 0;
@@ -59,7 +59,7 @@ const currentLabel = docsConfig.i18n.locales.find((l) => l.code === currentLocal
   .menu a {
     display: block;
     padding: .375em .75em;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
     font-size: var(--fs-sm);
     color: var(--color-muted);
   }

@@ -1,5 +1,6 @@
 ---
 import { docsConfig } from "../config/docs.config";
+import Icon from "./Icon.astro";
 
 interface Props {
   currentLocale: string;
@@ -11,7 +12,7 @@ const currentLabel = docsConfig.versions.find((v) => v.id === currentVersion)?.l
 <details class="picker">
   <summary>
     <span class="label">{currentLabel}</span>
-    <span class="chev" aria-hidden="true">▾</span>
+    <Icon name="chevron-down" size={12} />
   </summary>
   <ul class="menu">
     {docsConfig.versions.map((v) => (
@@ -31,7 +32,7 @@ const currentLabel = docsConfig.versions.find((v) => v.id === currentVersion)?.l
     cursor: pointer;
     padding: .375em .75em;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
     display: inline-flex;
     align-items: center;
     gap: .5em;
@@ -40,7 +41,6 @@ const currentLabel = docsConfig.versions.find((v) => v.id === currentVersion)?.l
   }
   summary::-webkit-details-marker { display: none; }
   summary:hover { color: var(--color-fg); border-color: var(--color-muted); }
-  .chev { font-size: 10px; }
   .menu {
     position: absolute;
     left: 0;
@@ -57,7 +57,7 @@ const currentLabel = docsConfig.versions.find((v) => v.id === currentVersion)?.l
   .menu a {
     display: block;
     padding: .375em .75em;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
     font-size: var(--fs-sm);
     color: var(--color-muted);
   }

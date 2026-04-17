@@ -1,11 +1,12 @@
 ---
 import { docsConfig } from "../config/docs.config";
+import Icon from "./Icon.astro";
 const defaultTheme = docsConfig.theme.default;
 ---
-<button type="button" data-theme-toggle aria-label="Toggle theme">
-  <span class="icon icon-dark" aria-hidden="true">🌙</span>
-  <span class="icon icon-light" aria-hidden="true">☀</span>
-  <span class="icon icon-system" aria-hidden="true">◐</span>
+<button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+  <span class="icon-slot" data-theme-icon="dark"><Icon name="moon" size={16} /></span>
+  <span class="icon-slot" data-theme-icon="light"><Icon name="sun" size={16} /></span>
+  <span class="icon-slot" data-theme-icon="system"><Icon name="monitor" size={16} /></span>
 </button>
 
 <script define:vars={{ defaultTheme }}>
@@ -13,18 +14,20 @@ const defaultTheme = docsConfig.theme.default;
 </script>
 
 <style>
-  button {
+  .theme-toggle {
     width: 32px;
     height: 32px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: var(--color-muted);
   }
-  button:hover { background: var(--color-surface-hover); color: var(--color-fg); }
-  .icon { display: none; font-size: 14px; }
-  :global([data-theme-pref="dark"]) .icon-dark { display: inline; }
-  :global([data-theme-pref="light"]) .icon-light { display: inline; }
-  :global([data-theme-pref="system"]) .icon-system { display: inline; }
+  .theme-toggle:hover { background: var(--color-surface-hover); color: var(--color-fg); }
+  .icon-slot { display: none; align-items: center; justify-content: center; }
+  :global(html[data-theme-pref="dark"]) .icon-slot[data-theme-icon="dark"],
+  :global(html[data-theme-pref="light"]) .icon-slot[data-theme-icon="light"],
+  :global(html[data-theme-pref="system"]) .icon-slot[data-theme-icon="system"] {
+    display: inline-flex;
+  }
 </style>
