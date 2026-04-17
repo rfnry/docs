@@ -1,0 +1,30 @@
+---
+import { docsConfig } from "../config/docs.config";
+const defaultTheme = docsConfig.theme.default;
+---
+<button type="button" data-theme-toggle aria-label="Toggle theme">
+  <span class="icon icon-dark" aria-hidden="true">🌙</span>
+  <span class="icon icon-light" aria-hidden="true">☀</span>
+  <span class="icon icon-system" aria-hidden="true">◐</span>
+</button>
+
+<script define:vars={{ defaultTheme }}>
+  import("../scripts/theme.ts").then((m) => m.initThemeToggle(defaultTheme));
+</script>
+
+<style>
+  button {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+  }
+  button:hover { background: var(--color-surface-hover); color: var(--color-fg); }
+  .icon { display: none; font-size: 14px; }
+  :global([data-theme-pref="dark"]) .icon-dark { display: inline; }
+  :global([data-theme-pref="light"]) .icon-light { display: inline; }
+  :global([data-theme-pref="system"]) .icon-system { display: inline; }
+</style>
