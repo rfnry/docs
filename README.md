@@ -1,43 +1,66 @@
-# Astro Starter Kit: Minimal
+# rfnry Docs Template
 
-```sh
-npm create astro@latest -- --template minimal
+Minimal, opinionated Astro starter for documentation sites with versioning, i18n, and first-class AI-consumption endpoints.
+
+## Features
+
+- **Multi-version**: content under `src/content/docs/{version}/{locale}/` with a header version picker.
+- **Multi-locale**: Astro's built-in i18n; locale picker preserves the current page when switching.
+- **AI-ready**: every page exposed as raw markdown (`/{locale}/{version}/{slug}.md`). Per-version `llms.txt` and `llms-full.txt`. "Copy for AI" buttons on each page and each `##` section, including a context header (source URL, version, locale).
+- **Static search**: Pagefind, scoped to the current version + locale.
+- **Opinionated design**: monochrome dark/light with a tri-state theme toggle. One `src/styles/tokens.css` to edit colors and spacing.
+
+## Getting started
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Editing content
 
-## 🚀 Project Structure
+Add a markdown file under `src/content/docs/{version}/{locale}/`. Frontmatter:
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```yaml
+---
+title: Quickstart
+description: One sentence used for <meta>, llms.txt, and search.
+sidebar:
+  order: 1
+  label: Optional override
+  hidden: false
+---
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Folders can optionally have a `_group.yaml`:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```yaml
+label: Guides
+order: 2
+collapsed: false
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Configuration
 
-## 🧞 Commands
+Edit `src/config/docs.config.ts` — the single source of truth for site metadata, versions, locales, header links, and theme default.
 
-All commands are run from the root of the project, from a terminal:
+## AI consumption
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| Endpoint | Use |
+|---|---|
+| `/{locale}/{version}/{slug}.md` | Raw markdown for one page |
+| `/{locale}/{version}/llms.txt` | Short index of all pages |
+| `/{locale}/{version}/llms-full.txt` | Every page concatenated |
 
-## 👀 Want to learn more?
+## Build
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+npm run build     # astro build && pagefind --site dist
+npm run preview
+```
+
+## Test
+
+```bash
+npm test
+```
