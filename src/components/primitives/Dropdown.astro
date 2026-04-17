@@ -75,10 +75,13 @@ const { id, align = "left", triggerClass = "", label } = Astro.props;
     cursor: pointer;
   }
   .dropdown-menu :global(a:hover),
-  .dropdown-menu :global(button:hover) {
+  .dropdown-menu :global(button:hover),
+  .dropdown-menu :global(a:focus-visible),
+  .dropdown-menu :global(button:focus-visible) {
     background: var(--color-bg-hover);
     color: var(--color-fg);
     text-decoration: none;
+    outline: none;
   }
   .dropdown-menu :global(a.active),
   .dropdown-menu :global(button.active) {
