@@ -10,5 +10,35 @@ export function getStaticPaths() {
 const { locale } = Astro.params;
 if (!locale || !isLocale(locale)) return Astro.redirect("/");
 const current = getCurrentVersion();
-return Astro.redirect(`/${locale}/${current.id}/`);
+const target = `/${locale}/${current.id}/`;
 ---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>{docsConfig.site.title}</title>
+    <script is:inline define:vars={{ target }}>
+      window.location.replace(target);
+    </script>
+    <style>
+      html, body { margin: 0; background: #000; }
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        color: #a1a1aa;
+        font-size: 14px;
+      }
+      a { color: #fafafa; }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <p>Redirecting to <a href={target}>{target}</a>…</p>
+    </noscript>
+  </body>
+</html>
