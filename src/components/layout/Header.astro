@@ -114,17 +114,17 @@ const showLogo = docsConfig.site.logo.enabled;
     display: none;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: var(--btn-h);
+    height: var(--btn-h);
     padding: 0;
     color: var(--color-muted);
+    background: var(--color-bg-hover);
     border-radius: var(--radius);
     flex-shrink: 0;
     position: relative;
   }
   .hamburger:hover {
     color: var(--color-fg);
-    background: var(--color-bg-hover);
   }
   .hamburger-icon {
     display: inline-flex;

@@ -93,8 +93,8 @@ html[data-theme="dark"] .astro-code span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: var(--btn-h);
+  height: var(--btn-h);
   padding: 0;
   color: var(--color-muted);
   background: var(--color-bg-inner);

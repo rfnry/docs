@@ -30,12 +30,13 @@ import Icon from "./primitives/Icon.astro";
     width: 100%;
     max-width: 400px;
     min-width: 240px;
-    padding: 6px 10px;
+    height: var(--btn-h);
+    padding: 0 10px;
     border: 1px solid var(--color-lines);
     border-radius: var(--radius);
     color: var(--color-muted);
     font-size: var(--fs-sm);
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--color-search-bg);
     white-space: nowrap;
   }
   .trigger-label {
@@ -46,12 +47,15 @@ import Icon from "./primitives/Icon.astro";
     text-overflow: ellipsis;
   }
   .trigger kbd {
+    display: inline-flex;
+    align-items: center;
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
+    height: 20px;
+    padding: 0 6px;
     border: 1px solid var(--color-lines);
     border-radius: var(--radius);
-    padding: 1px 5px;
-    background: var(--color-bg);
+    background: var(--color-bg-inner);
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -62,9 +66,8 @@ import Icon from "./primitives/Icon.astro";
 
   @media (max-width: 768px) {
     .trigger {
-      width: 32px;
+      width: var(--btn-h);
       min-width: 0;
-      height: 32px;
       padding: 0;
       justify-content: center;
       flex-shrink: 0;

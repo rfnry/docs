@@ -104,28 +104,6 @@ npm run test        # vitest run
 
 CI on `push` / `pull_request` runs `check`, `typecheck`, `test`, `build` — see `.github/workflows/ci.yml`.
 
-## Project layout
-
-```
-src/
-├── docs.config.ts              ← edit me
-├── content.config.ts
-├── content/docs/{version}/{locale}/…
-├── components/
-│   ├── primitives/             ← Dropdown, Icon
-│   ├── layout/                 ← Header, Sidebar, TOC, PrevNext
-│   └── …                       ← ThemeToggle, LocalePicker, Search, CopyForAI
-├── layouts/Layout.astro
-├── lib/                        ← config, routing, sidebar, groups, ai-content, remark/
-├── pages/                      ← routes
-├── scripts/                    ← client-side TS (theme, dropdown, copy-ai, search, toc)
-└── styles/                     ← reset.css, tokens.css, prose.css
-```
-
-## Tech
-
-Astro 6, Pagefind, Vitest, Biome. No UI framework. Shiki for code highlighting (GitHub Light/Dark, switched via `[data-theme]`). Lucide icons inlined as SVG — no icon library dependency.
-
 ## License
 
 MIT — see [LICENSE](./LICENSE).

@@ -2,7 +2,7 @@ import type { DocsConfig } from "./lib/config";
 
 export const docsConfig = {
   site: {
-    title: "Docs",
+    title: "rfnry-docs",
     description: "Project documentation.",
     url: "https://example.com",
     logo: { enabled: false, src: "/logo.svg", alt: "Docs" },

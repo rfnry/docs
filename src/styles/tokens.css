@@ -23,6 +23,9 @@
 
   --radius: 6px;
 
+  --btn-h: 32px;
+  --color-search-bg: rgba(0, 0, 0, 0.5);
+
   --header-h: 56px;
   --shell-max: 1500px;
   --content-max: 900px;
@@ -45,6 +48,7 @@
   --color-subtle: #71717a;
   --color-lines: #e4e4e7;
   --color-tree-line: #d4d4d8;
+  --color-search-bg: transparent;
   --color-accent: #0a0a0a;
   --color-accent-fg: #ffffff;
   --color-link: #0a0a0a;
