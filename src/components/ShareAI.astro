@@ -1,0 +1,39 @@
+---
+import Button from "./primitives/Button.astro";
+import Icon from "./primitives/Icon.astro";
+---
+<Button
+  variant="icon"
+  class="share-ai"
+  data-share-ai
+  aria-label="Share with AI"
+  title="Share with AI"
+>
+  <span class="share-icon share-icon-bot"><Icon name="bot" size={16} /></span>
+  <span class="share-icon share-icon-check"><Icon name="check" size={16} /></span>
+</Button>
+
+<script>
+  import { initShareAI } from "../scripts/share-ai.ts";
+  initShareAI();
+</script>
+
+<style>
+  .share-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .share-icon-check {
+    display: none;
+  }
+  :global(.share-ai.copied) .share-icon-bot {
+    display: none;
+  }
+  :global(.share-ai.copied) .share-icon-check {
+    display: inline-flex;
+  }
+  :global(.share-ai.copied) {
+    color: var(--color-fg);
+  }
+</style>
