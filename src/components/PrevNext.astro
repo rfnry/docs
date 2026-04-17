@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { buildSidebarTree, type SidebarNode } from "../lib/sidebar";
 import { loadGroups } from "../lib/groups";
+import Icon from "./Icon.astro";
 
 interface Props {
   locale: string;
@@ -40,38 +41,41 @@ const next = idx >= 0 && idx < flat.length - 1 ? flat[idx + 1] : null;
 <nav class="prevnext" aria-label="Previous and next page">
   {prev ? (
     <a href={prev.href} class="side prev">
-      <span class="dir">Previous</span>
+      <Icon name="arrow-left" size={14} />
       <span class="ttl">{prev.label}</span>
     </a>
-  ) : <div />}
+  ) : <span class="spacer"></span>}
   {next ? (
     <a href={next.href} class="side next">
-      <span class="dir">Next</span>
       <span class="ttl">{next.label}</span>
+      <Icon name="arrow-right" size={14} />
     </a>
-  ) : <div />}
+  ) : <span class="spacer"></span>}
 </nav>
 
 <style>
   .prevnext {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--gutter);
     margin: 3em 0 1em;
-    padding-top: 2em;
+    padding-top: 1.5em;
     border-top: 1px solid var(--color-border);
   }
+  .spacer { display: inline-block; }
   .side {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px 16px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    color: var(--color-fg);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-muted);
+    font-size: var(--fs-sm);
+    transition: color .1s;
   }
-  .side:hover { border-color: var(--color-muted); text-decoration: none; }
-  .next { text-align: right; }
-  .dir { font-size: var(--fs-xs); color: var(--color-subtle); text-transform: uppercase; letter-spacing: .05em; }
+  .side:hover {
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+  .side.next { margin-left: auto; }
   .ttl { font-weight: 500; }
 </style>

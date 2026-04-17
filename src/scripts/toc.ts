@@ -1,27 +1,37 @@
+const SCROLL_OFFSET = 100; // px below the fixed header where the "active" line sits
+
 export function initTOC() {
   const toc = document.querySelector<HTMLElement>("[data-toc]");
   if (!toc) return;
+
   const links = new Map<string, HTMLAnchorElement>();
   toc.querySelectorAll<HTMLAnchorElement>("a[href^='#']").forEach((a) => {
     links.set(a.getAttribute("href")!.slice(1), a);
   });
 
-  const setActive = (id: string) => {
+  const headings = Array.from(
+    document.querySelectorAll<HTMLElement>("article.prose h2[id], article.prose h3[id]"),
+  );
+  if (headings.length === 0) return;
+
+  const setActive = (id: string | null) => {
     toc.querySelectorAll("a.active").forEach((a) => a.classList.remove("active"));
-    links.get(id)?.classList.add("active");
+    if (id) links.get(id)?.classList.add("active");
   };
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries.filter((e) => e.isIntersecting);
-      if (visible.length === 0) return;
-      const top = visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-      setActive(top.target.id);
-    },
-    { rootMargin: "0px 0px -70% 0px", threshold: 0 }
-  );
+  const update = () => {
+    let activeId: string | null = headings[0].id;
+    for (const h of headings) {
+      if (h.getBoundingClientRect().top - SCROLL_OFFSET <= 0) {
+        activeId = h.id;
+      } else {
+        break;
+      }
+    }
+    setActive(activeId);
+  };
 
-  document.querySelectorAll<HTMLElement>("article.prose h2[id], article.prose h3[id]").forEach((h) => {
-    observer.observe(h);
-  });
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
 }

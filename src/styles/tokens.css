@@ -20,12 +20,14 @@
   --fs-xl: 1.5rem;
   --fs-2xl: 2rem;
 
+  /* Single source for corner radius across the whole UI. */
   --radius: 6px;
-  --radius-sm: 4px;
+
   --header-h: 56px;
-  --content-max: 720px;
-  --sidebar-w: 260px;
-  --toc-w: 220px;
+  --shell-max: 1500px;
+  --content-max: 900px;
+  --sidebar-w: 300px;
+  --toc-w: 260px;
   --gutter: 24px;
 
   --z-header: 50;

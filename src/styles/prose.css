@@ -32,7 +32,7 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   padding: 1px 5px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
 }
 .prose pre {
   font-family: var(--font-mono);
@@ -45,6 +45,17 @@
   margin: 0 0 1em;
 }
 .prose pre code { background: transparent; border: none; padding: 0; font-size: inherit; }
+
+/* Shiki dual-theme: switch colors via [data-theme] instead of prefers-color-scheme. */
+html[data-theme="dark"] .astro-code,
+html[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
 .prose blockquote {
   border-left: 2px solid var(--color-border);
   padding-left: 1em;
@@ -60,7 +71,7 @@
   font-size: var(--fs-xs);
   padding: 2px 6px;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   color: var(--color-subtle);
   background: transparent;
   opacity: 0;

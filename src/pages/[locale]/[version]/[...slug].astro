@@ -49,15 +49,15 @@ const sections = sliceSections(entry.body as string).map((s) => ({
   slug={parsed.slug}
 >
   <div class="shell">
-    <aside class="col-sidebar">
+    <aside class="col-sidebar" aria-label="Documentation navigation">
       <Sidebar locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
     </aside>
     <main class="col-content" data-pagefind-body data-pagefind-filter={`version:${parsed.version}`} lang={parsed.locale}>
       <article class="prose">
-        <h1 data-pagefind-meta="title">{entry.data.title}</h1>
-        <div class="page-actions">
+        <header class="page-header">
+          <h1 data-pagefind-meta="title">{entry.data.title}</h1>
           <CopyForAI url={mdUrl} />
-        </div>
+        </header>
         <Content />
       </article>
       <PrevNext locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
@@ -65,7 +65,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
         <template id={`section-md-${s.anchor}`} data-payload={JSON.stringify(s.payload)}></template>
       ))}
     </main>
-    <aside class="col-toc">
+    <aside class="col-toc" aria-label="On this page">
       <TOC headings={headings} />
     </aside>
   </div>
@@ -98,33 +98,37 @@ const sections = sliceSections(entry.body as string).map((s) => ({
 <style>
   .shell {
     display: grid;
-    grid-template-columns: var(--sidebar-w) 1fr var(--toc-w);
-    max-width: 1280px;
+    grid-template-columns: var(--sidebar-w) minmax(0, 1fr) var(--toc-w);
+    max-width: var(--shell-max);
     margin: 0 auto;
-    min-height: 100vh;
+    min-height: calc(100vh - var(--header-h));
   }
   .col-sidebar {
-    border-right: 1px solid var(--color-border);
     position: sticky;
-    top: 0;
+    top: var(--header-h);
     align-self: start;
-    max-height: 100vh;
+    max-height: calc(100vh - var(--header-h));
     overflow-y: auto;
   }
   .col-content {
-    padding: var(--gutter);
+    padding: var(--gutter) calc(var(--gutter) * 2);
     min-width: 0;
   }
-  .col-toc {
-    border-left: 1px solid var(--color-border);
+  .col-toc { /* no border, clean */ }
+  .page-header {
+    display: flex;
+    align-items: center;
+    gap: var(--gutter);
+    margin-bottom: 1.5em;
   }
-  .page-actions { display: flex; gap: 8px; margin: -0.5em 0 1.5em; }
+  .page-header h1 { margin: 0; flex: 1; }
   @media (max-width: 1024px) {
     .shell { grid-template-columns: var(--sidebar-w) 1fr; }
     .col-toc { display: none; }
   }
   @media (max-width: 768px) {
     .shell { grid-template-columns: 1fr; }
+    .col-content { padding: var(--gutter); }
     .col-sidebar {
       display: none;
       position: fixed;
@@ -133,7 +137,6 @@ const sections = sliceSections(entry.body as string).map((s) => ({
       z-index: calc(var(--z-header) - 1);
       max-height: none;
       overflow-y: auto;
-      border-right: none;
     }
     :global(body[data-sidebar-open="true"]) .col-sidebar {
       display: block;

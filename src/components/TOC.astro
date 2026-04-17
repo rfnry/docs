@@ -4,20 +4,17 @@ interface Props { headings: Heading[]; }
 const { headings } = Astro.props;
 const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
-<aside class="toc" aria-label="On this page" data-toc>
+<nav class="toc" data-toc>
   {items.length > 0 && (
-    <>
-      <div class="title">On this page</div>
-      <ul>
-        {items.map((h) => (
-          <li class:list={["lvl-" + h.depth]}>
-            <a href={`#${h.slug}`}>{h.text}</a>
-          </li>
-        ))}
-      </ul>
-    </>
+    <ul>
+      {items.map((h) => (
+        <li class:list={["lvl-" + h.depth]}>
+          <a href={`#${h.slug}`}>{h.text}</a>
+        </li>
+      ))}
+    </ul>
   )}
-</aside>
+</nav>
 
 <script>
   import { initTOC } from "../scripts/toc.ts";
@@ -33,21 +30,22 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
     max-height: calc(100vh - var(--header-h));
     overflow-y: auto;
   }
-  .title {
-    font-size: var(--fs-xs);
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    color: var(--color-subtle);
-    margin-bottom: .5em;
-  }
   ul { list-style: none; margin: 0; padding: 0; }
   li { padding: .125em 0; }
   .lvl-3 { padding-left: 1em; }
   a {
     color: var(--color-muted);
     display: block;
-    padding: .125em 0;
+    padding: .25em .5em;
+    border-radius: var(--radius);
   }
-  a:hover { color: var(--color-fg); text-decoration: none; }
-  a.active { color: var(--color-fg); }
+  a:hover {
+    color: var(--color-fg);
+    text-decoration: none;
+    background: var(--color-surface-hover);
+  }
+  a.active {
+    color: var(--color-fg);
+    background: var(--color-surface);
+  }
 </style>
