@@ -1,9 +1,7 @@
 type Theme = "dark" | "light" | "system";
 
-function getStored(): Theme | null {
-  const v = localStorage.getItem("theme");
-  if (v === "dark" || v === "light" || v === "system") return v;
-  return null;
+function isTheme(v: unknown): v is Theme {
+  return v === "dark" || v === "light" || v === "system";
 }
 
 function resolveSystem(): "dark" | "light" {
@@ -16,22 +14,24 @@ function apply(theme: Theme) {
   document.documentElement.setAttribute("data-theme-pref", theme);
 }
 
-export function initThemeToggle(defaultTheme: Theme) {
-  const initial = getStored() ?? defaultTheme;
+export function initTheme(defaultTheme: Theme) {
+  const stored = localStorage.getItem("theme");
+  const initial: Theme = isTheme(stored) ? stored : defaultTheme;
   apply(initial);
 
-  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]");
-  buttons.forEach((btn) => {
+  document.querySelectorAll<HTMLButtonElement>("[data-theme-set]").forEach((btn) => {
+    if (btn.dataset.themeBound === "1") return;
+    btn.dataset.themeBound = "1";
     btn.addEventListener("click", () => {
-      const current = (document.documentElement.getAttribute("data-theme-pref") as Theme) || defaultTheme;
-      const next: Theme = current === "dark" ? "light" : current === "light" ? "system" : "dark";
+      const next = btn.getAttribute("data-theme-set");
+      if (!isTheme(next)) return;
       localStorage.setItem("theme", next);
       apply(next);
     });
   });
 
   window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
-    const pref = document.documentElement.getAttribute("data-theme-pref") as Theme;
+    const pref = document.documentElement.getAttribute("data-theme-pref");
     if (pref === "system") apply("system");
   });
 }

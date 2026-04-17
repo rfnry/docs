@@ -1,33 +1,53 @@
 ---
 import { docsConfig } from "../config/docs.config";
+import Dropdown from "./Dropdown.astro";
 import Icon from "./Icon.astro";
 const defaultTheme = docsConfig.theme.default;
 ---
-<button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
-  <span class="icon-slot" data-theme-icon="dark"><Icon name="moon" size={16} /></span>
-  <span class="icon-slot" data-theme-icon="light"><Icon name="sun" size={16} /></span>
-  <span class="icon-slot" data-theme-icon="system"><Icon name="monitor" size={16} /></span>
-</button>
+<Dropdown id="theme" align="right" triggerClass="icon-trigger" label="Change theme">
+  <Fragment slot="trigger">
+    <span class="icon-slot" data-theme-icon="dark"><Icon name="moon" size={16} /></span>
+    <span class="icon-slot" data-theme-icon="light"><Icon name="sun" size={16} /></span>
+    <span class="icon-slot" data-theme-icon="system"><Icon name="monitor" size={16} /></span>
+  </Fragment>
+  <Fragment slot="menu">
+    <button type="button" data-theme-set="light">
+      <Icon name="sun" size={14} />
+      <span>Light</span>
+    </button>
+    <button type="button" data-theme-set="dark">
+      <Icon name="moon" size={14} />
+      <span>Dark</span>
+    </button>
+    <button type="button" data-theme-set="system">
+      <Icon name="monitor" size={14} />
+      <span>System</span>
+    </button>
+  </Fragment>
+</Dropdown>
 
 <script define:vars={{ defaultTheme }}>
-  import("../scripts/theme.ts").then((m) => m.initThemeToggle(defaultTheme));
+  import("../scripts/theme.ts").then((m) => m.initTheme(defaultTheme));
 </script>
 
 <style>
-  .theme-toggle {
+  :global(.dropdown-trigger.icon-trigger) {
     width: 32px;
     height: 32px;
-    border-radius: var(--radius);
-    display: inline-flex;
-    align-items: center;
+    padding: 0;
     justify-content: center;
-    color: var(--color-muted);
   }
-  .theme-toggle:hover { background: var(--color-surface-hover); color: var(--color-fg); }
   .icon-slot { display: none; align-items: center; justify-content: center; }
   :global(html[data-theme-pref="dark"]) .icon-slot[data-theme-icon="dark"],
   :global(html[data-theme-pref="light"]) .icon-slot[data-theme-icon="light"],
   :global(html[data-theme-pref="system"]) .icon-slot[data-theme-icon="system"] {
     display: inline-flex;
+  }
+  /* Mark the currently-selected option in the menu. */
+  :global(html[data-theme-pref="dark"]) :global([data-theme-set="dark"]),
+  :global(html[data-theme-pref="light"]) :global([data-theme-set="light"]),
+  :global(html[data-theme-pref="system"]) :global([data-theme-set="system"]) {
+    color: var(--color-fg);
+    background: var(--color-surface);
   }
 </style>

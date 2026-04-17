@@ -1,0 +1,97 @@
+---
+/**
+ * Generic dropdown primitive. Shared behavior (outside-click, Esc,
+ * one-at-a-time, aria-expanded) lives in src/scripts/dropdown.ts.
+ *
+ * Slots:
+ *   trigger — what's shown inside the trigger button
+ *   menu    — the items (anchors, buttons, etc.) rendered inside the menu
+ */
+
+interface Props {
+  id: string;
+  align?: "left" | "right";
+  triggerClass?: string;
+  label?: string;
+}
+const { id, align = "left", triggerClass = "", label } = Astro.props;
+---
+<div class="dropdown" data-dropdown={id} data-align={align}>
+  <button
+    type="button"
+    class:list={["dropdown-trigger", triggerClass]}
+    data-dropdown-trigger
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-label={label}
+  >
+    <slot name="trigger" />
+  </button>
+  <div class="dropdown-menu" data-dropdown-menu role="menu" hidden>
+    <slot name="menu" />
+  </div>
+</div>
+
+<script>
+  import { initDropdowns } from "../scripts/dropdown.ts";
+  initDropdowns();
+</script>
+
+<style>
+  .dropdown { position: relative; display: inline-block; }
+  .dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: .375em;
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+    padding: .375em .5em;
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    transition: background-color .1s, color .1s;
+  }
+  .dropdown-trigger:hover { color: var(--color-fg); background: var(--color-surface-hover); }
+  .dropdown-trigger[aria-expanded="true"] { color: var(--color-fg); background: var(--color-surface-hover); }
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    min-width: 160px;
+    padding: 4px;
+    margin: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    z-index: var(--z-header);
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  }
+  [data-align="left"] .dropdown-menu { left: 0; }
+  [data-align="right"] .dropdown-menu { right: 0; }
+  .dropdown-menu :global(a),
+  .dropdown-menu :global(button) {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    width: 100%;
+    padding: .375em .625em;
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+  }
+  .dropdown-menu :global(a:hover),
+  .dropdown-menu :global(button:hover) {
+    background: var(--color-surface-hover);
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+  .dropdown-menu :global(a.active),
+  .dropdown-menu :global(button.active) {
+    color: var(--color-fg);
+    background: var(--color-surface);
+  }
+</style>

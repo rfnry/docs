@@ -1,5 +1,6 @@
 ---
 import { docsConfig } from "../config/docs.config";
+import Dropdown from "./Dropdown.astro";
 import Icon from "./Icon.astro";
 
 interface Props {
@@ -8,61 +9,26 @@ interface Props {
   currentSlug: string;
 }
 const { currentLocale, currentVersion, currentSlug } = Astro.props;
-const currentLabel = docsConfig.i18n.locales.find((l) => l.code === currentLocale)?.label ?? currentLocale;
 ---
-<details class="picker">
-  <summary>
-    <span class="label">{currentLabel}</span>
-    <Icon name="chevron-down" size={12} />
-  </summary>
-  <ul class="menu">
+<Dropdown id="locale" align="right" triggerClass="icon-trigger" label="Change language">
+  <Fragment slot="trigger">
+    <Icon name="languages" size={16} />
+  </Fragment>
+  <Fragment slot="menu">
     {docsConfig.i18n.locales.map((l) => {
       const href = `/${l.code}/${currentVersion}/${currentSlug}${currentSlug ? "/" : ""}`;
       return (
-        <li>
-          <a href={href} class={l.code === currentLocale ? "active" : ""}>{l.label}</a>
-        </li>
+        <a href={href} class={l.code === currentLocale ? "active" : ""}>{l.label}</a>
       );
     })}
-  </ul>
-</details>
+  </Fragment>
+</Dropdown>
 
 <style>
-  .picker { position: relative; }
-  summary {
-    list-style: none;
-    cursor: pointer;
-    padding: .375em .75em;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    display: inline-flex;
-    align-items: center;
-    gap: .5em;
-    font-size: var(--fs-sm);
-    color: var(--color-muted);
+  :global(.dropdown-trigger.icon-trigger) {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    justify-content: center;
   }
-  summary::-webkit-details-marker { display: none; }
-  summary:hover { color: var(--color-fg); border-color: var(--color-muted); }
-  .menu {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 4px);
-    list-style: none;
-    margin: 0;
-    padding: 4px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    min-width: 180px;
-    z-index: var(--z-header);
-  }
-  .menu a {
-    display: block;
-    padding: .375em .75em;
-    border-radius: var(--radius);
-    font-size: var(--fs-sm);
-    color: var(--color-muted);
-  }
-  .menu a:hover { background: var(--color-surface-hover); color: var(--color-fg); text-decoration: none; }
-  .menu a.active { color: var(--color-fg); }
 </style>
