@@ -5,6 +5,8 @@ import Sidebar from "../../../components/Sidebar.astro";
 import TOC from "../../../components/TOC.astro";
 import CopyForAI from "../../../components/CopyForAI.astro";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
+import { sliceSections, buildContextHeader } from "../../../lib/ai-content";
+import { docsConfig } from "../../../config/docs.config";
 
 export async function getStaticPaths() {
   const entries = await getCollection("docs");
@@ -25,6 +27,18 @@ const { entry, parsed } = Astro.props;
 const { Content, headings } = await render(entry);
 const currentHref = buildDocHref(parsed);
 const mdUrl = `${currentHref.replace(/\/$/, "")}.md`;
+const canonicalUrl = docsConfig.site.url + currentHref;
+
+const sections = sliceSections(entry.body as string).map((s) => ({
+  anchor: s.anchor,
+  payload:
+    buildContextHeader({
+      url: canonicalUrl,
+      version: parsed.version,
+      locale: parsed.locale,
+      anchor: s.anchor,
+    }) + s.markdown,
+}));
 ---
 <Layout
   title={entry.data.title}
@@ -45,12 +59,34 @@ const mdUrl = `${currentHref.replace(/\/$/, "")}.md`;
         </div>
         <Content />
       </article>
+      {sections.map((s) => (
+        <script type="application/json" id={`section-md-${s.anchor}`} set:html={s.payload} is:inline />
+      ))}
     </main>
     <aside class="col-toc">
       <TOC headings={headings} />
     </aside>
   </div>
 </Layout>
+
+<script define:vars={{ mdUrl }}>
+  document.querySelectorAll("article.prose h2[data-section-heading]").forEach((h2) => {
+    if (h2.querySelector(".copy-ai")) return;
+    const anchor = h2.getAttribute("data-section-heading");
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "copy-ai section";
+    btn.setAttribute("data-copy-ai", "");
+    btn.setAttribute("data-copy-ai-url", mdUrl);
+    btn.setAttribute("data-copy-ai-anchor", anchor);
+    btn.setAttribute("aria-label", `Copy section "${h2.textContent}" for AI`);
+    const span = document.createElement("span");
+    span.setAttribute("data-copy-ai-label", "");
+    span.textContent = "Copy";
+    btn.appendChild(span);
+    h2.appendChild(btn);
+  });
+</script>
 
 <script>
   import { initCopyForAI } from "../../../scripts/copy-ai.ts";

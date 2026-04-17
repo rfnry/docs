@@ -1,6 +1,8 @@
 // astro.config.mjs
 // @ts-check
 import { defineConfig } from "astro/config";
+import rehypeSlug from "rehype-slug";
+import rehypeSectionAnchors from "./src/lib/remark/section-anchors.mjs";
 import { docsConfig } from "./src/config/docs.config.ts";
 
 export default defineConfig({
@@ -15,7 +17,6 @@ export default defineConfig({
       themes: { light: "github-light", dark: "github-dark" },
       wrap: true,
     },
-    remarkPlugins: [],
-    rehypePlugins: [],
+    rehypePlugins: [rehypeSlug, rehypeSectionAnchors],
   },
 });

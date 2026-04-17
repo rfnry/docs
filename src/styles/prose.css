@@ -55,3 +55,18 @@
 .prose table { width: 100%; border-collapse: collapse; margin: 0 0 1em; font-size: var(--fs-sm); }
 .prose th, .prose td { border: 1px solid var(--color-border); padding: .5em .75em; text-align: left; }
 .prose th { background: var(--color-surface); font-weight: 600; }
+.prose h2 .copy-ai {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  padding: 2px 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-subtle);
+  background: transparent;
+  opacity: 0;
+  transition: opacity .15s;
+  cursor: pointer;
+}
+.prose h2:hover .copy-ai,
+.prose h2 .copy-ai:focus-visible { opacity: 1; }
+.prose h2 .copy-ai:hover { color: var(--color-fg); border-color: var(--color-muted); }
