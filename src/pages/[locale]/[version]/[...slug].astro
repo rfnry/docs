@@ -4,6 +4,7 @@ import Layout from "../../../layouts/Layout.astro";
 import Sidebar from "../../../components/Sidebar.astro";
 import TOC from "../../../components/TOC.astro";
 import CopyForAI from "../../../components/CopyForAI.astro";
+import PrevNext from "../../../components/PrevNext.astro";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
 import { sliceSections, buildContextHeader } from "../../../lib/ai-content";
 import { docsConfig } from "../../../config/docs.config";
@@ -59,6 +60,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
         </div>
         <Content />
       </article>
+      <PrevNext locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
       {sections.map((s) => (
         <script type="application/json" id={`section-md-${s.anchor}`} set:html={s.payload} is:inline />
       ))}

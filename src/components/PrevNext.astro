@@ -1,0 +1,77 @@
+---
+import { getCollection } from "astro:content";
+import { buildSidebarTree, type SidebarNode } from "../lib/sidebar";
+import { loadGroups } from "../lib/groups";
+
+interface Props {
+  locale: string;
+  version: string;
+  currentHref: string;
+}
+const { locale, version, currentHref } = Astro.props;
+
+const entries = await getCollection("docs");
+const simpleEntries = entries.map((e) => ({
+  id: e.id,
+  title: e.data.sidebar.label ?? e.data.title,
+  order: e.data.sidebar.order,
+  hidden: e.data.sidebar.hidden,
+}));
+const tree = buildSidebarTree({
+  version,
+  locale,
+  entries: simpleEntries,
+  groups: loadGroups(version, locale),
+});
+
+const flat: { href: string; label: string }[] = [];
+const walk = (nodes: SidebarNode[]) => {
+  for (const n of nodes) {
+    if (n.href) flat.push({ href: n.href, label: n.label });
+    if (n.children) walk(n.children);
+  }
+};
+walk(tree);
+
+const idx = flat.findIndex((f) => f.href === currentHref);
+const prev = idx > 0 ? flat[idx - 1] : null;
+const next = idx >= 0 && idx < flat.length - 1 ? flat[idx + 1] : null;
+---
+<nav class="prevnext" aria-label="Previous and next page">
+  {prev ? (
+    <a href={prev.href} class="side prev">
+      <span class="dir">Previous</span>
+      <span class="ttl">{prev.label}</span>
+    </a>
+  ) : <div />}
+  {next ? (
+    <a href={next.href} class="side next">
+      <span class="dir">Next</span>
+      <span class="ttl">{next.label}</span>
+    </a>
+  ) : <div />}
+</nav>
+
+<style>
+  .prevnext {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 3em 0 1em;
+    padding-top: 2em;
+    border-top: 1px solid var(--color-border);
+  }
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-fg);
+  }
+  .side:hover { border-color: var(--color-muted); text-decoration: none; }
+  .next { text-align: right; }
+  .dir { font-size: var(--fs-xs); color: var(--color-subtle); text-transform: uppercase; letter-spacing: .05em; }
+  .ttl { font-weight: 500; }
+</style>
