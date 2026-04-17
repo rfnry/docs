@@ -47,7 +47,8 @@ export const GET: APIRoute = async ({ params }) => {
   lines.push("");
   lines.push(`> ${site.description}`);
   lines.push("");
-  lines.push(`Version: ${version} · Locale: ${locale}`);
+  lines.push(`Version: ${version}`);
+  lines.push(`Locale: ${locale}`);
   lines.push("");
   lines.push("## Pages");
   lines.push("");

@@ -39,7 +39,8 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
     padding: .25em .5em;
     border-radius: var(--radius);
   }
-  a:hover {
+  a:hover,
+  a.active:hover {
     color: var(--color-fg);
     text-decoration: none;
     background: var(--color-bg-hover);

@@ -5,7 +5,6 @@ import Icon from "./primitives/Icon.astro";
 <Button class="search-trigger" data-search-trigger aria-label="Search">
   <Icon name="search" size={14} />
   <span class="search-label">Search…</span>
-  <kbd>Ctrl K</kbd>
 </Button>
 
 <dialog class="dialog" data-search-dialog>
@@ -29,7 +28,7 @@ import Icon from "./primitives/Icon.astro";
     max-width: 400px;
     min-width: 240px;
     gap: 8px;
-    padding: 0 4px 0 10px;
+    padding: 0 10px;
     justify-content: flex-start;
   }
   .search-label {
@@ -38,19 +37,6 @@ import Icon from "./primitives/Icon.astro";
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  :global(.search-trigger) kbd {
-    display: inline-flex;
-    align-items: center;
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    height: 20px;
-    padding: 0 6px;
-    border: 1px solid var(--color-lines);
-    border-radius: max(0px, calc(var(--radius) - 2px));
-    background: var(--color-bg-inner);
-    white-space: nowrap;
-    flex-shrink: 0;
   }
 
   @media (max-width: 768px) {
@@ -61,8 +47,7 @@ import Icon from "./primitives/Icon.astro";
       justify-content: center;
       flex-shrink: 0;
     }
-    .search-label,
-    :global(.search-trigger) kbd {
+    .search-label {
       display: none;
     }
   }

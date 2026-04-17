@@ -65,7 +65,7 @@ export interface ContextArgs {
 }
 
 export function buildContextHeader(args: ContextArgs): string {
-  const lines = [`> Source: ${args.url}`, `> Version: ${args.version} · Locale: ${args.locale}`];
+  const lines = [`> Source: ${args.url}`, `> Version: ${args.version}`, `> Locale: ${args.locale}`];
   if (args.anchor) lines.push(`> Anchor: #${args.anchor}`);
   lines.push("");
   return lines.join("\n");
