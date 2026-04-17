@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import Sidebar from "../../../components/Sidebar.astro";
 import TOC from "../../../components/TOC.astro";
+import CopyForAI from "../../../components/CopyForAI.astro";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
 
 export async function getStaticPaths() {
@@ -23,6 +24,7 @@ export async function getStaticPaths() {
 const { entry, parsed } = Astro.props;
 const { Content, headings } = await render(entry);
 const currentHref = buildDocHref(parsed);
+const mdUrl = `${currentHref.replace(/\/$/, "")}.md`;
 ---
 <Layout
   title={entry.data.title}
@@ -38,6 +40,9 @@ const currentHref = buildDocHref(parsed);
     <main class="col-content">
       <article class="prose">
         <h1>{entry.data.title}</h1>
+        <div class="page-actions">
+          <CopyForAI url={mdUrl} />
+        </div>
         <Content />
       </article>
     </main>
@@ -46,6 +51,11 @@ const currentHref = buildDocHref(parsed);
     </aside>
   </div>
 </Layout>
+
+<script>
+  import { initCopyForAI } from "../../../scripts/copy-ai.ts";
+  initCopyForAI();
+</script>
 
 <style>
   .shell {
@@ -70,6 +80,7 @@ const currentHref = buildDocHref(parsed);
   .col-toc {
     border-left: 1px solid var(--color-border);
   }
+  .page-actions { display: flex; gap: 8px; margin: -0.5em 0 1.5em; }
   @media (max-width: 1024px) {
     .shell { grid-template-columns: var(--sidebar-w) 1fr; }
     .col-toc { display: none; }
