@@ -1,0 +1,46 @@
+---
+import "../styles/reset.css";
+import "../styles/tokens.css";
+import "../styles/prose.css";
+import { docsConfig } from "../config/docs.config";
+
+interface Props {
+  title: string;
+  description: string;
+  locale: string;
+}
+
+const { title, description, locale } = Astro.props;
+const themeDefault = docsConfig.theme.default;
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <script is:inline define:vars={{ themeDefault }}>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var theme = stored || themeDefault;
+          if (theme === "system") {
+            theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          }
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  body { min-height: 100vh; }
+</style>
