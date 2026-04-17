@@ -1,6 +1,8 @@
 ---
 import type { SidebarNode } from "../lib/sidebar";
+import { containsHref } from "../lib/sidebar";
 import Self from "./SidebarNode.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
   node: SidebarNode;
@@ -9,6 +11,8 @@ interface Props {
 const { node, currentHref } = Astro.props;
 const isLeaf = !!node.href;
 const isActive = node.href === currentHref;
+const hasActive = isLeaf ? false : containsHref(node, currentHref);
+const initiallyOpen = !node.collapsed || hasActive;
 ---
 {isLeaf ? (
   <li class="item">
@@ -16,10 +20,15 @@ const isActive = node.href === currentHref;
   </li>
 ) : (
   <li class="group-wrap">
-    <div class="group">{node.label}</div>
-    <ul class="children">
-      {node.children?.map((child) => <Self node={child} currentHref={currentHref} />)}
-    </ul>
+    <details open={initiallyOpen}>
+      <summary class="group">
+        <span class="chev" aria-hidden="true"><Icon name="chevron-right" size={12} /></span>
+        <span class="group-label">{node.label}</span>
+      </summary>
+      <ul class="children">
+        {node.children?.map((child) => <Self node={child} currentHref={currentHref} />)}
+      </ul>
+    </details>
   </li>
 )}
 
@@ -42,21 +51,39 @@ const isActive = node.href === currentHref;
     background: var(--color-surface);
     font-weight: 500;
   }
-  .group {
+
+  details { padding: 0; }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: .375em;
+    padding: .375em .625em;
     margin: 0 0 .25em;
+    border-radius: var(--radius);
     font-size: var(--fs-xs);
     text-transform: uppercase;
     letter-spacing: .05em;
     color: var(--color-subtle);
-    padding: 0 .625em;
     font-weight: 600;
+    user-select: none;
   }
+  summary::-webkit-details-marker { display: none; }
+  summary::marker { content: ""; }
+  summary:hover { color: var(--color-fg); background: var(--color-surface-hover); }
+  .chev { display: inline-flex; transition: transform .15s; }
+  details[open] > summary .chev { transform: rotate(90deg); }
+
   .children {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0 0 .875em;
+    border-left: 1px solid var(--color-border);
+    margin-left: .75em;
   }
-  /* Top-level group separator — a line above each group after the first. */
+
+  /* Top-level group separator. */
   .group-wrap {
     padding-top: 1em;
     margin-top: 1em;
@@ -67,10 +94,10 @@ const isActive = node.href === currentHref;
     margin-top: 0;
     border-top: none;
   }
-  /* Nested groups (inside .children) don't get their own separator. */
+  /* Nested groups (inside .children) have no separator. */
   .children .group-wrap {
-    padding-top: .5em;
-    margin-top: .5em;
+    padding-top: 0;
+    margin-top: .25em;
     border-top: none;
   }
 </style>

@@ -111,3 +111,8 @@ export function flattenSidebarHrefs(tree: SidebarNode[]): string[] {
   walk(tree);
   return out;
 }
+
+export function containsHref(node: SidebarNode, href: string): boolean {
+  if (node.href === href) return true;
+  return node.children?.some((c) => containsHref(c, href)) ?? false;
+}
