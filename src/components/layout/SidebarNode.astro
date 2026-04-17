@@ -23,7 +23,7 @@ const initiallyOpen = !node.collapsed || hasActive;
     <details open={initiallyOpen}>
       <summary class="group">
         <span class="group-row">
-          <Icon name="chevron-right" size={12} class="chev" />
+          <span class="chev"><Icon name="chevron-right" size={12} /></span>
           <span class="group-label">{node.label}</span>
         </span>
       </summary>
@@ -79,6 +79,7 @@ const initiallyOpen = !node.collapsed || hasActive;
   }
   summary.group:hover .group-row { color: var(--color-fg); }
   .chev {
+    display: inline-flex;
     flex-shrink: 0;
     transition: transform .15s;
   }

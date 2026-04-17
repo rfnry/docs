@@ -28,10 +28,9 @@ const showLogo = docsConfig.site.logo.enabled;
       </a>
       <VersionPicker currentLocale={currentLocale} currentVersion={currentVersion} />
     </div>
-    <div class="middle">
-      <Search />
-    </div>
+    <div class="spacer" aria-hidden="true"></div>
     <div class="right">
+      <Search />
       {docsConfig.headerLinks.map((l) => (
         <a href={l.href} class="link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener" : undefined}>
           {l.label}
@@ -67,28 +66,37 @@ const showLogo = docsConfig.site.logo.enabled;
     gap: var(--gutter);
     align-items: center;
   }
-  .left, .right { display: flex; align-items: center; gap: 12px; }
-  .middle { min-width: 0; display: flex; justify-content: center; }
-  .brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+  .left, .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+  .brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; flex-shrink: 0; }
   .brand:hover { text-decoration: none; }
-  .logo { width: 20px; height: 20px; }
+  .logo { width: 20px; height: 20px; flex-shrink: 0; }
   .link {
     font-size: var(--fs-sm);
     color: var(--color-muted);
     padding: .375em .5em;
+    flex-shrink: 0;
   }
   .link:hover { color: var(--color-fg); text-decoration: none; }
   .icon-link { display: inline-flex; align-items: center; }
   .hamburger {
     display: none;
-    padding: 6px;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
     color: var(--color-muted);
     border-radius: var(--radius);
+    flex-shrink: 0;
   }
   .hamburger:hover { color: var(--color-fg); background: var(--color-surface-hover); }
   @media (max-width: 768px) {
     .brand-text { display: none; }
-    .middle { display: none; }
     .hamburger { display: inline-flex; }
   }
 </style>

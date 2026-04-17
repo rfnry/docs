@@ -14,11 +14,7 @@ function apply(theme: Theme) {
   document.documentElement.setAttribute("data-theme-pref", theme);
 }
 
-export function initTheme(defaultTheme: Theme) {
-  const stored = localStorage.getItem("theme");
-  const initial: Theme = isTheme(stored) ? stored : defaultTheme;
-  apply(initial);
-
+export function initTheme() {
   document.querySelectorAll<HTMLButtonElement>("[data-theme-set]").forEach((btn) => {
     if (btn.dataset.themeBound === "1") return;
     btn.dataset.themeBound = "1";
