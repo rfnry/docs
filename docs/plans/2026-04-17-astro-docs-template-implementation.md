@@ -130,10 +130,10 @@ export interface DocsConfig {
 
 export const docsConfig = {
   site: {
-    title: "Rfnry Docs",
-    description: "Documentation for the Rfnry project.",
+    title: "rfnry Docs",
+    description: "Documentation for the rfnry project.",
     url: "https://docs.rfnry.dev",
-    logo: { src: "/logo.svg", alt: "Rfnry" },
+    logo: { src: "/logo.svg", alt: "rfnry" },
     github: undefined,
   },
   i18n: {
@@ -281,16 +281,16 @@ git commit -m "feat: define docs content collection"
 ```md
 ---
 title: Welcome
-description: Introduction to Rfnry documentation.
+description: Introduction to rfnry documentation.
 sidebar:
   order: 1
 ---
 
 # Welcome
 
-This is the documentation for Rfnry.
+This is the documentation for rfnry.
 
-## What is Rfnry?
+## What is rfnry?
 
 A short description of the project goes here.
 
@@ -335,7 +335,7 @@ rfnry --version
 ```md
 ---
 title: Quickstart
-description: Your first Rfnry build in five minutes.
+description: Your first rfnry build in five minutes.
 sidebar:
   order: 2
 ---
@@ -370,14 +370,14 @@ collapsed: false
 ```md
 ---
 title: Bem-vindo
-description: Introdução à documentação do Rfnry.
+description: Introdução à documentação do rfnry.
 sidebar:
   order: 1
 ---
 
 # Bem-vindo
 
-Esta é a documentação do Rfnry.
+Esta é a documentação do rfnry.
 ```
 
 **Step 6: Write `src/content/docs/v1/pt-br/guides/installation.md`**
@@ -2176,7 +2176,7 @@ describe("sliceSections", () => {
   });
 
   it("slugs heading text lowercase with hyphens", () => {
-    const md = "# T\n\n## Getting Started With Rfnry\n\nText.";
+    const md = "# T\n\n## Getting Started With rfnry\n\nText.";
     const sections = sliceSections(md);
     expect(sections[0].anchor).toBe("getting-started-with-rfnry");
   });
@@ -3364,7 +3364,7 @@ No commit needed. If anything fails, diagnose and fix before ending this task. E
 **Step 1: Replace `README.md`**
 
 ```md
-# Rfnry Docs Template
+# rfnry Docs Template
 
 Minimal, opinionated Astro starter for documentation sites with versioning, i18n, and first-class AI-consumption endpoints.
 

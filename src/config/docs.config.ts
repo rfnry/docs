@@ -1,5 +1,3 @@
-// src/config/docs.config.ts
-
 export type LocaleCode = string;
 
 export interface LocaleEntry {
@@ -40,8 +38,6 @@ export const docsConfig = {
   site: {
     title: "Docs",
     description: "Project documentation.",
-    // REQUIRED: change to your own domain before deploying.
-    // Emitted verbatim into every .md endpoint, llms.txt, llms-full.txt, and canonical link.
     url: "https://example.com",
     logo: { enabled: false, src: "/logo.svg", alt: "Docs" },
     github: undefined,

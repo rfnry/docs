@@ -1,4 +1,4 @@
-const SCROLL_OFFSET = 100; // px below the fixed header where the "active" line sits
+const SCROLL_OFFSET = 100;
 
 export function initTOC() {
   const toc = document.querySelector<HTMLElement>("[data-toc]");

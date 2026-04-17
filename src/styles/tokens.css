@@ -21,7 +21,6 @@
   --fs-xl: 1.5rem;
   --fs-2xl: 2rem;
 
-  /* Single source for corner radius across the whole UI. */
   --radius: 6px;
 
   --header-h: 56px;

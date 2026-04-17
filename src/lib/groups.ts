@@ -7,11 +7,6 @@ const raw = import.meta.glob("/src/content/docs/**/_group.yaml", {
   eager: true,
 }) as Record<string, string>;
 
-/**
- * Returns a Map keyed by folder path relative to a given {version, locale} root.
- * Example: for path "/src/content/docs/v1/en/guides/_group.yaml" and args
- * {version:"v1", locale:"en"}, the key is "guides".
- */
 export function loadGroups(version: string, locale: string): Map<string, GroupMeta> {
   const prefix = `/src/content/docs/${version}/${locale}/`;
   const map = new Map<string, GroupMeta>();

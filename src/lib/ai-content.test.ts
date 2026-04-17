@@ -50,7 +50,7 @@ describe("sliceSections", () => {
   });
 
   it("slugs heading text lowercase with hyphens", () => {
-    const md = "# T\n\n## Getting Started With Rfnry\n\nText.";
+    const md = "# T\n\n## Getting Started With rfnry\n\nText.";
     const sections = sliceSections(md);
     expect(sections[0].anchor).toBe("getting-started-with-rfnry");
   });

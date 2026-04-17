@@ -1,4 +1,3 @@
-// astro.config.mjs
 // @ts-check
 import { defineConfig } from "astro/config";
 import rehypeSlug from "rehype-slug";

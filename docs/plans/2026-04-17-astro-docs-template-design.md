@@ -221,10 +221,10 @@ This happens in `src/lib/sidebar.ts`, called from the layout with `(locale, vers
 ```ts
 export const docsConfig = {
   site: {
-    title: 'Rfnry Docs',
+    title: 'rfnry Docs',
     description: '...',
     url: 'https://docs.rfnry.dev',
-    logo: { src: '/logo.svg', alt: 'Rfnry' },
+    logo: { src: '/logo.svg', alt: 'rfnry' },
     github: 'https://github.com/...',
   },
   i18n: {

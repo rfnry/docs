@@ -1,11 +1,3 @@
-/**
- * Behavior for <Dropdown>: click-toggle, one-at-a-time, outside-click to close,
- * Esc to close, auto-close when an item inside the menu is activated.
- *
- * Bindings are idempotent — components can call initDropdowns() on every
- * mount without duplicating listeners.
- */
-
 const GLOBAL_FLAG = "__dropdownGlobalBound";
 
 export function initDropdowns() {
@@ -29,7 +21,6 @@ export function initDropdowns() {
 
     menu.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
-      // Close after clicking any interactive element inside the menu.
       if (target.closest("a, button, [data-dropdown-close]")) {
         close(trigger, menu);
       }

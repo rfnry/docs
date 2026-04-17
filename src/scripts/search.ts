@@ -91,7 +91,6 @@ function renderHit(d: any): HTMLElement {
 
   const excerptEl = document.createElement("div");
   excerptEl.className = "hit-excerpt";
-  // Pagefind escapes excerpt text and emits <mark> tags for highlights.
   excerptEl.innerHTML = typeof d.excerpt === "string" ? d.excerpt : "";
 
   a.append(titleEl, excerptEl);

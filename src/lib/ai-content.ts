@@ -21,12 +21,6 @@ function slugify(text: string): string {
     .replace(/-+/g, "-");
 }
 
-/**
- * Splits markdown into sections at H2 boundaries.
- * Each section includes its H2 line and all content up to the next H2 (exclusive).
- * Content above the first H2 is ignored (belongs to the page intro, not a section).
- * Fenced code blocks are respected — a "## " inside a code fence is not a heading.
- */
 export function sliceSections(markdown: string): Section[] {
   const lines = markdown.split("\n");
   const sections: Section[] = [];

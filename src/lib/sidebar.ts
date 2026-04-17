@@ -25,7 +25,6 @@ interface BuildArgs {
   version: string;
   locale: string;
   entries: SidebarEntry[];
-  /** key = folder path relative to `{version}/{locale}/`, e.g. "guides" or "guides/advanced" */
   groups: Map<string, GroupMeta>;
 }
 
