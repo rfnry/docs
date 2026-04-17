@@ -30,17 +30,17 @@ import Icon from "./primitives/Icon.astro";
     width: 100%;
     max-width: 320px;
     padding: 6px 10px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-lines);
     border-radius: var(--radius);
     color: var(--color-muted);
     font-size: var(--fs-sm);
-    background: var(--color-surface);
+    background: var(--color-bg-inner);
   }
   .trigger span { flex: 1; text-align: left; }
   .trigger kbd {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-lines);
     border-radius: var(--radius);
     padding: 1px 5px;
     background: var(--color-bg);
@@ -57,8 +57,8 @@ import Icon from "./primitives/Icon.astro";
   }
   .dialog::backdrop { background: rgba(0,0,0,.6); backdrop-filter: blur(4px); }
   .box {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-bg-inner);
+    border: 1px solid var(--color-lines);
     border-radius: var(--radius);
     overflow: hidden;
   }
@@ -67,7 +67,7 @@ import Icon from "./primitives/Icon.astro";
     align-items: center;
     gap: 10px;
     padding: 12px 14px;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-lines);
     color: var(--color-muted);
   }
   .input-row input {
@@ -92,7 +92,7 @@ import Icon from "./primitives/Icon.astro";
     border-radius: var(--radius);
     color: var(--color-fg);
   }
-  .results li a:hover { background: var(--color-surface-hover); text-decoration: none; }
+  .results li a:hover { background: var(--color-bg-hover); text-decoration: none; }
   .hit-title { font-weight: 500; }
   .hit-excerpt { font-size: var(--fs-sm); color: var(--color-muted); margin-top: 2px; }
 </style>

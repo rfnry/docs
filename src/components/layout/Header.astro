@@ -53,8 +53,8 @@ const showLogo = docsConfig.site.logo.enabled;
     top: 0;
     z-index: var(--z-header);
     height: var(--header-h);
-    background: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-inner);
+    border-bottom: 1px solid var(--color-lines);
   }
   .inner {
     max-width: var(--shell-max, 1280px);
@@ -94,7 +94,7 @@ const showLogo = docsConfig.site.logo.enabled;
     border-radius: var(--radius);
     flex-shrink: 0;
   }
-  .hamburger:hover { color: var(--color-fg); background: var(--color-surface-hover); }
+  .hamburger:hover { color: var(--color-fg); background: var(--color-bg-hover); }
   @media (max-width: 768px) {
     .brand-text { display: none; }
     .hamburger { display: inline-flex; }

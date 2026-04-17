@@ -43,16 +43,16 @@ const { id, align = "left", triggerClass = "", label } = Astro.props;
     border: none;
     transition: background-color .1s, color .1s;
   }
-  .dropdown-trigger:hover { color: var(--color-fg); background: var(--color-surface-hover); }
-  .dropdown-trigger[aria-expanded="true"] { color: var(--color-fg); background: var(--color-surface-hover); }
+  .dropdown-trigger:hover { color: var(--color-fg); background: var(--color-bg-hover); }
+  .dropdown-trigger[aria-expanded="true"] { color: var(--color-fg); background: var(--color-bg-hover); }
   .dropdown-menu {
     position: absolute;
     top: calc(100% + 6px);
     min-width: 160px;
     padding: 4px;
     margin: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-bg-inner);
+    border: 1px solid var(--color-lines);
     border-radius: var(--radius);
     z-index: var(--z-header);
     box-shadow: 0 4px 12px rgba(0,0,0,.25);
@@ -76,13 +76,13 @@ const { id, align = "left", triggerClass = "", label } = Astro.props;
   }
   .dropdown-menu :global(a:hover),
   .dropdown-menu :global(button:hover) {
-    background: var(--color-surface-hover);
+    background: var(--color-bg-hover);
     color: var(--color-fg);
     text-decoration: none;
   }
   .dropdown-menu :global(a.active),
   .dropdown-menu :global(button.active) {
     color: var(--color-fg);
-    background: var(--color-surface);
+    background: var(--color-bg-inner);
   }
 </style>

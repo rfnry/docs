@@ -1,12 +1,12 @@
 :root {
   --color-bg: #000000;
+  --color-bg-inner: #0a0a0a;
+  --color-bg-hover: #141414;
   --color-fg: #fafafa;
   --color-muted: #a1a1aa;
   --color-subtle: #71717a;
-  --color-border: #27272a;
-  --color-tree-line: #52525b;
-  --color-surface: #09090b;
-  --color-surface-hover: #18181b;
+  --color-lines: #1f1f1f;
+  --color-tree-line: #2e2e2e;
   --color-accent: #fafafa;
   --color-accent-fg: #000000;
   --color-link: #fafafa;
@@ -38,13 +38,13 @@
 
 [data-theme="light"] {
   --color-bg: #ffffff;
+  --color-bg-inner: #fafafa;
+  --color-bg-hover: #f4f4f5;
   --color-fg: #0a0a0a;
   --color-muted: #52525b;
   --color-subtle: #71717a;
-  --color-border: #e4e4e7;
-  --color-tree-line: #a1a1aa;
-  --color-surface: #fafafa;
-  --color-surface-hover: #f4f4f5;
+  --color-lines: #e4e4e7;
+  --color-tree-line: #d4d4d8;
   --color-accent: #0a0a0a;
   --color-accent-fg: #ffffff;
   --color-link: #0a0a0a;
