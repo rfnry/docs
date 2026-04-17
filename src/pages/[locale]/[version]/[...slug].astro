@@ -164,7 +164,12 @@ const sections = sliceSections(entry.body as string).map((s) => ({
     .col-sidebar {
       display: none;
       position: fixed;
-      inset: var(--header-h) 0 0 0;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: calc(100dvh - var(--header-h));
       background: var(--color-bg-inner);
       z-index: calc(var(--z-header) - 1);
       max-height: none;
@@ -191,6 +196,10 @@ const sections = sliceSections(entry.body as string).map((s) => ({
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+    .mobile-footer :global(.dropdown-menu) {
+      top: auto;
+      bottom: calc(100% + 6px);
     }
   }
 </style>
