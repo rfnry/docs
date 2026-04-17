@@ -1,16 +1,16 @@
-import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
-import { parseEntryId, buildDocHref } from "../../../lib/routing";
-import { buildSidebarTree, flattenSidebarHrefs } from "../../../lib/sidebar";
-import { loadGroups } from "../../../lib/groups";
-import { stripFrontmatter } from "../../../lib/ai-content";
+import type { APIRoute } from "astro";
 import { docsConfig } from "../../../docs.config";
+import { stripFrontmatter } from "../../../lib/ai-content";
+import { loadGroups } from "../../../lib/groups";
+import { buildDocHref, parseEntryId } from "../../../lib/routing";
+import { buildSidebarTree, flattenSidebarHrefs } from "../../../lib/sidebar";
 
 export async function getStaticPaths() {
   return docsConfig.versions.flatMap((v) =>
     docsConfig.i18n.locales.map((l) => ({
       params: { locale: l.code, version: v.id },
-    }))
+    })),
   );
 }
 

@@ -1,4 +1,4 @@
-import { parseEntryId, buildDocHref } from "./routing";
+import { buildDocHref, parseEntryId } from "./routing";
 
 export interface SidebarEntry {
   id: string;
@@ -74,7 +74,7 @@ export function buildSidebarTree(args: BuildArgs): SidebarNode[] {
     cursor.children.set(leafKey, { kind: "leaf", entry, parsed });
   }
 
-  const toNode = (bucket: Bucket | Leaf, key: string): SidebarNode => {
+  const toNode = (bucket: Bucket | Leaf): SidebarNode => {
     if (bucket.kind === "leaf") {
       return {
         label: bucket.entry.title,
@@ -83,8 +83,8 @@ export function buildSidebarTree(args: BuildArgs): SidebarNode[] {
       };
     }
     const meta = groups.get(bucket.folderPath);
-    const children = [...bucket.children.entries()]
-      .map(([k, b]) => toNode(b, k))
+    const children = [...bucket.children.values()]
+      .map((b) => toNode(b))
       .sort((a, b) => a.order - b.order || a.label.localeCompare(b.label));
     return {
       label: meta?.label ?? humanize(bucket.folderPath),
@@ -94,8 +94,8 @@ export function buildSidebarTree(args: BuildArgs): SidebarNode[] {
     };
   };
 
-  return [...root.children.entries()]
-    .map(([k, b]) => toNode(b, k))
+  return [...root.children.values()]
+    .map((b) => toNode(b))
     .sort((a, b) => a.order - b.order || a.label.localeCompare(b.label));
 }
 

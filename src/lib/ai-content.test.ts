@@ -1,9 +1,5 @@
-import { describe, it, expect } from "vitest";
-import {
-  sliceSections,
-  buildContextHeader,
-  stripFrontmatter,
-} from "./ai-content";
+import { describe, expect, it } from "vitest";
+import { buildContextHeader, sliceSections, stripFrontmatter } from "./ai-content";
 
 describe("stripFrontmatter", () => {
   it("removes YAML frontmatter block at the top", () => {

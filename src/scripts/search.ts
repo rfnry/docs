@@ -20,7 +20,6 @@ export function initSearch() {
   if (!trigger || !dialog || !input || !results) return;
 
   const version = document.documentElement.getAttribute("data-version") ?? "";
-  const locale = document.documentElement.getAttribute("lang") ?? "";
 
   const open = async () => {
     dialog.showModal();

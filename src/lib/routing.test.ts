@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { parseEntryId, buildDocHref, isVersion, isLocale } from "./routing";
+import { describe, expect, it } from "vitest";
+import { buildDocHref, isLocale, isVersion, parseEntryId } from "./routing";
 
 describe("parseEntryId", () => {
   it("parses a nested path", () => {
@@ -38,7 +38,7 @@ describe("buildDocHref", () => {
 
   it("builds a nested href", () => {
     expect(buildDocHref({ version: "v1", locale: "en", slug: "guides/installation" })).toBe(
-      "/en/v1/guides/installation/"
+      "/en/v1/guides/installation/",
     );
   });
 });

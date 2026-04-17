@@ -9,13 +9,11 @@ export function initTOC() {
     links.set(a.getAttribute("href")!.slice(1), a);
   });
 
-  const headings = Array.from(
-    document.querySelectorAll<HTMLElement>("article.prose h2[id], article.prose h3[id]"),
-  );
+  const headings = Array.from(document.querySelectorAll<HTMLElement>("article.prose h2[id], article.prose h3[id]"));
   if (headings.length === 0) return;
 
   const setActive = (id: string | null) => {
-    toc.querySelectorAll("a.active").forEach((a) => a.classList.remove("active"));
+    for (const a of toc.querySelectorAll("a.active")) a.classList.remove("active");
     if (id) links.get(id)?.classList.add("active");
   };
 

@@ -25,3 +25,5 @@ pnpm-debug.log*
 
 # reference template kept in-repo for comparison only
 reference-docs/
+
+/docs/plans

@@ -15,9 +15,7 @@ export const docsConfig = {
       { code: "pt-br", label: "Português (Brasil)" },
     ],
   },
-  versions: [
-    { id: "v1", label: "v1.0", current: true },
-  ],
+  versions: [{ id: "v1", label: "v1.0", current: true }],
   theme: { default: "system" },
-  headerLinks: [],
+  headerLinks: [] as DocsConfig["headerLinks"],
 } satisfies DocsConfig;

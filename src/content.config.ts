@@ -1,6 +1,6 @@
 import { defineCollection } from "astro:content";
-import { z } from "astro/zod";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const docs = defineCollection({
   loader: glob({
@@ -16,7 +16,7 @@ const docs = defineCollection({
         label: z.string().optional(),
         hidden: z.boolean().default(false),
       })
-      .default({}),
+      .default({ order: 100, hidden: false }),
   }),
 });
 

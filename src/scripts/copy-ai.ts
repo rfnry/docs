@@ -17,7 +17,7 @@ export function initCopyForAI() {
         setLabel("Copying…");
         const anchor = btn.getAttribute("data-copy-ai-anchor");
         const finalText = anchor
-          ? readSectionMarkdown(anchor) ?? (await fetchMarkdown(url))
+          ? (readSectionMarkdown(anchor) ?? (await fetchMarkdown(url)))
           : await fetchMarkdown(url);
 
         await navigator.clipboard.writeText(finalText);

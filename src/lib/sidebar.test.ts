@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { buildSidebarTree, type SidebarEntry, type GroupMeta } from "./sidebar";
+import { describe, expect, it } from "vitest";
+import { buildSidebarTree, type GroupMeta, type SidebarEntry } from "./sidebar";
 
 const make = (id: string, title: string, order = 100, hidden = false): SidebarEntry => ({
   id,
@@ -10,10 +10,7 @@ const make = (id: string, title: string, order = 100, hidden = false): SidebarEn
 
 describe("buildSidebarTree", () => {
   it("returns a flat list when there are no folders", () => {
-    const entries = [
-      make("v1/en/index", "Home", 1),
-      make("v1/en/about", "About", 2),
-    ];
+    const entries = [make("v1/en/index", "Home", 1), make("v1/en/about", "About", 2)];
     const tree = buildSidebarTree({ version: "v1", locale: "en", entries, groups: new Map() });
     expect(tree.map((n) => n.label)).toEqual(["Home", "About"]);
     expect(tree[0].href).toBe("/en/v1/");
@@ -26,9 +23,7 @@ describe("buildSidebarTree", () => {
       make("v1/en/guides/installation", "Install", 1),
       make("v1/en/guides/quickstart", "Quickstart", 2),
     ];
-    const groups = new Map<string, GroupMeta>([
-      ["guides", { label: "Guides", order: 2, collapsed: false }],
-    ]);
+    const groups = new Map<string, GroupMeta>([["guides", { label: "Guides", order: 2, collapsed: false }]]);
     const tree = buildSidebarTree({ version: "v1", locale: "en", entries, groups });
     expect(tree).toHaveLength(2);
     expect(tree[0].label).toBe("Home");
@@ -37,10 +32,7 @@ describe("buildSidebarTree", () => {
   });
 
   it("filters out hidden entries", () => {
-    const entries = [
-      make("v1/en/index", "Home", 1),
-      make("v1/en/secret", "Secret", 2, true),
-    ];
+    const entries = [make("v1/en/index", "Home", 1), make("v1/en/secret", "Secret", 2, true)];
     const tree = buildSidebarTree({ version: "v1", locale: "en", entries, groups: new Map() });
     expect(tree).toHaveLength(1);
   });

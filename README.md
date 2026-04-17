@@ -1,25 +1,62 @@
-# rfnry Docs Template
+# rfnry docs
 
 Minimal, opinionated Astro starter for documentation sites with versioning, i18n, and first-class AI-consumption endpoints.
 
 ## Features
 
-- **Multi-version**: content under `src/content/docs/{version}/{locale}/` with a header version picker.
-- **Multi-locale**: Astro's built-in i18n; locale picker preserves the current page when switching.
-- **AI-ready**: every page exposed as raw markdown (`/{locale}/{version}/{slug}.md`). Per-version `llms.txt` and `llms-full.txt`. "Copy for AI" buttons on each page and each `##` section, including a context header (source URL, version, locale).
-- **Static search**: Pagefind, scoped to the current version + locale.
-- **Opinionated design**: monochrome dark/light with a tri-state theme toggle. One `src/styles/tokens.css` to edit colors and spacing.
+- **Multi-version**: content under `src/content/docs/{version}/{locale}/` with a header version picker. Bumping a version is `cp -r v1 v2`.
+- **Multi-locale**: Astro's built-in i18n. Locale picker preserves the current page when switching.
+- **AI-ready**: every page exposed as raw markdown at `/{locale}/{version}/{slug}.md`. Per-version `llms.txt` and `llms-full.txt`. "Copy for AI" buttons on every page and every `##` section, each copying the content prefixed with a context header (source URL, version, locale, anchor).
+- **Static search**: Pagefind, indexed at post-build, scoped to the current version.
+- **Opinionated design**: monochrome dark/light with a theme dropdown (Light / Dark / System). Four CSS custom properties (`--color-bg`, `--color-bg-inner`, `--color-lines`, `--color-tree-line`) retune the entire visual system.
+- **Markdown only**: no MDX. Content survives the round-trip to `.md` endpoints without compilation, which is exactly what AI tools want.
 
-## Getting started
+## Quick start
+
+Click **Use this template** on GitHub, or clone directly:
 
 ```bash
+git clone https://github.com/rfnry/docs.git my-docs
+cd my-docs
 npm install
 npm run dev
 ```
 
-## Editing content
+Open [http://localhost:4321](http://localhost:4321).
 
-Add a markdown file under `src/content/docs/{version}/{locale}/`. Frontmatter:
+## Configure
+
+Edit `src/docs.config.ts` — the single file that drives site metadata, versions, locales, theme default, header links, and logo toggle:
+
+```ts
+import type { DocsConfig } from "./lib/config";
+
+export const docsConfig = {
+  site: {
+    title: "Docs",
+    description: "Project documentation.",
+    url: "https://your-domain.example",
+    logo: { enabled: false, src: "/logo.svg", alt: "Docs" },
+    github: "https://github.com/your-org/your-repo",
+  },
+  i18n: {
+    defaultLocale: "en",
+    locales: [
+      { code: "en", label: "English" },
+      { code: "pt-br", label: "Português (Brasil)" },
+    ],
+  },
+  versions: [{ id: "v1", label: "v1.0", current: true }],
+  theme: { default: "system" },
+  headerLinks: [] as DocsConfig["headerLinks"],
+} satisfies DocsConfig;
+```
+
+Restyle via `src/styles/tokens.css`.
+
+## Authoring
+
+Drop markdown files under `src/content/docs/{version}/{locale}/`:
 
 ```yaml
 ---
@@ -27,12 +64,12 @@ title: Quickstart
 description: One sentence used for <meta>, llms.txt, and search.
 sidebar:
   order: 1
-  label: Optional override
-  hidden: false
+  label: Optional override    # falls back to title
+  hidden: false               # optional; omits from sidebar + AI endpoints
 ---
 ```
 
-Folders can optionally have a `_group.yaml`:
+Folders can carry a `_group.yaml` sidecar:
 
 ```yaml
 label: Guides
@@ -40,27 +77,55 @@ order: 2
 collapsed: false
 ```
 
-## Configuration
+Unlimited nesting depth. Groups containing the current page auto-expand; the rest honor `collapsed`.
 
-Edit `src/config/docs.config.ts` — the single source of truth for site metadata, versions, locales, header links, and theme default.
+## Routes
 
-## AI consumption
-
-| Endpoint | Use |
+| Route | Content |
 |---|---|
-| `/{locale}/{version}/{slug}.md` | Raw markdown for one page |
-| `/{locale}/{version}/llms.txt` | Short index of all pages |
-| `/{locale}/{version}/llms-full.txt` | Every page concatenated |
+| `/` | Redirects to `/{defaultLocale}/{currentVersion}/` |
+| `/{locale}/{version}/{slug}/` | Rendered HTML page |
+| `/{locale}/{version}/{slug}.md` | Raw markdown with context header |
+| `/{locale}/{version}/llms.txt` | Index of all pages (markdown bullets) |
+| `/{locale}/{version}/llms-full.txt` | Every page concatenated in sidebar order |
 
-## Build
+## Scripts
 
-```bash
-npm run build     # astro build && pagefind --site dist
-npm run preview
+```
+npm run dev         # astro dev
+npm run build       # astro build && pagefind --site dist
+npm run preview     # astro preview
+npm run typecheck   # astro check
+npm run check       # biome check
+npm run check:fix   # biome check --write
+npm run format      # biome format --write
+npm run test        # vitest run
 ```
 
-## Test
+CI on `push` / `pull_request` runs `check`, `typecheck`, `test`, `build` — see `.github/workflows/ci.yml`.
 
-```bash
-npm test
+## Project layout
+
 ```
+src/
+├── docs.config.ts              ← edit me
+├── content.config.ts
+├── content/docs/{version}/{locale}/…
+├── components/
+│   ├── primitives/             ← Dropdown, Icon
+│   ├── layout/                 ← Header, Sidebar, TOC, PrevNext
+│   └── …                       ← ThemeToggle, LocalePicker, Search, CopyForAI
+├── layouts/Layout.astro
+├── lib/                        ← config, routing, sidebar, groups, ai-content, remark/
+├── pages/                      ← routes
+├── scripts/                    ← client-side TS (theme, dropdown, copy-ai, search, toc)
+└── styles/                     ← reset.css, tokens.css, prose.css
+```
+
+## Tech
+
+Astro 6, Pagefind, Vitest, Biome. No UI framework. Shiki for code highlighting (GitHub Light/Dark, switched via `[data-theme]`). Lucide icons inlined as SVG — no icon library dependency.
+
+## License
+
+MIT — see [LICENSE](./LICENSE).

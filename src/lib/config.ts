@@ -46,9 +46,7 @@ if (docsConfig.i18n.locales.length === 0) {
 export function getCurrentVersion(): VersionEntry {
   const currents = docsConfig.versions.filter((v) => v.current);
   if (currents.length !== 1) {
-    throw new Error(
-      `docsConfig.versions must have exactly one { current: true } (found ${currents.length})`,
-    );
+    throw new Error(`docsConfig.versions must have exactly one { current: true } (found ${currents.length})`);
   }
   return currents[0];
 }

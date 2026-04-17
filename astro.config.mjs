@@ -1,8 +1,8 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import rehypeSlug from "rehype-slug";
-import rehypeSectionAnchors from "./src/lib/remark/section-anchors.mjs";
 import { docsConfig } from "./src/docs.config.ts";
+import rehypeSectionAnchors from "./src/lib/remark/section-anchors.mjs";
 
 export default defineConfig({
   site: docsConfig.site.url,
