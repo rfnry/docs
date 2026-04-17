@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import { buildSidebarTree } from "../lib/sidebar";
+import { loadGroups } from "../lib/groups";
+import SidebarNodeView from "./SidebarNode.astro";
+
+interface Props {
+  locale: string;
+  version: string;
+  currentHref: string;
+}
+const { locale, version, currentHref } = Astro.props;
+
+const entries = await getCollection("docs");
+const simpleEntries = entries.map((e) => ({
+  id: e.id,
+  title: e.data.sidebar.label ?? e.data.title,
+  order: e.data.sidebar.order,
+  hidden: e.data.sidebar.hidden,
+}));
+const groups = loadGroups(version, locale);
+const tree = buildSidebarTree({ version, locale, entries: simpleEntries, groups });
+---
+<nav class="sidebar" aria-label="Documentation navigation">
+  <ul>
+    {tree.map((node) => <SidebarNodeView node={node} currentHref={currentHref} />)}
+  </ul>
+</nav>
+
+<style>
+  .sidebar {
+    font-size: var(--fs-sm);
+    padding: var(--gutter) 0 var(--gutter) var(--gutter);
+  }
+  .sidebar ul { list-style: none; margin: 0; padding: 0; }
+</style>

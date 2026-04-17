@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
+import Sidebar from "../../../components/Sidebar.astro";
 import { parseEntryId, buildDocHref } from "../../../lib/routing";
 
 export async function getStaticPaths() {
@@ -19,21 +20,41 @@ export async function getStaticPaths() {
 }
 
 const { entry, parsed } = Astro.props;
-const { Content, headings } = await render(entry);
+const { Content } = await render(entry);
+const currentHref = buildDocHref(parsed);
 ---
 <Layout title={entry.data.title} description={entry.data.description} locale={parsed.locale}>
-  <main class="content">
-    <article class="prose">
-      <h1>{entry.data.title}</h1>
-      <Content />
-    </article>
-  </main>
+  <div class="shell">
+    <aside class="col-sidebar">
+      <Sidebar locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
+    </aside>
+    <main class="col-content">
+      <article class="prose">
+        <h1>{entry.data.title}</h1>
+        <Content />
+      </article>
+    </main>
+  </div>
 </Layout>
 
 <style>
-  .content {
-    max-width: var(--content-max);
+  .shell {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    max-width: 1280px;
     margin: 0 auto;
+    min-height: 100vh;
+  }
+  .col-sidebar {
+    border-right: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  .col-content {
     padding: var(--gutter);
+    min-width: 0;
   }
 </style>
