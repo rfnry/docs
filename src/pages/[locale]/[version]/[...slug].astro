@@ -125,6 +125,18 @@ const sections = sliceSections(entry.body as string).map((s) => ({
   }
   @media (max-width: 768px) {
     .shell { grid-template-columns: 1fr; }
-    .col-sidebar { display: none; }
+    .col-sidebar {
+      display: none;
+      position: fixed;
+      inset: var(--header-h) 0 0 0;
+      background: var(--color-bg);
+      z-index: calc(var(--z-header) - 1);
+      max-height: none;
+      overflow-y: auto;
+      border-right: none;
+    }
+    :global(body[data-sidebar-open="true"]) .col-sidebar {
+      display: block;
+    }
   }
 </style>
