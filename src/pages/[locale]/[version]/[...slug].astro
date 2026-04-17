@@ -51,9 +51,9 @@ const sections = sliceSections(entry.body as string).map((s) => ({
     <aside class="col-sidebar">
       <Sidebar locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
     </aside>
-    <main class="col-content">
+    <main class="col-content" data-pagefind-body data-pagefind-filter={`version:${parsed.version}`} lang={parsed.locale}>
       <article class="prose">
-        <h1>{entry.data.title}</h1>
+        <h1 data-pagefind-meta="title">{entry.data.title}</h1>
         <div class="page-actions">
           <CopyForAI url={mdUrl} />
         </div>

@@ -3,6 +3,7 @@ import { docsConfig } from "../config/docs.config";
 import LocalePicker from "./LocalePicker.astro";
 import VersionPicker from "./VersionPicker.astro";
 import ThemeToggle from "./ThemeToggle.astro";
+import Search from "./Search.astro";
 
 interface Props {
   currentLocale: string;
@@ -21,9 +22,7 @@ const { currentLocale, currentVersion, currentSlug } = Astro.props;
       <VersionPicker currentLocale={currentLocale} currentVersion={currentVersion} />
     </div>
     <div class="middle">
-      <div class="search-slot">
-        <slot name="search" />
-      </div>
+      <Search />
     </div>
     <div class="right">
       {docsConfig.headerLinks.map((l) => (
@@ -61,7 +60,6 @@ const { currentLocale, currentVersion, currentSlug } = Astro.props;
   }
   .left, .right { display: flex; align-items: center; gap: 12px; }
   .middle { min-width: 0; display: flex; justify-content: center; }
-  .search-slot { width: 100%; max-width: 420px; }
   .brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
   .brand:hover { text-decoration: none; }
   .logo { width: 20px; height: 20px; }
