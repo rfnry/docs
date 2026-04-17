@@ -1,0 +1,78 @@
+---
+import { docsConfig } from "../config/docs.config";
+import LocalePicker from "./LocalePicker.astro";
+import VersionPicker from "./VersionPicker.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  currentLocale: string;
+  currentVersion: string;
+  currentSlug: string;
+}
+const { currentLocale, currentVersion, currentSlug } = Astro.props;
+---
+<header class="header">
+  <div class="inner">
+    <div class="left">
+      <a href={`/${currentLocale}/${currentVersion}/`} class="brand">
+        <img src={docsConfig.site.logo.src} alt={docsConfig.site.logo.alt} class="logo" />
+        <span class="brand-text">{docsConfig.site.title}</span>
+      </a>
+      <VersionPicker currentLocale={currentLocale} currentVersion={currentVersion} />
+    </div>
+    <div class="middle">
+      <div class="search-slot">
+        <slot name="search" />
+      </div>
+    </div>
+    <div class="right">
+      {docsConfig.headerLinks.map((l) => (
+        <a href={l.href} class="link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener" : undefined}>
+          {l.label}
+        </a>
+      ))}
+      {docsConfig.site.github && (
+        <a href={docsConfig.site.github} class="link" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+      )}
+      <LocalePicker currentLocale={currentLocale} currentVersion={currentVersion} currentSlug={currentSlug} />
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    height: var(--header-h);
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 var(--gutter);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--gutter);
+    align-items: center;
+  }
+  .left, .right { display: flex; align-items: center; gap: 12px; }
+  .middle { min-width: 0; display: flex; justify-content: center; }
+  .search-slot { width: 100%; max-width: 420px; }
+  .brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+  .brand:hover { text-decoration: none; }
+  .logo { width: 20px; height: 20px; }
+  .link {
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+    padding: .375em .5em;
+  }
+  .link:hover { color: var(--color-fg); text-decoration: none; }
+  @media (max-width: 768px) {
+    .brand-text { display: none; }
+    .middle { display: none; }
+  }
+</style>

@@ -3,15 +3,19 @@ import "../styles/reset.css";
 import "../styles/tokens.css";
 import "../styles/prose.css";
 import { docsConfig } from "../config/docs.config";
+import Header from "../components/Header.astro";
 
 interface Props {
   title: string;
   description: string;
   locale: string;
+  version?: string;
+  slug?: string;
 }
 
-const { title, description, locale } = Astro.props;
+const { title, description, locale, version, slug = "" } = Astro.props;
 const themeDefault = docsConfig.theme.default;
+const showHeader = !!version;
 ---
 <!doctype html>
 <html lang={locale}>
@@ -25,18 +29,24 @@ const themeDefault = docsConfig.theme.default;
       (function () {
         try {
           var stored = localStorage.getItem("theme");
-          var theme = stored || themeDefault;
-          if (theme === "system") {
+          var pref = stored || themeDefault;
+          var theme = pref;
+          if (pref === "system") {
             theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
           }
           document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.setAttribute("data-theme-pref", pref);
         } catch (e) {
           document.documentElement.setAttribute("data-theme", "dark");
+          document.documentElement.setAttribute("data-theme-pref", "dark");
         }
       })();
     </script>
   </head>
   <body>
+    {showHeader && (
+      <Header currentLocale={locale} currentVersion={version!} currentSlug={slug} />
+    )}
     <slot />
   </body>
 </html>
