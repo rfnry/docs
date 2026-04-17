@@ -1,0 +1,30 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { docsConfig, getCurrentVersion } from "../config/docs.config";
+const current = getCurrentVersion();
+const homeHref = `/${docsConfig.i18n.defaultLocale}/${current.id}/`;
+---
+<Layout title="Not found" description="The page you were looking for was not found." locale={docsConfig.i18n.defaultLocale}>
+  <main class="nf">
+    <h1>404</h1>
+    <p>We couldn't find that page.</p>
+    <a href={homeHref}>Go home</a>
+  </main>
+</Layout>
+
+<style>
+  .nf {
+    max-width: var(--content-max);
+    margin: 20vh auto;
+    padding: var(--gutter);
+    text-align: center;
+  }
+  .nf h1 { font-size: 4rem; margin: 0; }
+  .nf p { color: var(--color-muted); margin: .5em 0 1em; }
+  .nf a {
+    display: inline-block;
+    padding: .5em 1em;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+</style>
