@@ -59,9 +59,13 @@ export const docsConfig = {
 } satisfies DocsConfig;
 
 export function getCurrentVersion(): VersionEntry {
-  const current = docsConfig.versions.find((v) => v.current);
-  if (!current) throw new Error("docsConfig.versions must have exactly one { current: true }");
-  return current;
+  const currents = docsConfig.versions.filter((v) => v.current);
+  if (currents.length !== 1) {
+    throw new Error(
+      `docsConfig.versions must have exactly one { current: true } (found ${currents.length})`,
+    );
+  }
+  return currents[0];
 }
 
 export function getLocaleLabel(code: LocaleCode): string {
