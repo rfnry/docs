@@ -1,11 +1,11 @@
-import { getCollection } from "astro:content";
-import type { APIRoute } from "astro";
 import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import { config as docsConfig } from "virtual:rfnry-docs/config";
-import { getCurrentVersion } from "../schema";
+import type { APIRoute } from "astro";
 import { loadGroups } from "../lib/groups";
 import { buildDocHref, parseEntryId } from "../lib/routing";
 import { buildSidebarTree, flattenSidebarHrefs } from "../lib/sidebar";
+import { getCurrentVersion } from "../schema";
 
 type Scoped = { e: CollectionEntry<"docs">; p: ReturnType<typeof parseEntryId> };
 
