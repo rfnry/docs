@@ -1,50 +1,20 @@
 {
-  "name": "rfnry-docs",
-  "type": "module",
-  "version": "0.1.0",
-  "description": "Minimal, opinionated Astro starter for documentation sites with versioning, i18n, and first-class AI-consumption endpoints.",
-  "author": "Fernando Vargas <frndvrgs> (https://frndvrgs.com)",
-  "repository": "github:rfnry/docs",
-  "homepage": "https://github.com/rfnry/docs",
-  "license": "MIT",
+  "name": "rfnry-docs-workspace",
   "private": true,
-  "keywords": [
-    "astro",
-    "documentation",
-    "docs",
-    "i18n",
-    "versioning",
-    "llms-txt",
-    "ai",
-    "static-site"
-  ],
-  "engines": {
-    "node": ">=22.12.0"
-  },
+  "type": "module",
+  "packageManager": "pnpm@10.19.0",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build && pagefind --site dist",
-    "preview": "astro preview",
-    "astro": "astro",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "astro check",
-    "format": "biome format --write .",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm --filter rfnry-docs test",
     "check": "biome check .",
-    "check:fix": "biome check --write ."
-  },
-  "dependencies": {
-    "astro": "^6.1.7",
-    "pagefind": "^1.5.2",
-    "rehype-slug": "^6.0.0",
-    "unist-util-visit": "^5.1.0",
-    "yaml": "^2.8.3"
+    "check:fix": "biome check --write .",
+    "format": "biome format --write ."
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.8",
-    "@biomejs/biome": "^2.4.10",
-    "@types/node": "^25.6.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.4"
+    "@biomejs/biome": "^2.4.10"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
