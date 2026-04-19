@@ -1,17 +1,20 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
+import type { CollectionEntry } from "astro:content";
 import { config as docsConfig } from "virtual:rfnry-docs/config";
 import { getCurrentVersion } from "../schema";
 import { loadGroups } from "../lib/groups";
 import { buildDocHref, parseEntryId } from "../lib/routing";
 import { buildSidebarTree, flattenSidebarHrefs } from "../lib/sidebar";
 
+type Scoped = { e: CollectionEntry<"docs">; p: ReturnType<typeof parseEntryId> };
+
 export const GET: APIRoute = async () => {
   const locale = docsConfig.i18n.defaultLocale;
   const version = getCurrentVersion(docsConfig).id;
   const entries = await getCollection("docs");
 
-  const simpleEntries = entries.map((e) => ({
+  const simpleEntries = entries.map((e: CollectionEntry<"docs">) => ({
     id: e.id,
     title: e.data.sidebar.label ?? e.data.title,
     order: e.data.sidebar.order,
@@ -27,9 +30,9 @@ export const GET: APIRoute = async () => {
   const hrefIndex = new Map(orderedHrefs.map((h, i) => [h, i]));
 
   const scoped = entries
-    .map((e) => ({ e, p: parseEntryId(e.id) }))
-    .filter((x) => x.p.version === version && x.p.locale === locale && !x.e.data.sidebar.hidden)
-    .sort((a, b) => {
+    .map((e: CollectionEntry<"docs">) => ({ e, p: parseEntryId(e.id) }))
+    .filter((x: Scoped) => x.p.version === version && x.p.locale === locale && !x.e.data.sidebar.hidden)
+    .sort((a: Scoped, b: Scoped) => {
       const ai = hrefIndex.get(buildDocHref(a.p)) ?? Number.MAX_SAFE_INTEGER;
       const bi = hrefIndex.get(buildDocHref(b.p)) ?? Number.MAX_SAFE_INTEGER;
       return ai - bi;

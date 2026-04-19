@@ -27,7 +27,11 @@ export default function rfnryDocs(userConfig: RfnryDocsUserConfig): AstroIntegra
           i18n: {
             defaultLocale: config.i18n.defaultLocale,
             locales: config.i18n.locales.map((l) => l.code),
-            routing: { prefixDefaultLocale: true },
+            routing: {
+              prefixDefaultLocale: true,
+              redirectToDefaultLocale: true,
+              fallbackType: "redirect",
+            },
           },
           trailingSlash: "always",
           build: { format: "directory" },

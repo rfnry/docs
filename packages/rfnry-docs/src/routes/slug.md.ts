@@ -1,12 +1,13 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
+import type { CollectionEntry } from "astro:content";
 import { config as docsConfig } from "virtual:rfnry-docs/config";
 import { buildContextHeader, stripFrontmatter } from "../lib/ai-content";
 import { buildDocHref, parseEntryId } from "../lib/routing";
 
 export async function getStaticPaths() {
   const entries = await getCollection("docs");
-  return entries.map((entry) => {
+  return entries.map((entry: CollectionEntry<"docs">) => {
     const parsed = parseEntryId(entry.id);
     return {
       params: {
