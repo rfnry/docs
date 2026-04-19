@@ -1,5 +1,6 @@
 {
   "name": "rfnry-docs",
+  "private": true,
   "version": "0.1.0",
   "type": "module",
   "description": "Astro integration for minimal, opinionated documentation sites with versioning, i18n, and first-class AI endpoints.",
