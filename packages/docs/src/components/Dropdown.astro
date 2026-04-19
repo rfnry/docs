@@ -5,13 +5,15 @@ interface Props {
   id: string;
   align?: "left" | "right";
   variant?: "filled" | "icon" | "select";
+  bare?: boolean;
   label?: string;
 }
-const { id, align = "left", variant = "filled", label } = Astro.props;
+const { id, align = "left", variant = "filled", bare, label } = Astro.props;
 ---
 <div class="dropdown" data-dropdown={id} data-align={align}>
   <Button
     variant={variant}
+    bare={bare}
     data-dropdown-trigger
     aria-haspopup="menu"
     aria-expanded="false"
@@ -25,7 +27,7 @@ const { id, align = "left", variant = "filled", label } = Astro.props;
 </div>
 
 <script>
-  import { initDropdowns } from "../../scripts/dropdown.ts";
+  import { initDropdowns } from "../scripts/dropdown.ts";
   initDropdowns();
 </script>
 

@@ -1,0 +1,23 @@
+---
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
+import Dropdown from "./Dropdown.astro";
+import Icon from "./Icon.astro";
+
+const ICON_MAP = { github: "github", website: "globe", discord: "discord" } as const;
+const LABEL_MAP = { github: "GitHub", website: "Website", discord: "Discord" } as const;
+---
+{docsConfig.site.social.length > 0 && (
+  <Dropdown id="social" align="right" variant="icon" label="Links">
+    <Fragment slot="trigger">
+      <Icon name="link" size={16} />
+    </Fragment>
+    <Fragment slot="menu">
+      {docsConfig.site.social.map((s) => (
+        <a href={s.href} target="_blank" rel="noopener">
+          <Icon name={ICON_MAP[s.type]} size={14} />
+          <span>{LABEL_MAP[s.type]}</span>
+        </a>
+      ))}
+    </Fragment>
+  </Dropdown>
+)}

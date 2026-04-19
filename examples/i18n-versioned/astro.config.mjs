@@ -9,7 +9,11 @@ export default defineConfig({
         title: "Full Example",
         description: "Two locales, nested groups, deep versioned content.",
         logo: { enabled: false, src: "/logo.svg", alt: "Full Example" },
-        github: "https://github.com/rfnry/docs",
+        social: [
+          { type: "github", href: "https://github.com/rfnry/docs" },
+          { type: "website", href: "https://rfnry.dev" },
+          { type: "discord", href: "https://discord.com" },
+        ],
       },
       i18n: {
         defaultLocale: "en",

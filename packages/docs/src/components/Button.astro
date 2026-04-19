@@ -3,18 +3,19 @@ import Icon from "./Icon.astro";
 
 interface Props {
   variant?: "filled" | "icon" | "select";
+  bare?: boolean;
   href?: string;
   class?: string;
   [key: string]: unknown;
 }
-const { variant = "filled", href, class: className, ...rest } = Astro.props;
+const { variant = "filled", bare, href, class: className, ...rest } = Astro.props;
 const extraAttrs: Record<string, unknown> = href ? { href } : { type: "button" };
 const Tag = (href ? "a" : "button") as "a";
 ---
 <Tag
   {...rest}
   {...extraAttrs}
-  class:list={["btn", `btn-${variant}`, className]}
+  class:list={["btn", `btn-${variant}`, bare && "btn-bare", className]}
 >
   {variant === "select" ? (
     <>
@@ -51,7 +52,6 @@ const Tag = (href ? "a" : "button") as "a";
   .btn:hover,
   .btn[aria-expanded="true"] {
     color: var(--color-fg);
-    border-color: var(--color-muted);
   }
   .btn:disabled {
     opacity: 0.6;
@@ -76,5 +76,24 @@ const Tag = (href ? "a" : "button") as "a";
   }
   .btn[aria-expanded="true"] .btn-chev {
     transform: rotate(180deg);
+  }
+
+  .btn-bare {
+    background: transparent;
+    border-color: transparent;
+  }
+  .btn-bare:hover,
+  .btn-bare[aria-expanded="true"] {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-fg);
+  }
+  .btn-bare.btn-select {
+    height: auto;
+    padding: 0;
+  }
+  .btn-bare.btn-select .btn-body {
+    padding-left: 0;
+    line-height: 14px;
   }
 </style>

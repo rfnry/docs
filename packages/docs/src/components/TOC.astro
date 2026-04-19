@@ -17,7 +17,7 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
 </nav>
 
 <script>
-  import { initTOC } from "../../scripts/toc.ts";
+  import { initTOC } from "../scripts/toc.ts";
   initTOC();
 </script>
 
@@ -32,21 +32,19 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
   }
   ul { list-style: none; margin: 0; padding: 0; }
   li { padding: .125em 0; }
-  .lvl-3 { padding-left: 1em; }
+  .lvl-3 { padding-left: .75em; }
   a {
     color: var(--color-muted);
     display: block;
-    padding: .25em .5em;
-    border-radius: var(--radius);
+    padding: .25em 0;
+    transition: color .1s;
   }
-  a:hover,
-  a.active:hover {
+  a:hover {
     color: var(--color-fg);
     text-decoration: none;
-    background: var(--color-bg-hover);
   }
   a.active {
     color: var(--color-fg);
-    background: var(--color-bg-inner);
+    font-weight: 500;
   }
 </style>

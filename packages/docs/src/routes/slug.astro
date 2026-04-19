@@ -1,12 +1,14 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
-import Sidebar from "../components/layout/Sidebar.astro";
-import TOC from "../components/layout/TOC.astro";
+import Sidebar from "../components/Sidebar.astro";
+import TOC from "../components/TOC.astro";
 import CopyForAI from "../components/CopyForAI.astro";
-import PrevNext from "../components/layout/PrevNext.astro";
+import PrevNext from "../components/PrevNext.astro";
 import VersionPicker from "../components/VersionPicker.astro";
 import LocalePicker from "../components/LocalePicker.astro";
+import ShareAI from "../components/ShareAI.astro";
+import SocialLinksDropdown from "../components/SocialLinksDropdown.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import { parseEntryId, buildDocHref } from "../lib/routing";
 import { sliceSections, buildContextHeader } from "../lib/ai-content";
@@ -57,8 +59,12 @@ const sections = sliceSections(entry.body as string).map((s) => ({
         <Sidebar locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
       </div>
       <div class="mobile-footer">
-        <VersionPicker currentLocale={parsed.locale} currentVersion={parsed.version} />
-        <div class="mobile-footer-right">
+        <div class="mobile-footer-cluster">
+          <VersionPicker currentLocale={parsed.locale} currentVersion={parsed.version} />
+        </div>
+        <div class="mobile-footer-cluster">
+          <ShareAI />
+          <SocialLinksDropdown />
           <LocalePicker currentLocale={parsed.locale} currentVersion={parsed.version} currentSlug={parsed.slug} />
           <ThemeToggle />
         </div>
@@ -123,6 +129,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
     align-self: start;
     max-height: calc(100vh - var(--header-h));
     overflow-y: auto;
+    padding-right: calc(var(--gutter) * 2);
   }
   .sidebar-main {
     display: block;
@@ -131,10 +138,11 @@ const sections = sliceSections(entry.body as string).map((s) => ({
     display: none;
   }
   .col-content {
-    padding: var(--gutter) calc(var(--gutter) * 2);
+    padding: var(--gutter);
     min-width: 0;
   }
   .col-toc {
+    padding-left: calc(var(--gutter) * 2);
   }
   .page-header {
     display: flex;
@@ -175,6 +183,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
       max-height: none;
       overflow: hidden;
       flex-direction: column;
+      padding-right: 0;
     }
     :global(body[data-sidebar-open="true"]) .col-sidebar {
       display: flex;
@@ -192,10 +201,10 @@ const sections = sliceSections(entry.body as string).map((s) => ({
       background: var(--color-bg-inner);
       flex-shrink: 0;
     }
-    .mobile-footer-right {
+    .mobile-footer-cluster {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
     }
     .mobile-footer :global(.dropdown-menu) {
       top: auto;

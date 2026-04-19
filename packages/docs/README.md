@@ -36,7 +36,10 @@ export default defineConfig({
       site: {
         title: "My Docs",
         description: "Project documentation.",
-        github: "https://github.com/me/repo",
+        social: [
+          { type: "github", href: "https://github.com/me/repo" },
+          { type: "website", href: "https://example.com" },
+        ],
       },
       i18n: {
         defaultLocale: "en",
@@ -108,7 +111,7 @@ Redirects are full HTML documents (black bg, inline JS redirect, meta-refresh fa
 | `site.logo.enabled` | boolean | no | `false` | Render the logo in the header |
 | `site.logo.src` | string | no | `"/logo.svg"` | Logo asset path |
 | `site.logo.alt` | string | no | `""` | Logo alt text |
-| `site.github` | string (URL) | no | — | GitHub icon link in the header |
+| `site.social` | `{type, href}[]` | no | `[]` | Social links pill in the header. `type` is `"github"`, `"website"`, or `"discord"` |
 | `i18n.defaultLocale` | string | yes | — | e.g. `"en"` |
 | `i18n.locales` | `{code, label}[]` | yes (non-empty) | — | Ordered list of supported locales |
 | `versions` | `{id, label, current?}[]` | yes (non-empty, exactly one current) | — | Version axis |
@@ -124,7 +127,7 @@ Override any of the four color tokens in your own CSS file, then include it in t
   --color-bg: #000000;
   --color-bg-inner: #0a0a0a;
   --color-lines: #1f1f1f;
-  --color-tree-line: #2e2e2e;
+  --color-tree-line: #1e1e1e;
 }
 ```
 

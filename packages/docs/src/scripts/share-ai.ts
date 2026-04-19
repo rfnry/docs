@@ -1,29 +1,27 @@
-const COPIED_TITLE = "Link copied";
-const COPIED_DURATION = 1500;
+const FEEDBACK_TEXT = "Copied";
+const FEEDBACK_DURATION = 1200;
 
-export function initShareAI() {
-  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-share-ai]");
-  for (const btn of buttons) {
-    if (btn.dataset.shareAiBound === "1") continue;
-    btn.dataset.shareAiBound = "1";
-    const originalTitle = btn.title;
+export function initShare() {
+  document.querySelectorAll<HTMLButtonElement>("[data-share-action]").forEach((btn) => {
+    if (btn.dataset.shareBound === "1") return;
+    btn.dataset.shareBound = "1";
+    const labelEl = btn.querySelector<HTMLElement>("[data-share-label]") ?? btn;
+    const originalLabel = labelEl.textContent ?? "";
+
     btn.addEventListener("click", async () => {
-      const url = computeLlmsUrl();
+      const action = btn.dataset.shareAction;
+      const url = action === "ai" ? computeLlmsUrl() : window.location.href;
       try {
         await navigator.clipboard.writeText(url);
-        btn.classList.add("copied");
-        btn.title = COPIED_TITLE;
+        labelEl.textContent = FEEDBACK_TEXT;
         window.setTimeout(() => {
-          if (btn.isConnected) {
-            btn.classList.remove("copied");
-            btn.title = originalTitle;
-          }
-        }, COPIED_DURATION);
+          if (btn.isConnected) labelEl.textContent = originalLabel;
+        }, FEEDBACK_DURATION);
       } catch (err) {
         console.error(err);
       }
     });
-  }
+  });
 }
 
 function computeLlmsUrl(): string {

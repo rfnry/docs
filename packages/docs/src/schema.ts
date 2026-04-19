@@ -12,7 +12,14 @@ export const docsConfigSchema = z.object({
         alt: z.string().default(""),
       })
       .default({ enabled: false, src: "/logo.svg", alt: "" }),
-    github: z.string().url().optional(),
+    social: z
+      .array(
+        z.object({
+          type: z.enum(["github", "website", "discord"]),
+          href: z.string().url(),
+        }),
+      )
+      .default([]),
   }),
   i18n: z.object({
     defaultLocale: z.string(),

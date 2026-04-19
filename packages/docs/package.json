@@ -1,25 +1,28 @@
 {
   "name": "@rfnry/docs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
-  "description": "Astro integration for minimal, opinionated documentation sites with versioning, i18n, and first-class AI endpoints.",
-  "author": "Fernando Vargas <frndvrgs> (https://frndvrgs.com)",
+  "description": "rfnry/docs — Astro documentation template",
+  "author": "rfnry (https://github.com/rfnry)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rfnry/docs.git",
     "directory": "packages/docs"
   },
-  "homepage": "https://github.com/rfnry/docs/tree/main/packages/docs",
+  "homepage": "https://github.com/rfnry/docs",
+  "bugs": "https://github.com/rfnry/docs/issues",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
+    "rfnry",
     "astro",
-    "astro-integration",
     "documentation",
     "docs",
-    "i18n",
-    "versioning",
-    "llms-txt",
-    "ai"
+    "agent",
+    "ai",
+    "llms-txt"
   ],
   "engines": {
     "node": ">=20.18.0"

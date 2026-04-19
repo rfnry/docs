@@ -1,12 +1,13 @@
 ---
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
-import LocalePicker from "../LocalePicker.astro";
-import VersionPicker from "../VersionPicker.astro";
-import ThemeToggle from "../ThemeToggle.astro";
-import Search from "../Search.astro";
-import ShareAI from "../ShareAI.astro";
-import Button from "../primitives/Button.astro";
-import Icon from "../primitives/Icon.astro";
+import LocalePicker from "./LocalePicker.astro";
+import Search from "./Search.astro";
+import ShareAI from "./ShareAI.astro";
+import SocialLinks from "./SocialLinks.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import VersionPicker from "./VersionPicker.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
   currentLocale: string;
@@ -40,18 +41,14 @@ const showLogo = docsConfig.site.logo.enabled;
     <div class="spacer" aria-hidden="true"></div>
     <div class="right">
       <Search />
-      <ShareAI />
       <div class="desktop-only header-desktop-items">
+        <ShareAI />
         {docsConfig.headerLinks.map((l) => (
           <a href={l.href} class="link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener" : undefined}>
             {l.label}
           </a>
         ))}
-        {docsConfig.site.github && (
-          <a href={docsConfig.site.github} class="link icon-link" target="_blank" rel="noopener" aria-label="GitHub">
-            <Icon name="github" size={16} />
-          </a>
-        )}
+        <SocialLinks />
         <LocalePicker currentLocale={currentLocale} currentVersion={currentVersion} currentSlug={currentSlug} />
         <ThemeToggle />
       </div>
@@ -110,10 +107,6 @@ const showLogo = docsConfig.site.logo.enabled;
     color: var(--color-fg);
     text-decoration: none;
   }
-  .icon-link {
-    display: inline-flex;
-    align-items: center;
-  }
   .header-desktop-items {
     display: flex;
     align-items: center;
@@ -149,6 +142,6 @@ const showLogo = docsConfig.site.logo.enabled;
 </style>
 
 <script>
-  import { initMobileSidebar } from "../../scripts/mobile-sidebar.ts";
+  import { initMobileSidebar } from "../scripts/mobile-sidebar.ts";
   initMobileSidebar();
 </script>

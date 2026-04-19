@@ -3,7 +3,7 @@ import "../styles/reset.css";
 import "../styles/tokens.css";
 import "../styles/prose.css";
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
-import Header from "../components/layout/Header.astro";
+import Header from "../components/Header.astro";
 
 interface Props {
   title: string;
@@ -16,6 +16,8 @@ interface Props {
 const { title, description, locale, version, slug = "" } = Astro.props;
 const themeDefault = docsConfig.theme.default;
 const showHeader = !!version;
+const siteTitle = docsConfig.site.title;
+const fullTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
 ---
 <!doctype html>
 <html lang={locale} data-version={version ?? ""}>
@@ -24,7 +26,7 @@ const showHeader = !!version;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <title>{fullTitle}</title>
     <script is:inline define:vars={{ themeDefault }}>
       (function () {
         try {

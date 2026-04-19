@@ -1,0 +1,50 @@
+---
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
+import Icon from "./Icon.astro";
+
+const ICON_MAP = { github: "github", website: "globe", discord: "discord" } as const;
+const LABEL_MAP = { github: "GitHub", website: "Website", discord: "Discord" } as const;
+---
+{docsConfig.site.social.length > 0 && (
+  <div class="social-links" role="group" aria-label="Social links">
+    {docsConfig.site.social.map((s) => (
+      <a
+        class="social-link"
+        href={s.href}
+        target="_blank"
+        rel="noopener"
+        aria-label={LABEL_MAP[s.type]}
+      >
+        <Icon name={ICON_MAP[s.type]} size={16} />
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .social-links {
+    display: inline-flex;
+    align-items: center;
+    height: var(--btn-h);
+    background: var(--color-button-bg);
+    border: 1px solid var(--color-lines);
+    border-radius: var(--radius);
+  }
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--btn-h);
+    height: 100%;
+    color: var(--color-muted);
+    flex-shrink: 0;
+    transition: color 0.1s;
+  }
+  .social-link:hover {
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+  .social-link + .social-link {
+    border-left: 1px solid var(--color-lines);
+  }
+</style>

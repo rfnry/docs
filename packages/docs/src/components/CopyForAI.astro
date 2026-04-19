@@ -1,13 +1,13 @@
 ---
-import Button from "./primitives/Button.astro";
-import Icon from "./primitives/Icon.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
   url: string;
   anchor?: string;
   label?: string;
 }
-const { url, anchor, label = "Copy for AI" } = Astro.props;
+const { url, anchor, label = "Copy Markdown" } = Astro.props;
 ---
 <Button
   class="copy-ai"

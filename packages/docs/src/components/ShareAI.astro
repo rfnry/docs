@@ -1,39 +1,22 @@
 ---
-import Button from "./primitives/Button.astro";
-import Icon from "./primitives/Icon.astro";
+import Dropdown from "./Dropdown.astro";
+import Icon from "./Icon.astro";
 ---
-<Button
-  variant="icon"
-  class="share-ai"
-  data-share-ai
-  aria-label="Share with AI"
-  title="Share with AI"
->
-  <span class="share-icon share-icon-bot"><Icon name="bot" size={16} /></span>
-  <span class="share-icon share-icon-check"><Icon name="check" size={16} /></span>
-</Button>
+<Dropdown id="share" align="right" variant="icon" label="Share">
+  <Fragment slot="trigger">
+    <Icon name="share" size={16} />
+  </Fragment>
+  <Fragment slot="menu">
+    <button type="button" data-share-action="link">
+      <span data-share-label>Share URL</span>
+    </button>
+    <button type="button" data-share-action="ai">
+      <span data-share-label>Share llms.txt</span>
+    </button>
+  </Fragment>
+</Dropdown>
 
 <script>
-  import { initShareAI } from "../scripts/share-ai.ts";
-  initShareAI();
+  import { initShare } from "../scripts/share-ai.ts";
+  initShare();
 </script>
-
-<style>
-  .share-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .share-icon-check {
-    display: none;
-  }
-  :global(.share-ai.copied) .share-icon-bot {
-    display: none;
-  }
-  :global(.share-ai.copied) .share-icon-check {
-    display: inline-flex;
-  }
-  :global(.share-ai.copied) {
-    color: var(--color-fg);
-  }
-</style>

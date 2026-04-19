@@ -1,6 +1,6 @@
 ---
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
-import Dropdown from "./primitives/Dropdown.astro";
+import Dropdown from "./Dropdown.astro";
 
 interface Props {
   currentLocale: string;
@@ -9,7 +9,7 @@ interface Props {
 const { currentLocale, currentVersion } = Astro.props;
 const currentLabel = docsConfig.versions.find((v) => v.id === currentVersion)?.label ?? currentVersion;
 ---
-<Dropdown id="version" align="left" variant="select" label="Change version">
+<Dropdown id="version" align="left" variant="select" bare label="Change version">
   <Fragment slot="trigger">{currentLabel}</Fragment>
   <Fragment slot="menu">
     {docsConfig.versions.map((v) => (
