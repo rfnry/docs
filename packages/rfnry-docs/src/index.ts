@@ -16,7 +16,7 @@ const ROUTES: ReadonlyArray<{ pattern: string; entrypoint: string }> = [
   { pattern: "/404", entrypoint: "rfnry-docs/routes/404.astro" },
 ];
 
-export default function rfnryDocs(userConfig: RfnryDocsUserConfig): AstroIntegration {
+export default function rfnry(userConfig: RfnryDocsUserConfig): AstroIntegration {
   const config = docsConfigSchema.parse(userConfig);
 
   return {

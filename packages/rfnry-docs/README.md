@@ -27,12 +27,12 @@ Requires Astro 6.
 
 ```js
 import { defineConfig } from "astro/config";
-import rfnryDocs from "rfnry-docs";
+import rfnry from "rfnry-docs";
 
 export default defineConfig({
   site: "https://my-docs.example",
   integrations: [
-    rfnryDocs({
+    rfnry({
       site: {
         title: "My Docs",
         description: "Project documentation.",

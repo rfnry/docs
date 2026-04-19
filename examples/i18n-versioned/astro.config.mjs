@@ -1,10 +1,10 @@
 import { defineConfig } from "astro/config";
-import rfnryDocs from "rfnry-docs";
+import rfnry from "rfnry-docs";
 
 export default defineConfig({
   site: "https://example.com",
   integrations: [
-    rfnryDocs({
+    rfnry({
       site: {
         title: "Full Example",
         description: "Two locales, nested groups, deep versioned content.",

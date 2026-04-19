@@ -39,11 +39,11 @@ npm install rfnry-docs astro
 ```js
 // astro.config.mjs
 import { defineConfig } from "astro/config";
-import rfnryDocs from "rfnry-docs";
+import rfnry from "rfnry-docs";
 
 export default defineConfig({
   site: "https://my-docs.example",
-  integrations: [rfnryDocs({ site: {...}, i18n: {...}, versions: [...] })],
+  integrations: [rfnry({ site: {...}, i18n: {...}, versions: [...] })],
 });
 ```
 
