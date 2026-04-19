@@ -19,7 +19,23 @@ npm install rfnry-docs astro
 pnpm add rfnry-docs astro
 ```
 
-Requires Astro 6.
+Requires Astro 6. For built-in static search, also install `pagefind`
+and invoke it after `astro build`:
+
+```bash
+npm install -D pagefind
+```
+
+```json
+{
+  "scripts": {
+    "build": "astro build && pagefind --site dist"
+  }
+}
+```
+
+Without pagefind, everything else works — the search dialog falls
+back to a "search index not available" message instead of crashing.
 
 ## Setup
 
