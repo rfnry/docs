@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
-import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import type { APIRoute } from "astro";
 import { buildContextHeader, stripFrontmatter } from "../lib/ai-content";
 import { buildDocHref, parseEntryId } from "../lib/routing";

@@ -10,7 +10,7 @@ import LocalePicker from "../components/LocalePicker.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import { parseEntryId, buildDocHref } from "../lib/routing";
 import { sliceSections, buildContextHeader } from "../lib/ai-content";
-import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
 
 export async function getStaticPaths() {
   const entries = await getCollection("docs");

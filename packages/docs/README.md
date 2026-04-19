@@ -1,4 +1,4 @@
-# rfnry-docs
+# @rfnry/docs
 
 Astro integration for minimal, opinionated documentation sites. Versioning, i18n, search, and first-class AI-consumption endpoints — drop in content, done.
 
@@ -14,7 +14,7 @@ Astro integration for minimal, opinionated documentation sites. Versioning, i18n
 ## Install
 
 ```bash
-npm install rfnry-docs astro
+npm install @rfnry/docs astro
 ```
 
 Requires Astro 6. Static search (Pagefind) ships with the integration and
@@ -27,7 +27,7 @@ post-build script required.
 
 ```js
 import { defineConfig } from "astro/config";
-import rfnry from "rfnry-docs";
+import rfnry from "@rfnry/docs";
 
 export default defineConfig({
   site: "https://my-docs.example",
@@ -56,7 +56,7 @@ export default defineConfig({
 `src/content.config.ts`:
 
 ```ts
-export { collections } from "rfnry-docs/content";
+export { collections } from "@rfnry/docs/content";
 ```
 
 That's it. Add markdown files under `src/content/docs/{version}/{locale}/`.
@@ -156,7 +156,7 @@ Your project — wire these in your own `package.json`:
 Monorepo layout:
 
 ```
-packages/rfnry-docs/    ← this package
+packages/docs/    ← this package
 examples/minimal/
 examples/i18n-versioned/
 ```
@@ -165,8 +165,8 @@ Requires Node 20.18+ and npm 10+.
 
 ```bash
 npm install
-npm run typecheck -w rfnry-docs
-npm test -w rfnry-docs
+npm run typecheck -w @rfnry/docs
+npm test -w @rfnry/docs
 npm run build -w @example/minimal
 npm run build -w @example/i18n-versioned
 npm run check    # Biome — lint + format

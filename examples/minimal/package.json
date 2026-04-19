@@ -10,6 +10,6 @@
   },
   "dependencies": {
     "astro": "^6.1.7",
-    "rfnry-docs": "*"
+    "@rfnry/docs": "*"
   }
 }

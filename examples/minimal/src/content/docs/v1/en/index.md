@@ -5,4 +5,4 @@ sidebar:
   order: 1
 ---
 
-This is the minimal rfnry-docs example. Replace this file with your own introduction.
+This is the minimal @rfnry/docs example. Replace this file with your own introduction.

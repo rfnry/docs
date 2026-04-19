@@ -1,5 +1,5 @@
 {
-  "name": "rfnry-docs",
+  "name": "@rfnry/docs",
   "version": "0.1.0",
   "type": "module",
   "description": "Astro integration for minimal, opinionated documentation sites with versioning, i18n, and first-class AI endpoints.",
@@ -7,9 +7,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rfnry/docs.git",
-    "directory": "packages/rfnry-docs"
+    "directory": "packages/docs"
   },
-  "homepage": "https://github.com/rfnry/docs/tree/main/packages/rfnry-docs",
+  "homepage": "https://github.com/rfnry/docs/tree/main/packages/docs",
   "license": "MIT",
   "keywords": [
     "astro",

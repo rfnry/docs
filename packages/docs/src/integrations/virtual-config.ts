@@ -1,12 +1,12 @@
 import type { Plugin } from "vite";
 import type { RfnryDocsConfig } from "../schema";
 
-const VIRTUAL_ID = "virtual:rfnry-docs/config";
+const VIRTUAL_ID = "virtual:@rfnry/docs/config";
 const RESOLVED_ID = `\0${VIRTUAL_ID}`;
 
 export function virtualConfigPlugin(config: RfnryDocsConfig): Plugin {
   return {
-    name: "rfnry-docs:virtual-config",
+    name: "@rfnry/docs:virtual-config",
     resolveId(id) {
       if (id === VIRTUAL_ID) return RESOLVED_ID;
       return null;

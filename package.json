@@ -1,5 +1,5 @@
 {
-  "name": "rfnry-docs-workspace",
+  "name": "@rfnry/docs-workspace",
   "private": true,
   "type": "module",
   "workspaces": [

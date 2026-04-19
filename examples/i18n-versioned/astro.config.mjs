@@ -1,5 +1,5 @@
+import rfnry from "@rfnry/docs";
 import { defineConfig } from "astro/config";
-import rfnry from "rfnry-docs";
 
 export default defineConfig({
   site: "https://example.com",

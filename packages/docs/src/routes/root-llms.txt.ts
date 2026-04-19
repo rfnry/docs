@@ -1,24 +1,17 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
-import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import type { APIRoute } from "astro";
-import { stripFrontmatter } from "../lib/ai-content";
 import { loadGroups } from "../lib/groups";
 import { buildDocHref, parseEntryId } from "../lib/routing";
 import { buildSidebarTree, flattenSidebarHrefs } from "../lib/sidebar";
+import { getCurrentVersion } from "../schema";
 
 type Scoped = { e: CollectionEntry<"docs">; p: ReturnType<typeof parseEntryId> };
 
-export async function getStaticPaths() {
-  return docsConfig.versions.flatMap((v) =>
-    docsConfig.i18n.locales.map((l) => ({
-      params: { locale: l.code, version: v.id },
-    })),
-  );
-}
-
-export const GET: APIRoute = async ({ params }) => {
-  const { locale, version } = params as { locale: string; version: string };
+export const GET: APIRoute = async () => {
+  const locale = docsConfig.i18n.defaultLocale;
+  const version = getCurrentVersion(docsConfig).id;
   const entries = await getCollection("docs");
 
   const simpleEntries = entries.map((e: CollectionEntry<"docs">) => ({
@@ -46,17 +39,23 @@ export const GET: APIRoute = async ({ params }) => {
     });
 
   const site = docsConfig.site;
-  const chunks: string[] = [];
-  chunks.push(`# ${site.title} — ${version} (${locale})\n\n${site.description}\n`);
+  const lines: string[] = [];
+  lines.push(`# ${site.title}`);
+  lines.push("");
+  lines.push(`> ${site.description}`);
+  lines.push("");
+  lines.push(`Version: ${version}`);
+  lines.push(`Locale: ${locale}`);
+  lines.push("");
+  lines.push("## Pages");
+  lines.push("");
   for (const { e, p } of scoped) {
     const url = site.url + buildDocHref(p);
-    chunks.push(`\n\n---\n\n`);
-    chunks.push(`# ${e.data.title}\n\n`);
-    chunks.push(`Source: ${url}\n\n`);
-    chunks.push(stripFrontmatter(e.body as string));
+    lines.push(`- [${e.data.title}](${url}): ${e.data.description}`);
   }
+  lines.push("");
 
-  return new Response(chunks.join(""), {
+  return new Response(lines.join("\n"), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "X-Content-Type-Options": "nosniff",

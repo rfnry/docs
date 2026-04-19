@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import { getCurrentVersion } from "../schema";
 const current = getCurrentVersion(docsConfig);
 const homeHref = `/${docsConfig.i18n.defaultLocale}/${current.id}/`;

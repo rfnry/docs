@@ -1,1 +1,1 @@
-packages/rfnry-docs/README.md
+packages/docs/README.md
