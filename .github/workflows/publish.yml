@@ -1,4 +1,4 @@
-name: Release
+name: Publish to npm
 
 on:
   release:
@@ -6,19 +6,18 @@ on:
 
 jobs:
   publish:
+    if: startsWith(github.event.release.tag_name, 'rfnry-docs-v')
     runs-on: ubuntu-latest
     environment: npm
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
-          cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter rfnry-docs publish --access public --no-git-checks
+      - run: npm ci
+      - run: npm run build -w @example/minimal
+      - run: npm run build -w @example/i18n-versioned
+      - run: npm publish -w rfnry-docs --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

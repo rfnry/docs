@@ -15,27 +15,11 @@ Astro integration for minimal, opinionated documentation sites. Versioning, i18n
 
 ```bash
 npm install rfnry-docs astro
-# or
-pnpm add rfnry-docs astro
 ```
 
-Requires Astro 6. For built-in static search, also install `pagefind`
-and invoke it after `astro build`:
-
-```bash
-npm install -D pagefind
-```
-
-```json
-{
-  "scripts": {
-    "build": "astro build && pagefind --site dist"
-  }
-}
-```
-
-Without pagefind, everything else works — the search dialog falls
-back to a "search index not available" message instead of crashing.
+Requires Astro 6. Static search (Pagefind) ships with the integration and
+is indexed automatically at the end of `astro build` — no extra install or
+post-build script required.
 
 ## Setup
 
@@ -154,18 +138,39 @@ Your project — wire these in your own `package.json`:
 {
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build",
     "preview": "astro preview"
   }
 }
 ```
 
-`astro build` outputs HTML; running `pagefind --site dist` after indexes the content for client-side search.
+`astro build` outputs HTML and indexes the content for client-side search in a single step — the integration runs Pagefind programmatically on `astro:build:done`.
 
 ## Examples
 
 - [`examples/minimal`](https://github.com/rfnry/docs/tree/main/examples/minimal) — one locale, one version, one guide. Smallest viable consumer.
 - [`examples/i18n-versioned`](https://github.com/rfnry/docs/tree/main/examples/i18n-versioned) — two locales, nested groups, version + locale combo.
+
+## Development
+
+Monorepo layout:
+
+```
+packages/rfnry-docs/    ← this package
+examples/minimal/
+examples/i18n-versioned/
+```
+
+Requires Node 20.18+ and npm 10+.
+
+```bash
+npm install
+npm run typecheck -w rfnry-docs
+npm test -w rfnry-docs
+npm run build -w @example/minimal
+npm run build -w @example/i18n-versioned
+npm run check    # Biome — lint + format
+```
 
 ## License
 

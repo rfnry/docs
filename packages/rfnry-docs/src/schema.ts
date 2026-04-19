@@ -31,7 +31,17 @@ export const docsConfigSchema = z.object({
       message: "Exactly one version must be { current: true }.",
     }),
   theme: z.object({ default: z.enum(["dark", "light", "system"]).default("system") }).default({ default: "system" }),
-  headerLinks: z.array(z.object({ label: z.string(), href: z.string(), external: z.boolean().optional() })).default([]),
+  headerLinks: z
+    .array(
+      z.object({
+        label: z.string(),
+        href: z.string().refine((v) => /^(https?:\/\/|\/)/.test(v), {
+          message: "href must start with http://, https://, or /",
+        }),
+        external: z.boolean().optional(),
+      }),
+    )
+    .default([]),
 });
 
 export type RfnryDocsConfig = z.infer<typeof docsConfigSchema>;

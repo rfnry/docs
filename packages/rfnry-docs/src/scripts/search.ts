@@ -104,6 +104,19 @@ function isSafeUrl(url: string): boolean {
   return url.startsWith("/") || url.startsWith("https://") || url.startsWith("http://");
 }
 
+function renderExcerpt(el: HTMLElement, excerpt: string): void {
+  const parts = excerpt.split(/(<mark>.*?<\/mark>)/g);
+  for (const part of parts) {
+    if (part.startsWith("<mark>") && part.endsWith("</mark>")) {
+      const mark = document.createElement("mark");
+      mark.textContent = part.slice(6, -7);
+      el.append(mark);
+    } else if (part) {
+      el.append(document.createTextNode(part));
+    }
+  }
+}
+
 function renderHit(d: any): HTMLElement {
   const li = document.createElement("li");
   const a = document.createElement("a");
@@ -116,7 +129,7 @@ function renderHit(d: any): HTMLElement {
 
   const excerptEl = document.createElement("div");
   excerptEl.className = "hit-excerpt";
-  excerptEl.innerHTML = typeof d.excerpt === "string" ? d.excerpt : "";
+  if (typeof d.excerpt === "string") renderExcerpt(excerptEl, d.excerpt);
 
   a.append(titleEl, excerptEl);
   li.append(a);

@@ -4,8 +4,12 @@
   "type": "module",
   "description": "Astro integration for minimal, opinionated documentation sites with versioning, i18n, and first-class AI endpoints.",
   "author": "Fernando Vargas <frndvrgs> (https://frndvrgs.com)",
-  "repository": "github:rfnry/docs",
-  "homepage": "https://github.com/rfnry/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rfnry/docs.git",
+    "directory": "packages/rfnry-docs"
+  },
+  "homepage": "https://github.com/rfnry/docs/tree/main/packages/rfnry-docs",
   "license": "MIT",
   "keywords": [
     "astro",
@@ -18,7 +22,7 @@
     "ai"
   ],
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=20.18.0"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -29,15 +33,10 @@
     "./routes/*": "./src/routes/*"
   },
   "peerDependencies": {
-    "astro": "^6.0.0",
-    "pagefind": "^1.5.2"
-  },
-  "peerDependenciesMeta": {
-    "pagefind": {
-      "optional": true
-    }
+    "astro": "^6.0.0"
   },
   "dependencies": {
+    "pagefind": "^1.5.2",
     "rehype-slug": "^6.0.0",
     "unist-util-visit": "^5.1.0",
     "yaml": "^2.8.3",
