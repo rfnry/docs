@@ -1,16 +1,16 @@
 ---
 import { getCollection, render } from "astro:content";
-import Layout from "../../../layouts/Layout.astro";
-import Sidebar from "../../../components/layout/Sidebar.astro";
-import TOC from "../../../components/layout/TOC.astro";
-import CopyForAI from "../../../components/CopyForAI.astro";
-import PrevNext from "../../../components/layout/PrevNext.astro";
-import VersionPicker from "../../../components/VersionPicker.astro";
-import LocalePicker from "../../../components/LocalePicker.astro";
-import ThemeToggle from "../../../components/ThemeToggle.astro";
-import { parseEntryId, buildDocHref } from "../../../lib/routing";
-import { sliceSections, buildContextHeader } from "../../../lib/ai-content";
-import { docsConfig } from "../../../docs.config";
+import Layout from "../layouts/Layout.astro";
+import Sidebar from "../components/layout/Sidebar.astro";
+import TOC from "../components/layout/TOC.astro";
+import CopyForAI from "../components/CopyForAI.astro";
+import PrevNext from "../components/layout/PrevNext.astro";
+import VersionPicker from "../components/VersionPicker.astro";
+import LocalePicker from "../components/LocalePicker.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import { parseEntryId, buildDocHref } from "../lib/routing";
+import { sliceSections, buildContextHeader } from "../lib/ai-content";
+import { config as docsConfig } from "virtual:rfnry-docs/config";
 
 export async function getStaticPaths() {
   const entries = await getCollection("docs");
@@ -103,8 +103,8 @@ const sections = sliceSections(entry.body as string).map((s) => ({
 </script>
 
 <script>
-  import { initCopyForAI } from "../../../scripts/copy-ai.ts";
-  import { initCodeCopy } from "../../../scripts/code-copy.ts";
+  import { initCopyForAI } from "../scripts/copy-ai.ts";
+  import { initCodeCopy } from "../scripts/code-copy.ts";
   initCopyForAI();
   initCodeCopy();
 </script>

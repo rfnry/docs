@@ -1,8 +1,8 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
-import { docsConfig } from "../../../docs.config";
-import { buildContextHeader, stripFrontmatter } from "../../../lib/ai-content";
-import { buildDocHref, parseEntryId } from "../../../lib/routing";
+import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { buildContextHeader, stripFrontmatter } from "../lib/ai-content";
+import { buildDocHref, parseEntryId } from "../lib/routing";
 
 export async function getStaticPaths() {
   const entries = await getCollection("docs");

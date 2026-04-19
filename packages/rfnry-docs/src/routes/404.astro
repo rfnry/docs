@@ -1,8 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { docsConfig } from "../docs.config";
-import { getCurrentVersion } from "../lib/config";
-const current = getCurrentVersion();
+import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { getCurrentVersion } from "../schema";
+const current = getCurrentVersion(docsConfig);
 const homeHref = `/${docsConfig.i18n.defaultLocale}/${current.id}/`;
 ---
 <Layout title="Not found" description="The page you were looking for was not found." locale={docsConfig.i18n.defaultLocale}>

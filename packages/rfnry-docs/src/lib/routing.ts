@@ -1,5 +1,3 @@
-import { docsConfig } from "../docs.config";
-
 export interface ParsedEntryId {
   version: string;
   locale: string;
@@ -22,12 +20,4 @@ export function buildDocHref(parts: ParsedEntryId): string {
   const base = `/${locale}/${version}/`;
   if (!slug) return base;
   return `${base}${slug}/`;
-}
-
-export function isVersion(id: string): boolean {
-  return docsConfig.versions.some((v) => v.id === id);
-}
-
-export function isLocale(code: string): boolean {
-  return docsConfig.i18n.locales.some((l) => l.code === code);
 }

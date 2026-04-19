@@ -1,7 +1,7 @@
 ---
-import { docsConfig } from "../docs.config";
-import { getCurrentVersion } from "../lib/config";
-const current = getCurrentVersion();
+import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { getCurrentVersion } from "../schema";
+const current = getCurrentVersion(docsConfig);
 const target = `/${docsConfig.i18n.defaultLocale}/${current.id}/`;
 ---
 <!doctype html>

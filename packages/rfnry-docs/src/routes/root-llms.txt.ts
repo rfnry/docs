@@ -1,20 +1,14 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
-import { docsConfig } from "../../../docs.config";
-import { loadGroups } from "../../../lib/groups";
-import { buildDocHref, parseEntryId } from "../../../lib/routing";
-import { buildSidebarTree, flattenSidebarHrefs } from "../../../lib/sidebar";
+import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { getCurrentVersion } from "../schema";
+import { loadGroups } from "../lib/groups";
+import { buildDocHref, parseEntryId } from "../lib/routing";
+import { buildSidebarTree, flattenSidebarHrefs } from "../lib/sidebar";
 
-export async function getStaticPaths() {
-  return docsConfig.versions.flatMap((v) =>
-    docsConfig.i18n.locales.map((l) => ({
-      params: { locale: l.code, version: v.id },
-    })),
-  );
-}
-
-export const GET: APIRoute = async ({ params }) => {
-  const { locale, version } = params as { locale: string; version: string };
+export const GET: APIRoute = async () => {
+  const locale = docsConfig.i18n.defaultLocale;
+  const version = getCurrentVersion(docsConfig).id;
   const entries = await getCollection("docs");
 
   const simpleEntries = entries.map((e) => ({

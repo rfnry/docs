@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildDocHref, isLocale, isVersion, parseEntryId } from "./routing";
+import { buildDocHref, parseEntryId } from "./routing";
 
 describe("parseEntryId", () => {
   it("parses a nested path", () => {
@@ -43,11 +43,3 @@ describe("buildDocHref", () => {
   });
 });
 
-describe("isVersion / isLocale", () => {
-  it("recognizes configured versions and locales", () => {
-    expect(isVersion("v1")).toBe(true);
-    expect(isVersion("v99")).toBe(false);
-    expect(isLocale("en")).toBe(true);
-    expect(isLocale("xx")).toBe(false);
-  });
-});

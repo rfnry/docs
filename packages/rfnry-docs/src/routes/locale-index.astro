@@ -1,15 +1,15 @@
 ---
-import { docsConfig } from "../../docs.config";
-import { getCurrentVersion } from "../../lib/config";
-import { isLocale } from "../../lib/routing";
+import { config as docsConfig } from "virtual:rfnry-docs/config";
+import { getCurrentVersion } from "../schema";
 
 export function getStaticPaths() {
   return docsConfig.i18n.locales.map((l) => ({ params: { locale: l.code } }));
 }
 
 const { locale } = Astro.params;
-if (!locale || !isLocale(locale)) return Astro.redirect("/");
-const current = getCurrentVersion();
+const knownLocale = docsConfig.i18n.locales.some((l) => l.code === locale);
+if (!locale || !knownLocale) return Astro.redirect("/");
+const current = getCurrentVersion(docsConfig);
 const target = `/${locale}/${current.id}/`;
 ---
 <!doctype html>
