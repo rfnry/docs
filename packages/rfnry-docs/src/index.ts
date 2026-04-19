@@ -22,7 +22,14 @@ export default function rfnryDocs(userConfig: RfnryDocsUserConfig): AstroIntegra
   return {
     name: "rfnry-docs",
     hooks: {
-      "astro:config:setup"({ updateConfig, injectRoute }) {
+      "astro:config:setup"({ updateConfig, injectRoute, config: astroConfig }) {
+        const mergedConfig = {
+          ...config,
+          site: {
+            ...config.site,
+            url: config.site.url ?? astroConfig.site,
+          },
+        };
         updateConfig({
           i18n: {
             defaultLocale: config.i18n.defaultLocale,
@@ -42,7 +49,7 @@ export default function rfnryDocs(userConfig: RfnryDocsUserConfig): AstroIntegra
             },
             rehypePlugins: [rehypeSlug, rehypeSectionAnchors],
           },
-          vite: { plugins: [virtualConfigPlugin(config)] },
+          vite: { plugins: [virtualConfigPlugin(mergedConfig)] },
         });
 
         for (const r of ROUTES) injectRoute(r);
