@@ -14,7 +14,11 @@ docs/
   plans/                ← design + migration plans (local-only)
 ```
 
-## Quick start (on the integration itself)
+## Quick start (hacking on the integration)
+
+Repo uses native npm `workspaces`, so any package manager works.
+
+**pnpm** (maintainer default, committed lockfile):
 
 ```bash
 pnpm install
@@ -24,11 +28,31 @@ pnpm --filter @example/minimal build
 pnpm --filter @example/i18n-versioned build
 ```
 
-Workspace package manager: [pnpm](https://pnpm.io/) (version pinned in root `package.json`).
+**npm**:
+
+```bash
+npm install
+npm run typecheck -w rfnry-docs
+npm test -w rfnry-docs
+npm run build -w @example/minimal
+npm run build -w @example/i18n-versioned
+```
+
+**yarn** (classic or berry):
+
+```bash
+yarn install
+yarn workspace rfnry-docs typecheck
+yarn workspace rfnry-docs test
+yarn workspace @example/minimal build
+yarn workspace @example/i18n-versioned build
+```
+
+Only `pnpm-lock.yaml` is committed. npm/yarn users generate their own lockfile locally (`package-lock.json`, `yarn.lock` — both gitignored). CI uses pnpm.
 
 ## Using rfnry-docs in your own project
 
-See [`packages/rfnry-docs/README.md`](./packages/rfnry-docs/README.md).
+See [`packages/rfnry-docs/README.md`](./packages/rfnry-docs/README.md). Consumers can use any package manager — the published package works the same.
 
 Short version:
 
@@ -56,14 +80,15 @@ Drop markdown into `src/content/docs/{version}/{locale}/`.
 
 ## Scripts
 
+Root only has the Biome scripts (work with any package manager):
+
 | Script | What |
 |---|---|
-| `pnpm build` | Build every workspace package that exposes a `build` script |
-| `pnpm typecheck` | Run `typecheck` across all packages |
-| `pnpm test` | Run the package's unit tests (`packages/rfnry-docs`) |
-| `pnpm check` | Biome — formatter + linter |
-| `pnpm check:fix` | Auto-apply safe fixes |
-| `pnpm format` | Format with Biome |
+| `check` | Biome — lint + format check |
+| `check:fix` | Auto-apply safe fixes |
+| `format` | Format with Biome |
+
+Per-workspace scripts (`typecheck`, `test`, `build`) live in each package's `package.json`. Invoke them via your chosen package manager's workspace filter — see the quick-start table above.
 
 ## License
 
