@@ -25,6 +25,7 @@
     ".": "./src/index.ts",
     "./schema": "./src/schema.ts",
     "./components/*": "./src/components/*",
+    "./content": "./src/content/config.ts",
     "./styles/tokens.css": "./src/styles/tokens.css",
     "./routes/*": "./src/routes/*"
   },

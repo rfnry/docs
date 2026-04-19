@@ -44,5 +44,3 @@ export function getCurrentVersion(config: RfnryDocsConfig) {
   if (!c) throw new Error("docsConfig.versions must have exactly one { current: true }");
   return c;
 }
-
-export { collections } from "./content/config";
