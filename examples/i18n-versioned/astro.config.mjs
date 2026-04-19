@@ -1,0 +1,26 @@
+import { defineConfig } from "astro/config";
+import rfnryDocs from "rfnry-docs";
+
+export default defineConfig({
+  site: "https://example.com",
+  integrations: [
+    rfnryDocs({
+      site: {
+        title: "Full Example",
+        description: "Two locales, nested groups, deep versioned content.",
+        logo: { enabled: false, src: "/logo.svg", alt: "Full Example" },
+        github: "https://github.com/rfnry/docs",
+      },
+      i18n: {
+        defaultLocale: "en",
+        locales: [
+          { code: "en", label: "English" },
+          { code: "pt-br", label: "Português (Brasil)" },
+        ],
+      },
+      versions: [{ id: "v1", label: "v1.0", current: true }],
+      theme: { default: "system" },
+      headerLinks: [],
+    }),
+  ],
+});
