@@ -25,8 +25,12 @@ export function initSearch() {
 
   if (!trigger || !dialog || !input || !results) return;
 
-  const version = document.documentElement.getAttribute("data-version") ?? "";
   const pagefindUrl = dialog.dataset.pagefindUrl ?? "/pagefind/pagefind.js";
+  const pkg = dialog.dataset.searchPackage ?? "";
+  const version = dialog.dataset.searchVersion ?? "";
+  const filters: Record<string, string> = {};
+  if (pkg) filters.package = pkg;
+  if (version) filters.version = version;
 
   const showMessage = (msg: string, tone: "info" | "error" = "info") => {
     const li = document.createElement("li");
@@ -87,7 +91,7 @@ export function initSearch() {
     }
     try {
       const pf = await loadPagefind(pagefindUrl);
-      const r = await pf.search(q, { filters: { version } });
+      const r = await pf.search(q, { filters });
       const top = await Promise.all(r.results.slice(0, 8).map((x: any) => x.data()));
       if (top.length === 0) {
         showMessage("No results.");

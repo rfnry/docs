@@ -44,7 +44,7 @@ const showLogo = docsConfig.site.logo.enabled;
     </span>
   </Fragment>
   <Fragment slot="actions">
-    <Search />
+    <Search pkg={currentPkg} version={currentVersion} />
     <div class="desktop-only header-desktop-items">
       <ShareAI locale={currentLocale} pkg={currentPkg} version={currentVersion} />
       {docsConfig.headerLinks.map((l) => (

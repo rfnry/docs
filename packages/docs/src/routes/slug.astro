@@ -79,7 +79,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
         </div>
       </div>
     </Fragment>
-    <div data-pagefind-body data-pagefind-filter={`package:${parsed.pkg}|version:${parsed.version}`} lang={parsed.locale}>
+    <div data-pagefind-body data-pagefind-filter={`package:${parsed.pkg}, version:${parsed.version}`} lang={parsed.locale}>
       <article class="prose">
         <header class="page-header">
           <h1 data-pagefind-meta="title">{entry.data.title}</h1>

@@ -3,6 +3,11 @@ import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import Button from "@rfnry/ui/components/Button.astro";
 import Icon from "@rfnry/ui/components/Icon.astro";
 
+interface Props {
+  pkg: string;
+  version: string;
+}
+const { pkg, version } = Astro.props;
 const pagefindUrl = `${docsConfig.base}pagefind/pagefind.js`;
 ---
 <Button class="search-trigger" data-search-trigger aria-label="Search">
@@ -10,7 +15,13 @@ const pagefindUrl = `${docsConfig.base}pagefind/pagefind.js`;
   <span class="search-label">Search…</span>
 </Button>
 
-<dialog class="dialog" data-search-dialog data-pagefind-url={pagefindUrl}>
+<dialog
+  class="dialog"
+  data-search-dialog
+  data-pagefind-url={pagefindUrl}
+  data-search-package={pkg}
+  data-search-version={version}
+>
   <div class="box">
     <div class="input-row">
       <Icon name="search" size={16} />
