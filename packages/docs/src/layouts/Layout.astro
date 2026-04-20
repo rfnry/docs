@@ -1,7 +1,7 @@
 ---
-import "../styles/reset.css";
-import "../styles/tokens.css";
-import "../styles/prose.css";
+import "@rfnry/ui/styles/reset.css";
+import "@rfnry/ui/styles/tokens.css";
+import "@rfnry/ui/styles/prose.css";
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import Header from "../components/Header.astro";
 
@@ -9,18 +9,19 @@ interface Props {
   title: string;
   description: string;
   locale: string;
+  pkg?: string;
   version?: string;
   slug?: string;
 }
 
-const { title, description, locale, version, slug = "" } = Astro.props;
+const { title, description, locale, pkg, version, slug = "" } = Astro.props;
 const themeDefault = docsConfig.theme.default;
-const showHeader = !!version;
+const showHeader = !!(pkg && version);
 const siteTitle = docsConfig.site.title;
 const fullTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
 ---
 <!doctype html>
-<html lang={locale} data-version={version ?? ""}>
+<html lang={locale} data-package={pkg ?? ""} data-version={version ?? ""}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,7 +48,7 @@ const fullTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
   </head>
   <body>
     {showHeader && (
-      <Header currentLocale={locale} currentVersion={version!} currentSlug={slug} />
+      <Header currentLocale={locale} currentPkg={pkg!} currentVersion={version!} currentSlug={slug} />
     )}
     <slot />
   </body>
