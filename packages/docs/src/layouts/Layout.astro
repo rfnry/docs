@@ -2,7 +2,6 @@
 import "@rfnry/ui/styles/reset.css";
 import "@rfnry/ui/styles/tokens.css";
 import "@rfnry/ui/styles/prose.css";
-import { ClientRouter } from "astro:transitions";
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
 
 interface Props {
@@ -29,7 +28,6 @@ const faviconHref =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={faviconHref} />
-    <ClientRouter />
     <script is:inline define:vars={{ themeDefault }}>
       (function () {
         try {

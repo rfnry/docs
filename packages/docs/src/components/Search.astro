@@ -11,7 +11,7 @@ import Icon from "@rfnry/ui/components/Icon.astro";
   <div class="box">
     <div class="input-row">
       <Icon name="search" size={16} />
-      <input type="search" placeholder="Search docs" data-search-input aria-label="Search docs" />
+      <input type="search" name="q" placeholder="Search docs" data-search-input aria-label="Search docs" />
     </div>
     <ul class="results" data-search-results></ul>
   </div>
@@ -19,7 +19,7 @@ import Icon from "@rfnry/ui/components/Icon.astro";
 
 <script>
   import { initSearch } from "../scripts/search.ts";
-  document.addEventListener("astro:page-load", initSearch);
+  initSearch();
 </script>
 
 <style>

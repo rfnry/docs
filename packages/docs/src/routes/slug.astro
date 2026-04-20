@@ -98,7 +98,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
   </Shell>
 </Layout>
 
-<script define:vars={{ mdUrl }} data-astro-rerun>
+<script define:vars={{ mdUrl }}>
   document.querySelectorAll("article.prose h2[data-section-heading]").forEach((h2) => {
     if (h2.querySelector(".copy-ai")) return;
     const anchor = h2.getAttribute("data-section-heading");
@@ -120,10 +120,8 @@ const sections = sliceSections(entry.body as string).map((s) => ({
 <script>
   import { initCopyForAI } from "../scripts/copy-ai.ts";
   import { initCodeCopy } from "../scripts/code-copy.ts";
-  document.addEventListener("astro:page-load", () => {
-    initCopyForAI();
-    initCodeCopy();
-  });
+  initCopyForAI();
+  initCodeCopy();
 </script>
 
 <style>

@@ -27,5 +27,5 @@ const llmsUrl = `${docsConfig.base}${locale}/${pkg}/${version}/llms.txt`;
 
 <script>
   import { initShare } from "../scripts/share-ai.ts";
-  document.addEventListener("astro:page-load", initShare);
+  initShare();
 </script>
