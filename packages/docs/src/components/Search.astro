@@ -1,13 +1,16 @@
 ---
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import Button from "@rfnry/ui/components/Button.astro";
 import Icon from "@rfnry/ui/components/Icon.astro";
+
+const pagefindUrl = `${docsConfig.base}pagefind/pagefind.js`;
 ---
 <Button class="search-trigger" data-search-trigger aria-label="Search">
   <Icon name="search" size={14} />
   <span class="search-label">Search…</span>
 </Button>
 
-<dialog class="dialog" data-search-dialog>
+<dialog class="dialog" data-search-dialog data-pagefind-url={pagefindUrl}>
   <div class="box">
     <div class="input-row">
       <Icon name="search" size={16} />

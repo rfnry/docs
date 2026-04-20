@@ -3,10 +3,9 @@ const MISSING_INDEX_MESSAGE = "Search index not available. Run `npm run build` t
 let loaded = false;
 let pagefind: any = null;
 
-async function loadPagefind() {
+async function loadPagefind(pfUrl: string) {
   if (loaded) return pagefind;
   try {
-    const pfUrl = "/pagefind/pagefind.js";
     pagefind = await import(/* @vite-ignore */ pfUrl);
     await pagefind.options({ excerptLength: 24 });
     await pagefind.init();
@@ -27,6 +26,7 @@ export function initSearch() {
   if (!trigger || !dialog || !input || !results) return;
 
   const version = document.documentElement.getAttribute("data-version") ?? "";
+  const pagefindUrl = dialog.dataset.pagefindUrl ?? "/pagefind/pagefind.js";
 
   const showMessage = (msg: string, tone: "info" | "error" = "info") => {
     const li = document.createElement("li");
@@ -39,7 +39,7 @@ export function initSearch() {
     dialog.showModal();
     input.focus();
     try {
-      await loadPagefind();
+      await loadPagefind(pagefindUrl);
     } catch (err) {
       showMessage(err instanceof Error ? err.message : MISSING_INDEX_MESSAGE, "error");
     }
@@ -86,7 +86,7 @@ export function initSearch() {
       return;
     }
     try {
-      const pf = await loadPagefind();
+      const pf = await loadPagefind(pagefindUrl);
       const r = await pf.search(q, { filters: { version } });
       const top = await Promise.all(r.results.slice(0, 8).map((x: any) => x.data()));
       if (top.length === 0) {
