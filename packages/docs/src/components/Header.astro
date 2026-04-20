@@ -39,7 +39,9 @@ const showLogo = docsConfig.site.logo.enabled;
       <span class="brand-text">{docsConfig.site.title}</span>
     </a>
     <span class="desktop-only pickers">
-      <PackagePicker currentLocale={currentLocale} currentPkg={currentPkg} />
+      {docsConfig.packages.length > 1 && (
+        <PackagePicker currentLocale={currentLocale} currentPkg={currentPkg} />
+      )}
       <VersionPicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} />
     </span>
   </Fragment>

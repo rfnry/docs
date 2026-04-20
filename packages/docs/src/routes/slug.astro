@@ -68,7 +68,9 @@ const sections = sliceSections(entry.body as string).map((s) => ({
       </div>
       <div class="mobile-footer">
         <div class="mobile-footer-cluster">
-          <PackagePicker currentLocale={parsed.locale} currentPkg={parsed.pkg} />
+          {docsConfig.packages.length > 1 && (
+            <PackagePicker currentLocale={parsed.locale} currentPkg={parsed.pkg} />
+          )}
           <VersionPicker currentLocale={parsed.locale} currentPkg={parsed.pkg} currentVersion={parsed.version} />
         </div>
         <div class="mobile-footer-cluster">
