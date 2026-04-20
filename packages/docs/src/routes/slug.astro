@@ -39,6 +39,8 @@ const currentHref = buildDocHref(parsed, docsConfig.base);
 const mdUrl = `${currentHref.replace(/\/$/, "")}.md`;
 const canonicalUrl = docsConfig.site.url + currentHref;
 
+const showPackagePicker = docsConfig.site.showPackagePicker ?? docsConfig.packages.length > 1;
+
 const sections = sliceSections(entry.body as string).map((s) => ({
   anchor: s.anchor,
   payload:
@@ -68,7 +70,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
       </div>
       <div class="mobile-footer">
         <div class="mobile-footer-cluster">
-          {docsConfig.packages.length > 1 && (
+          {showPackagePicker && (
             <PackagePicker currentLocale={parsed.locale} currentPkg={parsed.pkg} />
           )}
           <VersionPicker currentLocale={parsed.locale} currentPkg={parsed.pkg} currentVersion={parsed.version} />

@@ -21,6 +21,7 @@ export const docsConfigSchema = z.object({
         }),
       )
       .default([]),
+    showPackagePicker: z.boolean().optional(),
   }),
   i18n: z.object({
     defaultLocale: z.string(),

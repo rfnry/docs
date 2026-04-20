@@ -19,6 +19,7 @@ interface Props {
 }
 const { currentLocale, currentPkg, currentVersion, currentSlug } = Astro.props;
 const showLogo = docsConfig.site.logo.enabled;
+const showPackagePicker = docsConfig.site.showPackagePicker ?? docsConfig.packages.length > 1;
 ---
 <Header>
   <Fragment slot="brand">
@@ -39,7 +40,7 @@ const showLogo = docsConfig.site.logo.enabled;
       <span class="brand-text">{docsConfig.site.title}</span>
     </a>
     <span class="desktop-only pickers">
-      {docsConfig.packages.length > 1 && (
+      {showPackagePicker && (
         <PackagePicker currentLocale={currentLocale} currentPkg={currentPkg} />
       )}
       <VersionPicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} />
