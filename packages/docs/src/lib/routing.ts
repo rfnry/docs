@@ -22,8 +22,3 @@ export function buildDocHref(parts: ParsedEntryId, base = "/"): string {
   const tail = slug ? `${slug}/` : "";
   return `${b}${locale}/${pkg}/${version}/${tail}`;
 }
-
-export function withBase(base: string, path: string): string {
-  const b = base.endsWith("/") ? base : `${base}/`;
-  return path.startsWith("/") ? `${b}${path.slice(1)}` : `${b}${path}`;
-}
