@@ -32,19 +32,23 @@ const faviconHref =
     <ClientRouter />
     <script is:inline define:vars={{ themeDefault }}>
       (function () {
-        try {
-          var stored = localStorage.getItem("theme");
-          var pref = stored || themeDefault;
-          var theme = pref;
-          if (pref === "system") {
-            theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        function apply() {
+          try {
+            var stored = localStorage.getItem("theme");
+            var pref = stored || themeDefault;
+            var theme = pref;
+            if (pref === "system") {
+              theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+            }
+            document.documentElement.setAttribute("data-theme", theme);
+            document.documentElement.setAttribute("data-theme-pref", pref);
+          } catch (e) {
+            document.documentElement.setAttribute("data-theme", "dark");
+            document.documentElement.setAttribute("data-theme-pref", "dark");
           }
-          document.documentElement.setAttribute("data-theme", theme);
-          document.documentElement.setAttribute("data-theme-pref", pref);
-        } catch (e) {
-          document.documentElement.setAttribute("data-theme", "dark");
-          document.documentElement.setAttribute("data-theme-pref", "dark");
         }
+        apply();
+        document.addEventListener("astro:after-swap", apply);
       })();
     </script>
   </head>
