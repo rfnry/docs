@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
 import Sidebar from "../components/Sidebar.astro";
 import TOC from "../components/TOC.astro";
 import CopyForAI from "../components/CopyForAI.astro";
@@ -9,6 +10,7 @@ import PackagePicker from "../components/PackagePicker.astro";
 import VersionPicker from "../components/VersionPicker.astro";
 import LocalePicker from "../components/LocalePicker.astro";
 import ShareAI from "../components/ShareAI.astro";
+import Shell from "@rfnry/ui/components/Shell.astro";
 import SocialLinksDropdown from "@rfnry/ui/components/SocialLinksDropdown.astro";
 import ThemeToggle from "@rfnry/ui/components/ThemeToggle.astro";
 import { parseEntryId, buildDocHref } from "../lib/routing";
@@ -55,10 +57,12 @@ const sections = sliceSections(entry.body as string).map((s) => ({
   locale={parsed.locale}
   pkg={parsed.pkg}
   version={parsed.version}
-  slug={parsed.slug}
 >
-  <div class="shell">
-    <aside class="col-sidebar" aria-label="Documentation navigation">
+  <Shell sidebar toc>
+    <Fragment slot="header">
+      <Header currentLocale={parsed.locale} currentPkg={parsed.pkg} currentVersion={parsed.version} currentSlug={parsed.slug} />
+    </Fragment>
+    <Fragment slot="sidebar">
       <div class="sidebar-main">
         <Sidebar locale={parsed.locale} pkg={parsed.pkg} version={parsed.version} currentHref={currentHref} />
       </div>
@@ -74,8 +78,8 @@ const sections = sliceSections(entry.body as string).map((s) => ({
           <ThemeToggle />
         </div>
       </div>
-    </aside>
-    <main class="col-content" data-pagefind-body data-pagefind-filter={`package:${parsed.pkg}|version:${parsed.version}`} lang={parsed.locale}>
+    </Fragment>
+    <div data-pagefind-body data-pagefind-filter={`package:${parsed.pkg}|version:${parsed.version}`} lang={parsed.locale}>
       <article class="prose">
         <header class="page-header">
           <h1 data-pagefind-meta="title">{entry.data.title}</h1>
@@ -87,11 +91,11 @@ const sections = sliceSections(entry.body as string).map((s) => ({
       {sections.map((s) => (
         <template id={`section-md-${s.anchor}`} data-payload={JSON.stringify(s.payload)}></template>
       ))}
-    </main>
-    <aside class="col-toc" aria-label="On this page">
+    </div>
+    <Fragment slot="toc">
       <TOC headings={headings} />
-    </aside>
-  </div>
+    </Fragment>
+  </Shell>
 </Layout>
 
 <script define:vars={{ mdUrl }}>
@@ -121,33 +125,11 @@ const sections = sliceSections(entry.body as string).map((s) => ({
 </script>
 
 <style>
-  .shell {
-    display: grid;
-    grid-template-columns: var(--sidebar-w) minmax(0, 1fr) var(--toc-w);
-    max-width: var(--shell-max);
-    margin: 0 auto;
-    min-height: calc(100vh - var(--header-h));
-  }
-  .col-sidebar {
-    position: sticky;
-    top: var(--header-h);
-    align-self: start;
-    max-height: calc(100vh - var(--header-h));
-    overflow-y: auto;
-    padding-right: calc(var(--gutter) * 2);
-  }
   .sidebar-main {
     display: block;
   }
   .mobile-footer {
     display: none;
-  }
-  .col-content {
-    padding: var(--gutter);
-    min-width: 0;
-  }
-  .col-toc {
-    padding-left: calc(var(--gutter) * 2);
   }
   .page-header {
     display: flex;
@@ -159,40 +141,8 @@ const sections = sliceSections(entry.body as string).map((s) => ({
     margin: 0;
     flex: 1;
   }
-  @media (max-width: 1024px) {
-    .shell {
-      grid-template-columns: var(--sidebar-w) 1fr;
-    }
-    .col-toc {
-      display: none;
-    }
-  }
+
   @media (max-width: 768px) {
-    .shell {
-      grid-template-columns: 1fr;
-    }
-    .col-content {
-      padding: var(--gutter);
-    }
-    .col-sidebar {
-      display: none;
-      position: fixed;
-      top: var(--header-h);
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      height: calc(100dvh - var(--header-h));
-      background: var(--color-bg-inner);
-      z-index: calc(var(--z-header) - 1);
-      max-height: none;
-      overflow: hidden;
-      flex-direction: column;
-      padding-right: 0;
-    }
-    :global(body[data-sidebar-open="true"]) .col-sidebar {
-      display: flex;
-    }
     .sidebar-main {
       flex: 1;
       overflow-y: auto;
