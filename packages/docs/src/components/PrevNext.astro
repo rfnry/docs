@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { buildSidebarTree, type SidebarNode } from "../lib/sidebar";
 import { loadGroups } from "../lib/groups";
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import Icon from "@rfnry/ui/components/Icon.astro";
 
 interface Props {
@@ -25,6 +26,7 @@ const tree = buildSidebarTree({
   locale,
   entries: simpleEntries,
   groups: loadGroups(pkg, version, locale),
+  base: docsConfig.base,
 });
 
 const flat: { href: string; label: string }[] = [];
