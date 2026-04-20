@@ -4,7 +4,7 @@ import LocalePicker from "./LocalePicker.astro";
 import PackagePicker from "./PackagePicker.astro";
 import Search from "./Search.astro";
 import ShareAI from "./ShareAI.astro";
-import SocialLinks from "./SocialLinks.astro";
+import SocialLinks from "@rfnry/ui/components/SocialLinks.astro";
 import ThemeToggle from "@rfnry/ui/components/ThemeToggle.astro";
 import VersionPicker from "./VersionPicker.astro";
 import Button from "@rfnry/ui/components/Button.astro";
@@ -53,7 +53,7 @@ const showLogo = docsConfig.site.logo.enabled;
             {l.label}
           </a>
         ))}
-        <SocialLinks />
+        <SocialLinks social={docsConfig.site.social} />
         <LocalePicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} currentSlug={currentSlug} />
         <ThemeToggle />
       </div>

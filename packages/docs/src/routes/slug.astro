@@ -9,7 +9,7 @@ import PackagePicker from "../components/PackagePicker.astro";
 import VersionPicker from "../components/VersionPicker.astro";
 import LocalePicker from "../components/LocalePicker.astro";
 import ShareAI from "../components/ShareAI.astro";
-import SocialLinksDropdown from "../components/SocialLinksDropdown.astro";
+import SocialLinksDropdown from "@rfnry/ui/components/SocialLinksDropdown.astro";
 import ThemeToggle from "@rfnry/ui/components/ThemeToggle.astro";
 import { parseEntryId, buildDocHref } from "../lib/routing";
 import { sliceSections, buildContextHeader } from "../lib/ai-content";
@@ -69,7 +69,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
         </div>
         <div class="mobile-footer-cluster">
           <ShareAI />
-          <SocialLinksDropdown />
+          <SocialLinksDropdown social={docsConfig.site.social} />
           <LocalePicker currentLocale={parsed.locale} currentPkg={parsed.pkg} currentVersion={parsed.version} currentSlug={parsed.slug} />
           <ThemeToggle />
         </div>
