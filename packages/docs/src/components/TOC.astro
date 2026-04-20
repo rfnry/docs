@@ -1,50 +1,10 @@
 ---
-interface Heading { depth: number; slug: string; text: string; }
-interface Props { headings: Heading[]; }
+import TOC from "@rfnry/ui/components/TOC.astro";
+import type { Heading } from "@rfnry/ui/lib/toc";
+
+interface Props {
+  headings: Heading[];
+}
 const { headings } = Astro.props;
-const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
-<nav class="toc" data-toc>
-  {items.length > 0 && (
-    <ul>
-      {items.map((h) => (
-        <li class:list={["lvl-" + h.depth]}>
-          <a href={`#${h.slug}`}>{h.text}</a>
-        </li>
-      ))}
-    </ul>
-  )}
-</nav>
-
-<script>
-  import { initTOC } from "../scripts/toc.ts";
-  initTOC();
-</script>
-
-<style>
-  .toc {
-    position: sticky;
-    top: var(--header-h);
-    padding: var(--gutter);
-    font-size: var(--fs-sm);
-    max-height: calc(100vh - var(--header-h));
-    overflow-y: auto;
-  }
-  ul { list-style: none; margin: 0; padding: 0; }
-  li { padding: .125em 0; }
-  .lvl-3 { padding-left: .75em; }
-  a {
-    color: var(--color-muted);
-    display: block;
-    padding: .25em 0;
-    transition: color .1s;
-  }
-  a:hover {
-    color: var(--color-fg);
-    text-decoration: none;
-  }
-  a.active {
-    color: var(--color-fg);
-    font-weight: 500;
-  }
-</style>
+<TOC headings={headings} contentSelector="article.prose h2[id], article.prose h3[id]" />
