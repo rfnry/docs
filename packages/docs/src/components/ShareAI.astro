@@ -25,7 +25,7 @@ const llmsUrl = `${docsConfig.base}${locale}/${pkg}/${version}/llms.txt`;
   </Fragment>
 </Dropdown>
 
-<script data-astro-rerun>
+<script>
   import { initShare } from "../scripts/share-ai.ts";
-  initShare();
+  document.addEventListener("astro:page-load", initShare);
 </script>

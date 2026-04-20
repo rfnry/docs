@@ -17,9 +17,9 @@ import Icon from "@rfnry/ui/components/Icon.astro";
   </div>
 </dialog>
 
-<script data-astro-rerun>
+<script>
   import { initSearch } from "../scripts/search.ts";
-  initSearch();
+  document.addEventListener("astro:page-load", initSearch);
 </script>
 
 <style>

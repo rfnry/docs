@@ -117,11 +117,13 @@ const sections = sliceSections(entry.body as string).map((s) => ({
   });
 </script>
 
-<script data-astro-rerun>
+<script>
   import { initCopyForAI } from "../scripts/copy-ai.ts";
   import { initCodeCopy } from "../scripts/code-copy.ts";
-  initCopyForAI();
-  initCodeCopy();
+  document.addEventListener("astro:page-load", () => {
+    initCopyForAI();
+    initCodeCopy();
+  });
 </script>
 
 <style>
