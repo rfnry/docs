@@ -2,14 +2,15 @@
 import { getCollection } from "astro:content";
 import { buildSidebarTree, type SidebarNode } from "../lib/sidebar";
 import { loadGroups } from "../lib/groups";
-import Icon from "./Icon.astro";
+import Icon from "@rfnry/ui/components/Icon.astro";
 
 interface Props {
   locale: string;
+  pkg: string;
   version: string;
   currentHref: string;
 }
-const { locale, version, currentHref } = Astro.props;
+const { locale, pkg, version, currentHref } = Astro.props;
 
 const entries = await getCollection("docs");
 const simpleEntries = entries.map((e) => ({
@@ -19,10 +20,11 @@ const simpleEntries = entries.map((e) => ({
   hidden: e.data.sidebar.hidden,
 }));
 const tree = buildSidebarTree({
+  pkg,
   version,
   locale,
   entries: simpleEntries,
-  groups: loadGroups(version, locale),
+  groups: loadGroups(pkg, version, locale),
 });
 
 const flat: { href: string; label: string }[] = [];

@@ -1,19 +1,22 @@
 ---
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
-import Dropdown from "./Dropdown.astro";
+import { getPackage } from "../schema";
+import Dropdown from "@rfnry/ui/components/Dropdown.astro";
 
 interface Props {
   currentLocale: string;
+  currentPkg: string;
   currentVersion: string;
 }
-const { currentLocale, currentVersion } = Astro.props;
-const currentLabel = docsConfig.versions.find((v) => v.id === currentVersion)?.label ?? currentVersion;
+const { currentLocale, currentPkg, currentVersion } = Astro.props;
+const pkg = getPackage(docsConfig, currentPkg);
+const currentLabel = pkg.versions.find((v) => v.id === currentVersion)?.label ?? currentVersion;
 ---
 <Dropdown id="version" align="left" variant="select" bare label="Change version">
   <Fragment slot="trigger">{currentLabel}</Fragment>
   <Fragment slot="menu">
-    {docsConfig.versions.map((v) => (
-      <a href={`/${currentLocale}/${v.id}/`} class={v.id === currentVersion ? "active" : ""}>
+    {pkg.versions.map((v) => (
+      <a href={`/${currentLocale}/${currentPkg}/${v.id}/`} class={v.id === currentVersion ? "active" : ""}>
         {v.label}{v.current ? " (current)" : ""}
       </a>
     ))}

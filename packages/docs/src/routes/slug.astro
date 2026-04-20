@@ -5,11 +5,12 @@ import Sidebar from "../components/Sidebar.astro";
 import TOC from "../components/TOC.astro";
 import CopyForAI from "../components/CopyForAI.astro";
 import PrevNext from "../components/PrevNext.astro";
+import PackagePicker from "../components/PackagePicker.astro";
 import VersionPicker from "../components/VersionPicker.astro";
 import LocalePicker from "../components/LocalePicker.astro";
 import ShareAI from "../components/ShareAI.astro";
 import SocialLinksDropdown from "../components/SocialLinksDropdown.astro";
-import ThemeToggle from "../components/ThemeToggle.astro";
+import ThemeToggle from "@rfnry/ui/components/ThemeToggle.astro";
 import { parseEntryId, buildDocHref } from "../lib/routing";
 import { sliceSections, buildContextHeader } from "../lib/ai-content";
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
@@ -21,6 +22,7 @@ export async function getStaticPaths() {
     return {
       params: {
         locale: parsed.locale,
+        pkg: parsed.pkg,
         version: parsed.version,
         slug: parsed.slug || undefined,
       },
@@ -40,6 +42,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
   payload:
     buildContextHeader({
       url: canonicalUrl,
+      pkg: parsed.pkg,
       version: parsed.version,
       locale: parsed.locale,
       anchor: s.anchor,
@@ -50,27 +53,29 @@ const sections = sliceSections(entry.body as string).map((s) => ({
   title={entry.data.title}
   description={entry.data.description}
   locale={parsed.locale}
+  pkg={parsed.pkg}
   version={parsed.version}
   slug={parsed.slug}
 >
   <div class="shell">
     <aside class="col-sidebar" aria-label="Documentation navigation">
       <div class="sidebar-main">
-        <Sidebar locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
+        <Sidebar locale={parsed.locale} pkg={parsed.pkg} version={parsed.version} currentHref={currentHref} />
       </div>
       <div class="mobile-footer">
         <div class="mobile-footer-cluster">
-          <VersionPicker currentLocale={parsed.locale} currentVersion={parsed.version} />
+          <PackagePicker currentLocale={parsed.locale} currentPkg={parsed.pkg} />
+          <VersionPicker currentLocale={parsed.locale} currentPkg={parsed.pkg} currentVersion={parsed.version} />
         </div>
         <div class="mobile-footer-cluster">
           <ShareAI />
           <SocialLinksDropdown />
-          <LocalePicker currentLocale={parsed.locale} currentVersion={parsed.version} currentSlug={parsed.slug} />
+          <LocalePicker currentLocale={parsed.locale} currentPkg={parsed.pkg} currentVersion={parsed.version} currentSlug={parsed.slug} />
           <ThemeToggle />
         </div>
       </div>
     </aside>
-    <main class="col-content" data-pagefind-body data-pagefind-filter={`version:${parsed.version}`} lang={parsed.locale}>
+    <main class="col-content" data-pagefind-body data-pagefind-filter={`package:${parsed.pkg}|version:${parsed.version}`} lang={parsed.locale}>
       <article class="prose">
         <header class="page-header">
           <h1 data-pagefind-meta="title">{entry.data.title}</h1>
@@ -78,7 +83,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
         </header>
         <Content />
       </article>
-      <PrevNext locale={parsed.locale} version={parsed.version} currentHref={currentHref} />
+      <PrevNext locale={parsed.locale} pkg={parsed.pkg} version={parsed.version} currentHref={currentHref} />
       {sections.map((s) => (
         <template id={`section-md-${s.anchor}`} data-payload={JSON.stringify(s.payload)}></template>
       ))}

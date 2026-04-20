@@ -1,14 +1,15 @@
 ---
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
-import Dropdown from "./Dropdown.astro";
-import Icon from "./Icon.astro";
+import Dropdown from "@rfnry/ui/components/Dropdown.astro";
+import Icon from "@rfnry/ui/components/Icon.astro";
 
 interface Props {
   currentLocale: string;
+  currentPkg: string;
   currentVersion: string;
   currentSlug: string;
 }
-const { currentLocale, currentVersion, currentSlug } = Astro.props;
+const { currentLocale, currentPkg, currentVersion, currentSlug } = Astro.props;
 ---
 <Dropdown id="locale" align="right" variant="icon" label="Change language">
   <Fragment slot="trigger">
@@ -16,7 +17,7 @@ const { currentLocale, currentVersion, currentSlug } = Astro.props;
   </Fragment>
   <Fragment slot="menu">
     {docsConfig.i18n.locales.map((l) => {
-      const href = `/${l.code}/${currentVersion}/${currentSlug}${currentSlug ? "/" : ""}`;
+      const href = `/${l.code}/${currentPkg}/${currentVersion}/${currentSlug}${currentSlug ? "/" : ""}`;
       return (
         <a href={href} class={l.code === currentLocale ? "active" : ""}>{l.label}</a>
       );

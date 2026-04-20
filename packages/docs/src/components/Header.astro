@@ -1,20 +1,22 @@
 ---
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import LocalePicker from "./LocalePicker.astro";
+import PackagePicker from "./PackagePicker.astro";
 import Search from "./Search.astro";
 import ShareAI from "./ShareAI.astro";
 import SocialLinks from "./SocialLinks.astro";
-import ThemeToggle from "./ThemeToggle.astro";
+import ThemeToggle from "@rfnry/ui/components/ThemeToggle.astro";
 import VersionPicker from "./VersionPicker.astro";
-import Button from "./Button.astro";
-import Icon from "./Icon.astro";
+import Button from "@rfnry/ui/components/Button.astro";
+import Icon from "@rfnry/ui/components/Icon.astro";
 
 interface Props {
   currentLocale: string;
+  currentPkg: string;
   currentVersion: string;
   currentSlug: string;
 }
-const { currentLocale, currentVersion, currentSlug } = Astro.props;
+const { currentLocale, currentPkg, currentVersion, currentSlug } = Astro.props;
 const showLogo = docsConfig.site.logo.enabled;
 ---
 <header class="header">
@@ -30,13 +32,16 @@ const showLogo = docsConfig.site.logo.enabled;
         <span class="hamburger-icon hamburger-icon-menu"><Icon name="menu" size={18} /></span>
         <span class="hamburger-icon hamburger-icon-close"><Icon name="x" size={18} /></span>
       </Button>
-      <a href={`/${currentLocale}/${currentVersion}/`} class="brand">
+      <a href={`/${currentLocale}/${currentPkg}/${currentVersion}/`} class="brand">
         {showLogo && (
           <img src={docsConfig.site.logo.src} alt={docsConfig.site.logo.alt} class="logo" />
         )}
         <span class="brand-text">{docsConfig.site.title}</span>
       </a>
-      <span class="desktop-only"><VersionPicker currentLocale={currentLocale} currentVersion={currentVersion} /></span>
+      <span class="desktop-only pickers">
+        <PackagePicker currentLocale={currentLocale} currentPkg={currentPkg} />
+        <VersionPicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} />
+      </span>
     </div>
     <div class="spacer" aria-hidden="true"></div>
     <div class="right">
@@ -49,7 +54,7 @@ const showLogo = docsConfig.site.logo.enabled;
           </a>
         ))}
         <SocialLinks />
-        <LocalePicker currentLocale={currentLocale} currentVersion={currentVersion} currentSlug={currentSlug} />
+        <LocalePicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} currentSlug={currentSlug} />
         <ThemeToggle />
       </div>
     </div>
@@ -81,6 +86,11 @@ const showLogo = docsConfig.site.logo.enabled;
     align-items: center;
     gap: 12px;
     min-width: 0;
+  }
+  .pickers {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
   .brand {
     display: inline-flex;
