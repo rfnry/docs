@@ -39,6 +39,7 @@
     "astro": "^6.0.0"
   },
   "dependencies": {
+    "@rfnry/ui": "file:../../../ui/packages/ui",
     "pagefind": "^1.5.2",
     "rehype-slug": "^6.0.0",
     "unist-util-visit": "^5.1.0",
