@@ -8,10 +8,10 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params;
 const knownLocale = docsConfig.i18n.locales.some((l) => l.code === locale);
-if (!locale || !knownLocale) return Astro.redirect("/");
+if (!locale || !knownLocale) return Astro.redirect(docsConfig.base);
 const pkg = getFirstPackage(docsConfig);
 const current = getCurrentVersion(pkg);
-const target = `/${locale}/${pkg.id}/${current.id}/`;
+const target = `${docsConfig.base}${locale}/${pkg.id}/${current.id}/`;
 ---
 <!doctype html>
 <html lang={locale}>

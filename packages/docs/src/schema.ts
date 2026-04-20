@@ -62,6 +62,15 @@ export const docsConfigSchema = z.object({
 export type RfnryDocsConfig = z.infer<typeof docsConfigSchema>;
 export type RfnryDocsUserConfig = z.input<typeof docsConfigSchema>;
 
+/**
+ * User config merged with runtime-resolved fields from Astro — the shape
+ * exposed to templates via `virtual:@rfnry/docs/config`.
+ */
+export type ResolvedDocsConfig = RfnryDocsConfig & {
+  /** Astro `base` normalized with leading + trailing slash (e.g. `/` or `/rfnry/`). */
+  base: string;
+};
+
 export type DocsPackage = RfnryDocsConfig["packages"][number];
 export type DocsVersion = DocsPackage["versions"][number];
 

@@ -16,7 +16,7 @@ const currentLabel = pkg.versions.find((v) => v.id === currentVersion)?.label ??
   <Fragment slot="trigger">{currentLabel}</Fragment>
   <Fragment slot="menu">
     {pkg.versions.map((v) => (
-      <a href={`/${currentLocale}/${currentPkg}/${v.id}/`} class={v.id === currentVersion ? "active" : ""}>
+      <a href={`${docsConfig.base}${currentLocale}/${currentPkg}/${v.id}/`} class={v.id === currentVersion ? "active" : ""}>
         {v.label}{v.current ? " (current)" : ""}
       </a>
     ))}

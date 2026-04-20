@@ -3,7 +3,7 @@ import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import { getCurrentVersion, getFirstPackage } from "../schema";
 const pkg = getFirstPackage(docsConfig);
 const current = getCurrentVersion(pkg);
-const target = `/${docsConfig.i18n.defaultLocale}/${pkg.id}/${current.id}/`;
+const target = `${docsConfig.base}${docsConfig.i18n.defaultLocale}/${pkg.id}/${current.id}/`;
 ---
 <!doctype html>
 <html lang={docsConfig.i18n.defaultLocale}>

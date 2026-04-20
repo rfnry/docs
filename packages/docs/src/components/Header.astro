@@ -32,7 +32,7 @@ const showLogo = docsConfig.site.logo.enabled;
       <span class="hamburger-icon hamburger-icon-menu"><Icon name="menu" size={18} /></span>
       <span class="hamburger-icon hamburger-icon-close"><Icon name="x" size={18} /></span>
     </Button>
-    <a href={`/${currentLocale}/${currentPkg}/${currentVersion}/`} class="brand">
+    <a href={`${docsConfig.base}${currentLocale}/${currentPkg}/${currentVersion}/`} class="brand">
       {showLogo && (
         <img src={docsConfig.site.logo.src} alt={docsConfig.site.logo.alt} class="logo" />
       )}

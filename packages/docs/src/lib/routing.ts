@@ -16,9 +16,14 @@ export function parseEntryId(id: string): ParsedEntryId {
   return { pkg, version, locale, slug };
 }
 
-export function buildDocHref(parts: ParsedEntryId): string {
+export function buildDocHref(parts: ParsedEntryId, base = "/"): string {
   const { pkg, version, locale, slug } = parts;
-  const base = `/${locale}/${pkg}/${version}/`;
-  if (!slug) return base;
-  return `${base}${slug}/`;
+  const b = base.endsWith("/") ? base : `${base}/`;
+  const tail = slug ? `${slug}/` : "";
+  return `${b}${locale}/${pkg}/${version}/${tail}`;
+}
+
+export function withBase(base: string, path: string): string {
+  const b = base.endsWith("/") ? base : `${base}/`;
+  return path.startsWith("/") ? `${b}${path.slice(1)}` : `${b}${path}`;
 }

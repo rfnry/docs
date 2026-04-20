@@ -30,12 +30,15 @@ export default function rfnry(userConfig: RfnryDocsUserConfig): AstroIntegration
     hooks: {
       "astro:config:setup"({ updateConfig, injectRoute, config: astroConfig }) {
         isStatic = astroConfig.output === "static";
+        const rawBase = astroConfig.base ?? "/";
+        const base = rawBase.endsWith("/") ? rawBase : `${rawBase}/`;
         const mergedConfig = {
           ...config,
           site: {
             ...config.site,
             url: config.site.url ?? astroConfig.site,
           },
+          base,
         };
         updateConfig({
           i18n: {
@@ -82,4 +85,4 @@ export default function rfnry(userConfig: RfnryDocsUserConfig): AstroIntegration
   };
 }
 
-export type { RfnryDocsConfig, RfnryDocsUserConfig } from "./schema";
+export type { ResolvedDocsConfig, RfnryDocsConfig, RfnryDocsUserConfig } from "./schema";

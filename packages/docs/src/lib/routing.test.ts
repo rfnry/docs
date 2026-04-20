@@ -44,4 +44,16 @@ describe("buildDocHref", () => {
       "/en/react/v1/guides/installation/",
     );
   });
+
+  it("prepends a base path", () => {
+    expect(buildDocHref({ pkg: "python", version: "v0", locale: "en", slug: "" }, "/rfnry/")).toBe(
+      "/rfnry/en/python/v0/",
+    );
+  });
+
+  it("tolerates a base without trailing slash", () => {
+    expect(buildDocHref({ pkg: "python", version: "v0", locale: "en", slug: "guides/x" }, "/rfnry")).toBe(
+      "/rfnry/en/python/v0/guides/x/",
+    );
+  });
 });

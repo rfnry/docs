@@ -15,7 +15,7 @@ const currentLabel = getPackage(docsConfig, currentPkg).label;
   <Fragment slot="menu">
     {docsConfig.packages.map((p) => {
       const version = getCurrentVersion(p).id;
-      const href = `/${currentLocale}/${p.id}/${version}/`;
+      const href = `${docsConfig.base}${currentLocale}/${p.id}/${version}/`;
       return (
         <a href={href} class={p.id === currentPkg ? "active" : ""}>{p.label}</a>
       );

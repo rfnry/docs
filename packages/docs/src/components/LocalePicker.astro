@@ -17,7 +17,7 @@ const { currentLocale, currentPkg, currentVersion, currentSlug } = Astro.props;
   </Fragment>
   <Fragment slot="menu">
     {docsConfig.i18n.locales.map((l) => {
-      const href = `/${l.code}/${currentPkg}/${currentVersion}/${currentSlug}${currentSlug ? "/" : ""}`;
+      const href = `${docsConfig.base}${l.code}/${currentPkg}/${currentVersion}/${currentSlug}${currentSlug ? "/" : ""}`;
       return (
         <a href={href} class={l.code === currentLocale ? "active" : ""}>{l.label}</a>
       );

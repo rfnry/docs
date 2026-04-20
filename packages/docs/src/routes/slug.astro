@@ -35,7 +35,7 @@ export async function getStaticPaths() {
 
 const { entry, parsed } = Astro.props;
 const { Content, headings } = await render(entry);
-const currentHref = buildDocHref(parsed);
+const currentHref = buildDocHref(parsed, docsConfig.base);
 const mdUrl = `${currentHref.replace(/\/$/, "")}.md`;
 const canonicalUrl = docsConfig.site.url + currentHref;
 

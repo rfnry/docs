@@ -27,6 +27,7 @@ interface BuildArgs {
   locale: string;
   entries: SidebarEntry[];
   groups: Map<string, GroupMeta>;
+  base?: string;
 }
 
 function humanize(folder: string): string {
@@ -46,7 +47,7 @@ interface Leaf {
 }
 
 export function buildSidebarTree(args: BuildArgs): SidebarNode[] {
-  const { pkg, version, locale, entries, groups } = args;
+  const { pkg, version, locale, entries, groups, base = "/" } = args;
 
   const root: Bucket = { kind: "folder", folderPath: "", children: new Map() };
 
@@ -79,7 +80,7 @@ export function buildSidebarTree(args: BuildArgs): SidebarNode[] {
     if (bucket.kind === "leaf") {
       return {
         label: bucket.entry.title,
-        href: buildDocHref(bucket.parsed),
+        href: buildDocHref(bucket.parsed, base),
         order: bucket.entry.order,
       };
     }

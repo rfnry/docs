@@ -28,12 +28,14 @@ export const GET: APIRoute = async ({ params }) => {
     order: e.data.sidebar.order,
     hidden: e.data.sidebar.hidden,
   }));
+  const base = docsConfig.base;
   const tree = buildSidebarTree({
     pkg,
     version,
     locale,
     entries: simpleEntries,
     groups: loadGroups(pkg, version, locale),
+    base,
   });
   const orderedHrefs = flattenSidebarHrefs(tree);
   const hrefIndex = new Map(orderedHrefs.map((h, i) => [h, i]));
@@ -44,8 +46,8 @@ export const GET: APIRoute = async ({ params }) => {
       (x: Scoped) => x.p.pkg === pkg && x.p.version === version && x.p.locale === locale && !x.e.data.sidebar.hidden,
     )
     .sort((a: Scoped, b: Scoped) => {
-      const ai = hrefIndex.get(buildDocHref(a.p)) ?? Number.MAX_SAFE_INTEGER;
-      const bi = hrefIndex.get(buildDocHref(b.p)) ?? Number.MAX_SAFE_INTEGER;
+      const ai = hrefIndex.get(buildDocHref(a.p, base)) ?? Number.MAX_SAFE_INTEGER;
+      const bi = hrefIndex.get(buildDocHref(b.p, base)) ?? Number.MAX_SAFE_INTEGER;
       return ai - bi;
     });
 
@@ -62,7 +64,7 @@ export const GET: APIRoute = async ({ params }) => {
   lines.push("## Pages");
   lines.push("");
   for (const { e, p } of scoped) {
-    const url = site.url + buildDocHref(p);
+    const url = site.url + buildDocHref(p, base);
     lines.push(`- [${e.data.title}](${url}): ${e.data.description}`);
   }
   lines.push("");

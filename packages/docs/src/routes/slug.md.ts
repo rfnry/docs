@@ -24,7 +24,7 @@ export async function getStaticPaths() {
 export const GET: APIRoute = async ({ props }) => {
   const { entry, parsed } = props as any;
   const body = entry.body as string;
-  const url = docsConfig.site.url + buildDocHref(parsed);
+  const url = docsConfig.site.url + buildDocHref(parsed, docsConfig.base);
   const header = buildContextHeader({
     url,
     pkg: parsed.pkg,

@@ -22,6 +22,7 @@ export const GET: APIRoute = async () => {
   lines.push(`Locale: ${locale}`);
   lines.push("");
 
+  const base = docsConfig.base;
   for (const pkg of docsConfig.packages) {
     const version = getCurrentVersion(pkg).id;
 
@@ -37,6 +38,7 @@ export const GET: APIRoute = async () => {
       locale,
       entries: simpleEntries,
       groups: loadGroups(pkg.id, version, locale),
+      base,
     });
     const orderedHrefs = flattenSidebarHrefs(tree);
     const hrefIndex = new Map(orderedHrefs.map((h, i) => [h, i]));
@@ -48,15 +50,15 @@ export const GET: APIRoute = async () => {
           x.p.pkg === pkg.id && x.p.version === version && x.p.locale === locale && !x.e.data.sidebar.hidden,
       )
       .sort((a: Scoped, b: Scoped) => {
-        const ai = hrefIndex.get(buildDocHref(a.p)) ?? Number.MAX_SAFE_INTEGER;
-        const bi = hrefIndex.get(buildDocHref(b.p)) ?? Number.MAX_SAFE_INTEGER;
+        const ai = hrefIndex.get(buildDocHref(a.p, base)) ?? Number.MAX_SAFE_INTEGER;
+        const bi = hrefIndex.get(buildDocHref(b.p, base)) ?? Number.MAX_SAFE_INTEGER;
         return ai - bi;
       });
 
     lines.push(`## ${pkg.label} — ${version} (current)`);
     lines.push("");
     for (const { e, p } of scoped) {
-      const url = site.url + buildDocHref(p);
+      const url = site.url + buildDocHref(p, base);
       lines.push(`- [${e.data.title}](${url}): ${e.data.description}`);
     }
     lines.push("");
