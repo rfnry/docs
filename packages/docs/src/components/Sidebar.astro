@@ -1,15 +1,28 @@
 ---
 import { getCollection } from "astro:content";
-import { buildSidebarTree } from "../lib/sidebar";
+import { buildSidebarTree, type SidebarNode } from "../lib/sidebar";
 import { loadGroups } from "../lib/groups";
-import SidebarNodeView from "./SidebarNode.astro";
+import Nav from "@rfnry/ui/components/Nav.astro";
+import type { NavItem } from "@rfnry/ui/lib/nav";
 
 interface Props {
   locale: string;
+  pkg: string;
   version: string;
   currentHref: string;
 }
-const { locale, version, currentHref } = Astro.props;
+const { locale, pkg, version, currentHref } = Astro.props;
+
+function toNavItem(n: SidebarNode, path: string): NavItem {
+  const id = n.href ?? `group:${path}`;
+  return {
+    id,
+    label: n.label,
+    href: n.href,
+    defaultOpen: !n.collapsed,
+    children: n.children?.map((c, i) => toNavItem(c, `${path}/${i}`)),
+  };
+}
 
 const entries = await getCollection("docs");
 const simpleEntries = entries.map((e) => ({
@@ -18,19 +31,8 @@ const simpleEntries = entries.map((e) => ({
   order: e.data.sidebar.order,
   hidden: e.data.sidebar.hidden,
 }));
-const groups = loadGroups(version, locale);
-const tree = buildSidebarTree({ version, locale, entries: simpleEntries, groups });
+const groups = loadGroups(pkg, version, locale);
+const tree = buildSidebarTree({ pkg, version, locale, entries: simpleEntries, groups });
+const items = tree.map((n, i) => toNavItem(n, String(i)));
 ---
-<nav class="sidebar" aria-label="Documentation navigation">
-  <ul>
-    {tree.map((node) => <SidebarNodeView node={node} currentHref={currentHref} />)}
-  </ul>
-</nav>
-
-<style>
-  .sidebar {
-    font-size: var(--fs-sm);
-    padding: var(--gutter);
-  }
-  .sidebar ul { list-style: none; margin: 0; padding: 0; }
-</style>
+<Nav items={items} currentHref={currentHref} ariaLabel="Documentation navigation" />
