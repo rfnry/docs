@@ -12,6 +12,7 @@ export const docsConfigSchema = z.object({
         alt: z.string().default(""),
       })
       .default({ enabled: false, src: "/logo.svg", alt: "" }),
+    favicon: z.string().optional(),
     social: z
       .array(
         z.object({

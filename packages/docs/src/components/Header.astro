@@ -46,7 +46,7 @@ const showLogo = docsConfig.site.logo.enabled;
   <Fragment slot="actions">
     <Search />
     <div class="desktop-only header-desktop-items">
-      <ShareAI />
+      <ShareAI locale={currentLocale} pkg={currentPkg} version={currentVersion} />
       {docsConfig.headerLinks.map((l) => (
         <a href={l.href} class="link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener" : undefined}>
           {l.label}

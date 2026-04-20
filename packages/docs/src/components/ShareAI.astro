@@ -1,6 +1,15 @@
 ---
+import { config as docsConfig } from "virtual:@rfnry/docs/config";
 import Dropdown from "@rfnry/ui/components/Dropdown.astro";
 import Icon from "@rfnry/ui/components/Icon.astro";
+
+interface Props {
+  locale: string;
+  pkg: string;
+  version: string;
+}
+const { locale, pkg, version } = Astro.props;
+const llmsUrl = `${docsConfig.base}${locale}/${pkg}/${version}/llms.txt`;
 ---
 <Dropdown id="share" align="right" variant="icon" label="Share">
   <Fragment slot="trigger">
@@ -10,7 +19,7 @@ import Icon from "@rfnry/ui/components/Icon.astro";
     <button type="button" data-share-action="link">
       <span data-share-label>Share URL</span>
     </button>
-    <button type="button" data-share-action="ai">
+    <button type="button" data-share-action="ai" data-share-url={llmsUrl}>
       <span data-share-label>Share llms.txt</span>
     </button>
   </Fragment>

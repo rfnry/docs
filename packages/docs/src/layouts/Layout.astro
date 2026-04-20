@@ -12,19 +12,22 @@ interface Props {
   version?: string;
 }
 
-const { title, description, locale, pkg, version } = Astro.props;
+const { title, description, locale, version } = Astro.props;
 const themeDefault = docsConfig.theme.default;
 const siteTitle = docsConfig.site.title;
 const fullTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
+const faviconHref =
+  docsConfig.site.favicon ??
+  "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Crect%20width='16'%20height='16'%20rx='3'%20fill='%23000'/%3E%3C/svg%3E";
 ---
 <!doctype html>
-<html lang={locale} data-package={pkg ?? ""} data-version={version ?? ""}>
+<html lang={locale} data-version={version ?? ""}>
   <head>
     <meta charset="utf-8" />
+    <title>{fullTitle}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{fullTitle}</title>
+    <link rel="icon" type="image/svg+xml" href={faviconHref} />
     <script is:inline define:vars={{ themeDefault }}>
       (function () {
         try {

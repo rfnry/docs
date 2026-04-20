@@ -72,7 +72,7 @@ const sections = sliceSections(entry.body as string).map((s) => ({
           <VersionPicker currentLocale={parsed.locale} currentPkg={parsed.pkg} currentVersion={parsed.version} />
         </div>
         <div class="mobile-footer-cluster">
-          <ShareAI />
+          <ShareAI locale={parsed.locale} pkg={parsed.pkg} version={parsed.version} />
           <SocialLinksDropdown social={docsConfig.site.social} />
           <LocalePicker currentLocale={parsed.locale} currentPkg={parsed.pkg} currentVersion={parsed.version} currentSlug={parsed.slug} />
           <ThemeToggle />

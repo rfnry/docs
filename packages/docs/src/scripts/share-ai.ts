@@ -9,8 +9,8 @@ export function initShare() {
     const originalLabel = labelEl.textContent ?? "";
 
     btn.addEventListener("click", async () => {
-      const action = btn.dataset.shareAction;
-      const url = action === "ai" ? computeLlmsUrl() : window.location.href;
+      const raw = btn.dataset.shareUrl;
+      const url = raw ? new URL(raw, window.location.origin).toString() : window.location.href;
       try {
         await navigator.clipboard.writeText(url);
         labelEl.textContent = FEEDBACK_TEXT;
@@ -22,14 +22,4 @@ export function initShare() {
       }
     });
   });
-}
-
-function computeLlmsUrl(): string {
-  const locale = document.documentElement.getAttribute("lang") ?? "";
-  const version = document.documentElement.getAttribute("data-version") ?? "";
-  const origin = window.location.origin;
-  if (locale && version) {
-    return `${origin}/${locale}/${version}/llms.txt`;
-  }
-  return `${origin}/llms.txt`;
 }
