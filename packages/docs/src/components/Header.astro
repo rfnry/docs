@@ -1,14 +1,15 @@
 ---
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
+import Header from "@rfnry/ui/components/Header.astro";
+import Button from "@rfnry/ui/components/Button.astro";
+import Icon from "@rfnry/ui/components/Icon.astro";
+import SocialLinks from "@rfnry/ui/components/SocialLinks.astro";
+import ThemeToggle from "@rfnry/ui/components/ThemeToggle.astro";
 import LocalePicker from "./LocalePicker.astro";
 import PackagePicker from "./PackagePicker.astro";
 import Search from "./Search.astro";
 import ShareAI from "./ShareAI.astro";
-import SocialLinks from "@rfnry/ui/components/SocialLinks.astro";
-import ThemeToggle from "@rfnry/ui/components/ThemeToggle.astro";
 import VersionPicker from "./VersionPicker.astro";
-import Button from "@rfnry/ui/components/Button.astro";
-import Icon from "@rfnry/ui/components/Icon.astro";
 
 interface Props {
   currentLocale: string;
@@ -19,74 +20,46 @@ interface Props {
 const { currentLocale, currentPkg, currentVersion, currentSlug } = Astro.props;
 const showLogo = docsConfig.site.logo.enabled;
 ---
-<header class="header">
-  <div class="inner">
-    <div class="left">
-      <Button
-        variant="icon"
-        class="hamburger"
-        data-mobile-nav-toggle
-        aria-label="Toggle navigation"
-        aria-expanded="false"
-      >
-        <span class="hamburger-icon hamburger-icon-menu"><Icon name="menu" size={18} /></span>
-        <span class="hamburger-icon hamburger-icon-close"><Icon name="x" size={18} /></span>
-      </Button>
-      <a href={`/${currentLocale}/${currentPkg}/${currentVersion}/`} class="brand">
-        {showLogo && (
-          <img src={docsConfig.site.logo.src} alt={docsConfig.site.logo.alt} class="logo" />
-        )}
-        <span class="brand-text">{docsConfig.site.title}</span>
-      </a>
-      <span class="desktop-only pickers">
-        <PackagePicker currentLocale={currentLocale} currentPkg={currentPkg} />
-        <VersionPicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} />
-      </span>
+<Header>
+  <Fragment slot="brand">
+    <Button
+      variant="icon"
+      class="hamburger"
+      data-mobile-nav-toggle
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+    >
+      <span class="hamburger-icon hamburger-icon-menu"><Icon name="menu" size={18} /></span>
+      <span class="hamburger-icon hamburger-icon-close"><Icon name="x" size={18} /></span>
+    </Button>
+    <a href={`/${currentLocale}/${currentPkg}/${currentVersion}/`} class="brand">
+      {showLogo && (
+        <img src={docsConfig.site.logo.src} alt={docsConfig.site.logo.alt} class="logo" />
+      )}
+      <span class="brand-text">{docsConfig.site.title}</span>
+    </a>
+    <span class="desktop-only pickers">
+      <PackagePicker currentLocale={currentLocale} currentPkg={currentPkg} />
+      <VersionPicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} />
+    </span>
+  </Fragment>
+  <Fragment slot="actions">
+    <Search />
+    <div class="desktop-only header-desktop-items">
+      <ShareAI />
+      {docsConfig.headerLinks.map((l) => (
+        <a href={l.href} class="link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener" : undefined}>
+          {l.label}
+        </a>
+      ))}
+      <SocialLinks social={docsConfig.site.social} />
+      <LocalePicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} currentSlug={currentSlug} />
+      <ThemeToggle />
     </div>
-    <div class="spacer" aria-hidden="true"></div>
-    <div class="right">
-      <Search />
-      <div class="desktop-only header-desktop-items">
-        <ShareAI />
-        {docsConfig.headerLinks.map((l) => (
-          <a href={l.href} class="link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener" : undefined}>
-            {l.label}
-          </a>
-        ))}
-        <SocialLinks social={docsConfig.site.social} />
-        <LocalePicker currentLocale={currentLocale} currentPkg={currentPkg} currentVersion={currentVersion} currentSlug={currentSlug} />
-        <ThemeToggle />
-      </div>
-    </div>
-  </div>
-</header>
+  </Fragment>
+</Header>
 
 <style>
-  .header {
-    position: sticky;
-    top: 0;
-    z-index: var(--z-header);
-    height: var(--header-h);
-    background: var(--color-bg-inner);
-    border-bottom: 1px solid var(--color-lines);
-  }
-  .inner {
-    max-width: var(--shell-max, 1280px);
-    margin: 0 auto;
-    height: 100%;
-    padding: 0 var(--gutter);
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 12px;
-    align-items: center;
-  }
-  .left,
-  .right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-  }
   .pickers {
     display: inline-flex;
     align-items: center;
@@ -150,8 +123,3 @@ const showLogo = docsConfig.site.logo.enabled;
     }
   }
 </style>
-
-<script>
-  import { initMobileSidebar } from "../scripts/mobile-sidebar.ts";
-  initMobileSidebar();
-</script>
