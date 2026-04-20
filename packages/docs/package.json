@@ -1,8 +1,8 @@
 {
   "name": "@rfnry/docs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
-  "description": "rfnry/docs — Astro documentation template",
+  "description": "rfnry/docs — documentation template",
   "author": "rfnry (https://github.com/rfnry)",
   "repository": {
     "type": "git",
@@ -43,14 +43,14 @@
     "rehype-slug": "^6.0.0",
     "unist-util-visit": "^5.1.0",
     "yaml": "^2.8.3",
-    "zod": "^3.23.8"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
     "@types/node": "^25.6.0",
-    "astro": "^6.1.7",
+    "astro": "^6.1.8",
     "typescript": "^5.9.3",
-    "vite": "^7.0.0",
+    "vite": "^7.3.2",
     "vitest": "^4.1.4"
   },
   "scripts": {
