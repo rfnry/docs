@@ -11,49 +11,56 @@ type Scoped = { e: CollectionEntry<"docs">; p: ReturnType<typeof parseEntryId> }
 
 export const GET: APIRoute = async () => {
   const locale = docsConfig.i18n.defaultLocale;
-  const version = getCurrentVersion(docsConfig).id;
   const entries = await getCollection("docs");
-
-  const simpleEntries = entries.map((e: CollectionEntry<"docs">) => ({
-    id: e.id,
-    title: e.data.sidebar.label ?? e.data.title,
-    order: e.data.sidebar.order,
-    hidden: e.data.sidebar.hidden,
-  }));
-  const tree = buildSidebarTree({
-    version,
-    locale,
-    entries: simpleEntries,
-    groups: loadGroups(version, locale),
-  });
-  const orderedHrefs = flattenSidebarHrefs(tree);
-  const hrefIndex = new Map(orderedHrefs.map((h, i) => [h, i]));
-
-  const scoped = entries
-    .map((e: CollectionEntry<"docs">) => ({ e, p: parseEntryId(e.id) }))
-    .filter((x: Scoped) => x.p.version === version && x.p.locale === locale && !x.e.data.sidebar.hidden)
-    .sort((a: Scoped, b: Scoped) => {
-      const ai = hrefIndex.get(buildDocHref(a.p)) ?? Number.MAX_SAFE_INTEGER;
-      const bi = hrefIndex.get(buildDocHref(b.p)) ?? Number.MAX_SAFE_INTEGER;
-      return ai - bi;
-    });
-
   const site = docsConfig.site;
+
   const lines: string[] = [];
   lines.push(`# ${site.title}`);
   lines.push("");
   lines.push(`> ${site.description}`);
   lines.push("");
-  lines.push(`Version: ${version}`);
   lines.push(`Locale: ${locale}`);
   lines.push("");
-  lines.push("## Pages");
-  lines.push("");
-  for (const { e, p } of scoped) {
-    const url = site.url + buildDocHref(p);
-    lines.push(`- [${e.data.title}](${url}): ${e.data.description}`);
+
+  for (const pkg of docsConfig.packages) {
+    const version = getCurrentVersion(pkg).id;
+
+    const simpleEntries = entries.map((e: CollectionEntry<"docs">) => ({
+      id: e.id,
+      title: e.data.sidebar.label ?? e.data.title,
+      order: e.data.sidebar.order,
+      hidden: e.data.sidebar.hidden,
+    }));
+    const tree = buildSidebarTree({
+      pkg: pkg.id,
+      version,
+      locale,
+      entries: simpleEntries,
+      groups: loadGroups(pkg.id, version, locale),
+    });
+    const orderedHrefs = flattenSidebarHrefs(tree);
+    const hrefIndex = new Map(orderedHrefs.map((h, i) => [h, i]));
+
+    const scoped = entries
+      .map((e: CollectionEntry<"docs">) => ({ e, p: parseEntryId(e.id) }))
+      .filter(
+        (x: Scoped) =>
+          x.p.pkg === pkg.id && x.p.version === version && x.p.locale === locale && !x.e.data.sidebar.hidden,
+      )
+      .sort((a: Scoped, b: Scoped) => {
+        const ai = hrefIndex.get(buildDocHref(a.p)) ?? Number.MAX_SAFE_INTEGER;
+        const bi = hrefIndex.get(buildDocHref(b.p)) ?? Number.MAX_SAFE_INTEGER;
+        return ai - bi;
+      });
+
+    lines.push(`## ${pkg.label} — ${version} (current)`);
+    lines.push("");
+    for (const { e, p } of scoped) {
+      const url = site.url + buildDocHref(p);
+      lines.push(`- [${e.data.title}](${url}): ${e.data.description}`);
+    }
+    lines.push("");
   }
-  lines.push("");
 
   return new Response(lines.join("\n"), {
     headers: {

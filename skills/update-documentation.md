@@ -38,8 +38,8 @@ Same rule applies to `_group.yaml` `order`.
 
 When the documented project ships a breaking change (e.g. v1 → v2):
 
-- **Edit in place** if the site tracks only the latest version and older docs aren't a reference consumers depend on. Most small projects.
-- **Branch into a new version folder** (`src/content/docs/v2/{locale}/{section}/`) if the site is versioned and old-version users still need their docs. Check `astro.config.mjs` `versions[]` — if multiple entries exist and the old one is no longer `current: true`, the site is versioned.
+- **Edit in place** if the package tracks only the latest version and older docs aren't a reference consumers depend on. Most small projects.
+- **Branch into a new version folder** (`src/content/docs/{package}/v2/{locale}/{section}/`) if the package is versioned and old-version users still need their docs. Check the relevant package entry in `astro.config.mjs` `packages[].versions[]` — if multiple entries exist and the old one is no longer `current: true`, that package is versioned.
 
 When branching, copy-then-edit: start from the old version's section as a base, apply changes. Don't rewrite from scratch.
 
@@ -78,5 +78,5 @@ If a page could be clearer but isn't wrong, skip it unless the user asked for a 
 - [ ] No unrelated prose was rewritten.
 - [ ] Install commands, import paths, and identifier names match current source.
 - [ ] Removed pages or anchors don't leave broken internal links — grep for old paths.
-- [ ] If branching to a new version folder, `astro.config.mjs` `versions[]` was extended accordingly.
+- [ ] If branching to a new version folder, the relevant package's `versions[]` in `astro.config.mjs` was extended accordingly.
 - [ ] `astro build` completes cleanly.

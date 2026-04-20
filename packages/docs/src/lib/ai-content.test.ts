@@ -53,20 +53,23 @@ describe("sliceSections", () => {
 });
 
 describe("buildContextHeader", () => {
-  it("includes source, version, locale", () => {
+  it("includes source, package, version, locale", () => {
     const header = buildContextHeader({
-      url: "https://docs.example/en/v1/guides/installation/",
+      url: "https://docs.example/en/react/v1/guides/installation/",
+      pkg: "react",
       version: "v1",
       locale: "en",
     });
-    expect(header).toContain("Source: https://docs.example/en/v1/guides/installation/");
+    expect(header).toContain("Source: https://docs.example/en/react/v1/guides/installation/");
+    expect(header).toContain("Package: react");
     expect(header).toContain("Version: v1");
     expect(header).toContain("Locale: en");
   });
 
   it("includes an anchor when provided", () => {
     const header = buildContextHeader({
-      url: "https://docs.example/en/v1/x/",
+      url: "https://docs.example/en/react/v1/x/",
+      pkg: "react",
       version: "v1",
       locale: "en",
       anchor: "verify",

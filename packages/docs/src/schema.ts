@@ -25,18 +25,26 @@ export const docsConfigSchema = z.object({
     defaultLocale: z.string(),
     locales: z.array(z.object({ code: z.string(), label: z.string() })).nonempty(),
   }),
-  versions: z
+  packages: z
     .array(
       z.object({
         id: z.string(),
         label: z.string(),
-        current: z.boolean().optional(),
+        versions: z
+          .array(
+            z.object({
+              id: z.string(),
+              label: z.string(),
+              current: z.boolean().optional(),
+            }),
+          )
+          .nonempty()
+          .refine((vs) => vs.filter((v) => v.current).length === 1, {
+            message: "Each package must have exactly one version with { current: true }.",
+          }),
       }),
     )
-    .nonempty()
-    .refine((vs) => vs.filter((v) => v.current).length === 1, {
-      message: "Exactly one version must be { current: true }.",
-    }),
+    .nonempty(),
   theme: z.object({ default: z.enum(["dark", "light", "system"]).default("system") }).default({ default: "system" }),
   headerLinks: z
     .array(
@@ -54,8 +62,21 @@ export const docsConfigSchema = z.object({
 export type RfnryDocsConfig = z.infer<typeof docsConfigSchema>;
 export type RfnryDocsUserConfig = z.input<typeof docsConfigSchema>;
 
-export function getCurrentVersion(config: RfnryDocsConfig) {
-  const c = config.versions.filter((v) => v.current)[0];
-  if (!c) throw new Error("docsConfig.versions must have exactly one { current: true }");
+export type DocsPackage = RfnryDocsConfig["packages"][number];
+export type DocsVersion = DocsPackage["versions"][number];
+
+export function getPackage(config: RfnryDocsConfig, pkgId: string): DocsPackage {
+  const p = config.packages.find((x) => x.id === pkgId);
+  if (!p) throw new Error(`Unknown package: ${pkgId}`);
+  return p;
+}
+
+export function getCurrentVersion(pkg: DocsPackage): DocsVersion {
+  const c = pkg.versions.filter((v) => v.current)[0];
+  if (!c) throw new Error(`Package "${pkg.id}" must have exactly one { current: true } version`);
   return c;
+}
+
+export function getFirstPackage(config: RfnryDocsConfig): DocsPackage {
+  return config.packages[0];
 }

@@ -12,6 +12,7 @@ export async function getStaticPaths() {
     return {
       params: {
         locale: parsed.locale,
+        pkg: parsed.pkg,
         version: parsed.version,
         slug: parsed.slug || undefined,
       },
@@ -24,7 +25,12 @@ export const GET: APIRoute = async ({ props }) => {
   const { entry, parsed } = props as any;
   const body = entry.body as string;
   const url = docsConfig.site.url + buildDocHref(parsed);
-  const header = buildContextHeader({ url, version: parsed.version, locale: parsed.locale });
+  const header = buildContextHeader({
+    url,
+    pkg: parsed.pkg,
+    version: parsed.version,
+    locale: parsed.locale,
+  });
   const title = `# ${entry.data.title}\n\n`;
   const content = header + title + stripFrontmatter(body);
   return new Response(content, {

@@ -13,7 +13,13 @@ export default defineConfig({
         defaultLocale: "en",
         locales: [{ code: "en", label: "English" }],
       },
-      versions: [{ id: "v1", label: "v1.0", current: true }],
+      packages: [
+        {
+          id: "core",
+          label: "Core",
+          versions: [{ id: "v1", label: "v1.0", current: true }],
+        },
+      ],
     }),
   ],
 });

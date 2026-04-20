@@ -22,7 +22,18 @@ export default defineConfig({
           { code: "pt-br", label: "Português (Brasil)" },
         ],
       },
-      versions: [{ id: "v1", label: "v1.0", current: true }],
+      packages: [
+        {
+          id: "react",
+          label: "React",
+          versions: [{ id: "v1", label: "v1.0", current: true }],
+        },
+        {
+          id: "python",
+          label: "Python",
+          versions: [{ id: "v1", label: "v1.0", current: true }],
+        },
+      ],
       theme: { default: "system" },
       headerLinks: [],
     }),

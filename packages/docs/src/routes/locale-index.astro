@@ -1,6 +1,6 @@
 ---
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
-import { getCurrentVersion } from "../schema";
+import { getCurrentVersion, getFirstPackage } from "../schema";
 
 export function getStaticPaths() {
   return docsConfig.i18n.locales.map((l) => ({ params: { locale: l.code } }));
@@ -9,8 +9,9 @@ export function getStaticPaths() {
 const { locale } = Astro.params;
 const knownLocale = docsConfig.i18n.locales.some((l) => l.code === locale);
 if (!locale || !knownLocale) return Astro.redirect("/");
-const current = getCurrentVersion(docsConfig);
-const target = `/${locale}/${current.id}/`;
+const pkg = getFirstPackage(docsConfig);
+const current = getCurrentVersion(pkg);
+const target = `/${locale}/${pkg.id}/${current.id}/`;
 ---
 <!doctype html>
 <html lang={locale}>

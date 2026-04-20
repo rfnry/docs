@@ -1,9 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { config as docsConfig } from "virtual:@rfnry/docs/config";
-import { getCurrentVersion } from "../schema";
-const current = getCurrentVersion(docsConfig);
-const homeHref = `/${docsConfig.i18n.defaultLocale}/${current.id}/`;
+import { getCurrentVersion, getFirstPackage } from "../schema";
+const pkg = getFirstPackage(docsConfig);
+const current = getCurrentVersion(pkg);
+const homeHref = `/${docsConfig.i18n.defaultLocale}/${pkg.id}/${current.id}/`;
 ---
 <Layout title="Not found" description="The page you were looking for was not found." locale={docsConfig.i18n.defaultLocale}>
   <main class="nf">

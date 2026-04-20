@@ -10,8 +10,8 @@ Do not invent APIs, flags, command names, or examples. Every identifier and ever
 
 Before writing anything, read:
 
-- `astro.config.mjs` — get `i18n.defaultLocale`, `i18n.locales`, `versions[].id`, and whichever version has `current: true`. Write content against the current version's id and the default locale (add others only if asked).
-- `src/content/docs/{version}/{locale}/` — enumerate existing section folders. Your new section must not collide. Note the existing `_group.yaml` ordering so new sections can be placed sensibly.
+- `astro.config.mjs` — get `i18n.defaultLocale`, `i18n.locales`, the list of `packages[]` with each package's `id` / `label` / `versions[].id`, and whichever version has `current: true` per package. Write content against the current version of each package and the default locale (add other versions or locales only if asked).
+- `src/content/docs/{package}/{version}/{locale}/` — enumerate existing section folders. Your new section must not collide. Note the existing `_group.yaml` ordering so new sections can be placed sensibly.
 
 ## 2 — Inspect each project to be documented
 
@@ -29,10 +29,11 @@ Summarize in one sentence: what the project is, who it's for. That sentence seed
 ## 3 — Where content lives
 
 ```
-src/content/docs/{version}/{locale}/{section}/
+src/content/docs/{package}/{version}/{locale}/{section}/
 ```
 
-- `{version}` — e.g. `v1`, read from `astro.config.mjs`.
+- `{package}` — the `packages[].id` the content belongs to (`react`, `python`, …). Each package has its own version axis.
+- `{version}` — e.g. `v1`, read from `astro.config.mjs` — scoped to the parent package.
 - `{locale}` — e.g. `en`, read from `astro.config.mjs`.
 - `{section}` — one folder per project you're documenting. Use the package's short name (`chat`, `rag`, `cli-tools`, etc.).
 

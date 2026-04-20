@@ -6,21 +6,19 @@ import { stripFrontmatter } from "../lib/ai-content";
 import { loadGroups } from "../lib/groups";
 import { buildDocHref, parseEntryId } from "../lib/routing";
 import { buildSidebarTree, flattenSidebarHrefs } from "../lib/sidebar";
+import { getCurrentVersion, getPackage } from "../schema";
 
 type Scoped = { e: CollectionEntry<"docs">; p: ReturnType<typeof parseEntryId> };
 
 export async function getStaticPaths() {
   return docsConfig.packages.flatMap((p) =>
-    p.versions.flatMap((v) =>
-      docsConfig.i18n.locales.map((l) => ({
-        params: { locale: l.code, pkg: p.id, version: v.id },
-      })),
-    ),
+    docsConfig.i18n.locales.map((l) => ({ params: { locale: l.code, pkg: p.id } })),
   );
 }
 
 export const GET: APIRoute = async ({ params }) => {
-  const { locale, pkg, version } = params as { locale: string; pkg: string; version: string };
+  const { locale, pkg } = params as { locale: string; pkg: string };
+  const version = getCurrentVersion(getPackage(docsConfig, pkg)).id;
   const entries = await getCollection("docs");
 
   const simpleEntries = entries.map((e: CollectionEntry<"docs">) => ({
@@ -52,7 +50,7 @@ export const GET: APIRoute = async ({ params }) => {
 
   const site = docsConfig.site;
   const chunks: string[] = [];
-  chunks.push(`# ${site.title} — ${pkg} ${version} (${locale})\n\n${site.description}\n`);
+  chunks.push(`# ${site.title} — ${pkg} ${version} (current) [${locale}]\n\n${site.description}\n`);
   for (const { e, p } of scoped) {
     const url = site.url + buildDocHref(p);
     chunks.push(`\n\n---\n\n`);

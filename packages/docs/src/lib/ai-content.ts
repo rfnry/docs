@@ -59,13 +59,19 @@ export function sliceSections(markdown: string): Section[] {
 
 export interface ContextArgs {
   url: string;
+  pkg: string;
   version: string;
   locale: string;
   anchor?: string;
 }
 
 export function buildContextHeader(args: ContextArgs): string {
-  const lines = [`> Source: ${args.url}`, `> Version: ${args.version}`, `> Locale: ${args.locale}`];
+  const lines = [
+    `> Source: ${args.url}`,
+    `> Package: ${args.pkg}`,
+    `> Version: ${args.version}`,
+    `> Locale: ${args.locale}`,
+  ];
   if (args.anchor) lines.push(`> Anchor: #${args.anchor}`);
   lines.push("");
   return lines.join("\n");

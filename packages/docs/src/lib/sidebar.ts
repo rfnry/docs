@@ -22,6 +22,7 @@ export interface SidebarNode {
 }
 
 interface BuildArgs {
+  pkg: string;
   version: string;
   locale: string;
   entries: SidebarEntry[];
@@ -45,14 +46,14 @@ interface Leaf {
 }
 
 export function buildSidebarTree(args: BuildArgs): SidebarNode[] {
-  const { version, locale, entries, groups } = args;
+  const { pkg, version, locale, entries, groups } = args;
 
   const root: Bucket = { kind: "folder", folderPath: "", children: new Map() };
 
   for (const entry of entries) {
     if (entry.hidden) continue;
     const parsed = parseEntryId(entry.id);
-    if (parsed.version !== version || parsed.locale !== locale) continue;
+    if (parsed.pkg !== pkg || parsed.version !== version || parsed.locale !== locale) continue;
 
     const slugParts = parsed.slug ? parsed.slug.split("/") : [];
     let cursor = root;

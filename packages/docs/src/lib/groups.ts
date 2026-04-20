@@ -7,8 +7,8 @@ const raw = import.meta.glob("/src/content/docs/**/_group.yaml", {
   eager: true,
 }) as Record<string, string>;
 
-export function loadGroups(version: string, locale: string): Map<string, GroupMeta> {
-  const prefix = `/src/content/docs/${version}/${locale}/`;
+export function loadGroups(pkg: string, version: string, locale: string): Map<string, GroupMeta> {
+  const prefix = `/src/content/docs/${pkg}/${version}/${locale}/`;
   const map = new Map<string, GroupMeta>();
   for (const [path, body] of Object.entries(raw)) {
     if (!path.startsWith(prefix)) continue;

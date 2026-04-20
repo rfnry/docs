@@ -1,13 +1,14 @@
 # @rfnry/docs
 
-Astro integration for minimal, opinionated documentation sites. Versioning, i18n, search, and first-class AI-consumption endpoints — drop in content, done.
+Astro integration for minimal, opinionated documentation sites. Multiple packages, independent versions per package, i18n, search, and first-class AI-consumption endpoints — drop in content, done.
 
 ## Features
 
-- **Multi-version.** Content under `src/content/docs/{version}/{locale}/` with a header version picker.
+- **Multi-package.** One site can document several packages side-by-side (e.g. `react`, `python`). Each carries its own version axis. A header picker flips between them.
+- **Multi-version per package.** Content under `src/content/docs/{package}/{version}/{locale}/` with a header version picker scoped to the current package.
 - **Multi-locale.** Astro's native i18n. The locale picker preserves the current page when switching.
-- **AI-ready.** Every page exposed as raw markdown at `/{locale}/{version}/{slug}.md`. Per-version `llms.txt` and `llms-full.txt`. A root `/llms.txt` for discovery. Copy-for-AI button on every page + every `##` section, each copying the content with a source/version/locale context header.
-- **Static search.** Pagefind, indexed at post-build, scoped per version via content filters.
+- **AI-ready.** Every page exposed as raw markdown at `/{locale}/{package}/{version}/{slug}.md`. Per-package+version `llms.txt` and `llms-full.txt`, plus root-of-package mirrors at `/{locale}/{package}/llms.txt` that always point at the current version. A site-wide `/llms.txt` for cross-package discovery. Copy-for-AI on every page and every `##` section, each carrying a source / package / version / locale context header.
+- **Static search.** Pagefind, indexed at post-build, scoped per package + version via content filters.
 - **Opinionated design.** Monochrome dark/light with a theme dropdown. Four CSS custom properties (`--color-bg`, `--color-bg-inner`, `--color-lines`, `--color-tree-line`) retune the entire visual system.
 - **Markdown only.** No MDX. Content survives the round-trip to `.md` endpoints without compilation — exactly what AI tools expect.
 
@@ -48,7 +49,13 @@ export default defineConfig({
           { code: "pt-br", label: "Português (Brasil)" },
         ],
       },
-      versions: [{ id: "v1", label: "v1.0", current: true }],
+      packages: [
+        {
+          id: "core",
+          label: "Core",
+          versions: [{ id: "v1", label: "v1.0", current: true }],
+        },
+      ],
       theme: { default: "system" },
       headerLinks: [],
     }),
@@ -62,7 +69,27 @@ export default defineConfig({
 export { collections } from "@rfnry/docs/content";
 ```
 
-That's it. Add markdown files under `src/content/docs/{version}/{locale}/`.
+That's it. Add markdown files under `src/content/docs/{package}/{version}/{locale}/`.
+
+Multiple packages with independent versions — use when a project ships in several languages, or when you want to document a React client and a Python server in one site:
+
+```js
+packages: [
+  {
+    id: "react",
+    label: "React",
+    versions: [
+      { id: "v2", label: "v2.0", current: true },
+      { id: "v1", label: "v1.4" },
+    ],
+  },
+  {
+    id: "python",
+    label: "Python",
+    versions: [{ id: "v1", label: "v1.0", current: true }],
+  },
+]
+```
 
 ## Authoring
 
@@ -91,13 +118,16 @@ Unlimited nesting depth. Groups containing the current page auto-expand; the res
 
 | Route | Content |
 |---|---|
-| `/` | Redirects to `/{defaultLocale}/{currentVersion}/` |
-| `/{locale}/` | Redirects to `/{locale}/{currentVersion}/` |
-| `/{locale}/{version}/{slug}/` | Rendered HTML page |
-| `/{locale}/{version}/{slug}.md` | Raw markdown with a source / version / locale context header |
-| `/{locale}/{version}/llms.txt` | Index of pages in this version+locale |
-| `/{locale}/{version}/llms-full.txt` | Every page concatenated in sidebar order |
-| `/llms.txt` | Index for the default locale + current version (discovery endpoint) |
+| `/` | Redirects to `/{defaultLocale}/{firstPackage}/{currentVersion}/` |
+| `/{locale}/` | Redirects to `/{locale}/{firstPackage}/{currentVersion}/` |
+| `/{locale}/{package}/` | Redirects to `/{locale}/{package}/{currentVersion}/` |
+| `/{locale}/{package}/{version}/{slug}/` | Rendered HTML page |
+| `/{locale}/{package}/{version}/{slug}.md` | Raw markdown with a source / package / version / locale context header |
+| `/{locale}/{package}/{version}/llms.txt` | Index of pages in this package+version+locale |
+| `/{locale}/{package}/{version}/llms-full.txt` | Every page concatenated in sidebar order |
+| `/{locale}/{package}/llms.txt` | Same as above but always the current version (stable URL for AI crawlers) |
+| `/{locale}/{package}/llms-full.txt` | Full concat for the current version |
+| `/llms.txt` | Site-wide index listing each package's current version (cross-package discovery) |
 
 Redirects are full HTML documents (black bg, inline JS redirect, meta-refresh fallback) — no blank flash.
 
@@ -114,7 +144,7 @@ Redirects are full HTML documents (black bg, inline JS redirect, meta-refresh fa
 | `site.social` | `{type, href}[]` | no | `[]` | Social links pill in the header. `type` is `"github"`, `"website"`, or `"discord"` |
 | `i18n.defaultLocale` | string | yes | — | e.g. `"en"` |
 | `i18n.locales` | `{code, label}[]` | yes (non-empty) | — | Ordered list of supported locales |
-| `versions` | `{id, label, current?}[]` | yes (non-empty, exactly one current) | — | Version axis |
+| `packages` | `{id, label, versions}[]` | yes (non-empty) | — | Packages to document. Each carries its own version axis (`versions: {id, label, current?}[]`, non-empty, exactly one `current: true`) |
 | `theme.default` | `"dark"\|"light"\|"system"` | no | `"system"` | Initial theme; users can override via the toggle |
 | `headerLinks` | `{label, href, external?}[]` | no | `[]` | Extra links in the header right cluster |
 

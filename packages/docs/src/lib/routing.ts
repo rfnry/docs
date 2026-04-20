@@ -1,4 +1,5 @@
 export interface ParsedEntryId {
+  pkg: string;
   version: string;
   locale: string;
   slug: string;
@@ -6,18 +7,18 @@ export interface ParsedEntryId {
 
 export function parseEntryId(id: string): ParsedEntryId {
   const parts = id.split("/");
-  if (parts.length < 2) {
-    throw new Error(`Invalid entry id: "${id}" (expected at least version/locale)`);
+  if (parts.length < 3) {
+    throw new Error(`Invalid entry id: "${id}" (expected at least package/version/locale)`);
   }
-  const [version, locale, ...rest] = parts;
+  const [pkg, version, locale, ...rest] = parts;
   let slug = rest.join("/");
   if (slug === "index") slug = "";
-  return { version, locale, slug };
+  return { pkg, version, locale, slug };
 }
 
 export function buildDocHref(parts: ParsedEntryId): string {
-  const { version, locale, slug } = parts;
-  const base = `/${locale}/${version}/`;
+  const { pkg, version, locale, slug } = parts;
+  const base = `/${locale}/${pkg}/${version}/`;
   if (!slug) return base;
   return `${base}${slug}/`;
 }
